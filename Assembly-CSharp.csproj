@@ -195,6 +195,7 @@
     <Compile Include="Assets\Scripts\Singleton\DatabaseManager.cs" />
     <Compile Include="Assets\Scripts\Singleton\MusicManager.cs" />
     <Compile Include="Assets\Scripts\Singleton\Player.cs" />
+    <Compile Include="Assets\Scripts\Title\TitleMenu.cs" />
     <Compile Include="Assets\Scripts\UI\Menu.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
     <None Include="Assets\Download\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
