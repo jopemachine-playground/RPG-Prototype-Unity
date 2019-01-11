@@ -9,4 +9,5 @@ public class PlayerAirAttack : StateMachineBehaviour
     {
         animator.SetInteger("AttackState", 0);
     }
+
 }

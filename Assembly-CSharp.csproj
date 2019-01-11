@@ -215,7 +215,6 @@
     <Compile Include="Assets\Download\UnityChan\Scripts\SceneLoader.cs" />
     <Compile Include="Assets\Download\UnityChan\Scripts\ThirdPersonCamera.cs" />
     <Compile Include="Assets\Download\UnityChan\Scripts\UnityChanControlScriptWithRgidBody.cs" />
-    <Compile Include="Assets\Scripts\Behavior\AttackStateReset.cs" />
     <Compile Include="Assets\Scripts\Behavior\PlayerAirAttack.cs" />
     <Compile Include="Assets\Scripts\Behavior\PlayerGroundAttack1.cs" />
     <Compile Include="Assets\Scripts\Behavior\PlayerGroundAttack2.cs" />

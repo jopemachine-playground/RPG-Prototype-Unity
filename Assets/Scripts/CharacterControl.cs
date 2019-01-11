@@ -16,7 +16,7 @@ public class CharacterControl : MonoBehaviour
     private const float MOVING_TURN_SPEED = 360;
     private const float STATIONARY_TURN_SPEED = 180;
 
-    private const float GRAVITY_MULTIPLIER = 2f;
+    private float GRAVITY_MULTIPLIER = 2f;
     private const float RUN_CYCLE_LEG_OFFSET = 0.2f;
     // specific to the character in sample assets, will need to be modified to work with others
     private const float ANIM_SPEED_MULTIPLIER = 1f;
@@ -28,7 +28,6 @@ public class CharacterControl : MonoBehaviour
     private float m_CapsuleHeight;
     private float m_GroundCheckDistance;
 
-    private bool mb_Crouching;
     private bool mb_IsGrounded;
     private bool mb_Jump;
     private bool mb_IsAttacking;
@@ -60,26 +59,24 @@ public class CharacterControl : MonoBehaviour
         m_OrigGroundCheckDistance = m_GroundCheckDistance;
     }
 
-    private void Update()
-    {
-        if (mb_Jump == false)
-        {
-            mb_Jump = Input.GetButtonDown("Jump");
-        }
-
-        if (mb_IsAttacking == false && m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") && Input.GetButtonDown("Attack"))
-        {
-            mb_IsAttacking = true;
-        }
-    }
-
     // Fixed update is called in sync with physics
     private void FixedUpdate()
     {
         // 입력 받기
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-        bool crouch = Input.GetKey(KeyCode.C);
+
+        if (mb_Jump == false)
+        {
+            mb_Jump = Input.GetButtonDown("Jump");
+        }
+
+        if (mb_IsAttacking == false &&
+            m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") &&
+            Input.GetButtonDown("Attack"))
+        {
+            mb_IsAttacking = true;
+        }
 
         Debug.Assert(m_Cam != null, "Error: m_Cam == null");
 
@@ -88,19 +85,26 @@ public class CharacterControl : MonoBehaviour
         m_Move = (v * m_CamForward + h * m_Cam.right) / 2;
 
         // 지상에서 왼쪽 쉬프트 버튼을 누르면 달리기
-        if (Input.GetKey(KeyCode.LeftShift) && mb_IsGrounded) m_Move *= 2;
+        if (Input.GetKey(KeyCode.LeftShift) && mb_IsGrounded)
+        {
+            m_Move *= 2;
+        }
 
         // Attack 중이라면 움직일 수 없음
-        if (m_Animator.GetInteger("AttackState") == 0) Move(m_Move, crouch, mb_Jump);
-
+        if (m_Animator.GetInteger("AttackState") == 0 &&
+            m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") |
+            m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Airborne"))
+        {
+            Move(m_Move, mb_Jump);
+        }
 
         mb_IsAttacking = false;
-        mb_Jump = false;
         mb_IsAirAttacking = false;
         mb_IsDashAttack = false;
+        mb_Jump = false;
     }
 
-    public void Move(Vector3 move, bool crouch, bool jump)
+    public void Move(Vector3 move, bool jump)
     {
 
         // convert the world relative moveInput vector into a local-relative
@@ -118,58 +122,17 @@ public class CharacterControl : MonoBehaviour
         // control and velocity handling is different when grounded and airborne:
         if (mb_IsGrounded == true)
         {
-            HandleGroundedMovement(crouch, jump);
+            HandleGroundedMovement(jump);
         }
         else
         {
             HandleAirborneMovement();
         }
 
-        ScaleCapsuleForCrouching(crouch);
-        PreventStandingInLowHeadroom();
-
         // send input and other state parameters to the animator
         UpdateAnimator(move);
     }
 
-
-    void ScaleCapsuleForCrouching(bool crouch)
-    {
-        if (mb_IsGrounded && crouch)
-        {
-            if (mb_Crouching) return;
-            m_Capsule.height = m_Capsule.height / 2f;
-            m_Capsule.center = m_Capsule.center / 2f;
-            mb_Crouching = true;
-        }
-        else
-        {
-            Ray crouchRay = new Ray(m_Rigidbody.position + Vector3.up * m_Capsule.radius * K_HALF, Vector3.up);
-            float crouchRayLength = m_CapsuleHeight - m_Capsule.radius * K_HALF;
-            if (Physics.SphereCast(crouchRay, m_Capsule.radius * K_HALF, crouchRayLength, Physics.AllLayers, QueryTriggerInteraction.Ignore))
-            {
-                mb_Crouching = true;
-                return;
-            }
-            m_Capsule.height = m_CapsuleHeight;
-            m_Capsule.center = m_CapsuleCenter;
-            mb_Crouching = false;
-        }
-    }
-
-    void PreventStandingInLowHeadroom()
-    {
-        // prevent standing up in crouch-only zones
-        if (mb_Crouching == false)
-        {
-            Ray crouchRay = new Ray(m_Rigidbody.position + Vector3.up * m_Capsule.radius * K_HALF, Vector3.up);
-            float crouchRayLength = m_CapsuleHeight - m_Capsule.radius * K_HALF;
-            if (Physics.SphereCast(crouchRay, m_Capsule.radius * K_HALF, crouchRayLength, Physics.AllLayers, QueryTriggerInteraction.Ignore))
-            {
-                mb_Crouching = true;
-            }
-        }
-    }
 
 
     void UpdateAnimator(Vector3 move)
@@ -177,18 +140,9 @@ public class CharacterControl : MonoBehaviour
         // update the animator parameters
         m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.smoothDeltaTime);
         m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.smoothDeltaTime);
-        m_Animator.SetBool("Crouch", mb_Crouching);
         m_Animator.SetBool("OnGround", mb_IsGrounded);
         m_Animator.SetBool("IsAirAttack", mb_IsAirAttacking);
-        
-
-        // 지상에서 움직이지 않는 상태에서 공격버튼이 눌러지면 AttackState를 1로 활성화.
-        if (mb_IsAttacking == true &&
-            mb_IsGrounded &&
-            m_Rigidbody.velocity.magnitude < 2.0f)
-        {
-            m_Animator.SetInteger("AttackState", 1);
-        }
+        m_Animator.SetBool("IsJump", mb_Jump);
 
         // 지상에서 대쉬상태에서 공격버튼이 눌러지면 대쉬어택
         if (mb_IsAttacking == true &&
@@ -198,38 +152,17 @@ public class CharacterControl : MonoBehaviour
             mb_IsDashAttack = true;
         }
 
+        // 지상에서 움직이지 않는 상태에서 공격버튼이 눌러지면 AttackState를 1로 활성화.
+        if (mb_IsAttacking == true &&
+            mb_IsGrounded &&
+            mb_IsDashAttack != true)
+        {
+            m_Rigidbody.velocity = new Vector3(0, 0, 0);
+            m_Animator.SetInteger("AttackState", 1);
+        }
+
         m_Animator.SetBool("IsDashAttack", mb_IsDashAttack);
 
-        if (mb_IsGrounded == false)
-        {
-            m_Animator.SetFloat("Jump", m_Rigidbody.velocity.y);
-        }
-
-        // calculate which leg is behind, so as to leave that leg trailing in the jump animation
-        // (This code is reliant on the specific run cycle offset in our animations,
-        // and assumes one leg passes the other at the normalized clip times of 0.0 and 0.5)
-
-        float runCycle =
-            Mathf.Repeat(
-                m_Animator.GetCurrentAnimatorStateInfo(0).normalizedTime + RUN_CYCLE_LEG_OFFSET, 1);
-        float jumpLeg = (runCycle < K_HALF ? 1 : -1) * m_ForwardAmount;
-
-        if (mb_IsGrounded == true)
-        {
-            m_Animator.SetFloat("JumpLeg", jumpLeg);
-        }
-
-        // the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
-        // which affects the movement speed because of the root motion.
-        if (mb_IsGrounded == true && move.magnitude > 0)
-        {
-            m_Animator.speed = ANIM_SPEED_MULTIPLIER;
-        }
-        else
-        {
-            // don't use that while airborne
-            m_Animator.speed = 1;
-        }
     }
 
 
@@ -247,20 +180,19 @@ public class CharacterControl : MonoBehaviour
            m_Rigidbody.velocity.y,
            0.65f * m_MoveSpeed * m_Move.z);
 
-        // 공중에서 공격
+        // 공중에서 공격 시 더 빨리 떨어지게 조정
         if (Input.GetButtonDown("Attack"))
         {
             mb_IsAirAttacking = true;
+            m_Rigidbody.AddForce(10 * Physics.gravity);
         }
-
     }
 
 
-    void HandleGroundedMovement(bool crouch, bool jump)
+    void HandleGroundedMovement(bool jump)
     {
         // 점프 
         if (jump == true &&
-            crouch == false &&
             m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
         {
             m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, m_JumpPower, m_Rigidbody.velocity.z);
@@ -298,6 +230,11 @@ public class CharacterControl : MonoBehaviour
             mb_IsGrounded = false;
             m_GroundNormal = Vector3.up;
         }
+    }
+
+    void AfterJump()
+    {
+        mb_Jump = false;
     }
 }
 
