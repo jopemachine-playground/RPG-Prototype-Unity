@@ -17,6 +17,11 @@ public class PlayerGroundAttack1 : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if(animator.GetInteger("AttackState") == 2 && stateInfo.IsName("GroundAttack2"))
+        {
+            return;
+        }
+
         animator.SetInteger("AttackState", 0);
     }
 
