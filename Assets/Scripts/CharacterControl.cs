@@ -20,7 +20,6 @@ public class CharacterControl : MonoBehaviour
     private const float RUN_CYCLE_LEG_OFFSET = 0.2f;
     // specific to the character in sample assets, will need to be modified to work with others
     private const float ANIM_SPEED_MULTIPLIER = 1f;
-    private const float K_HALF = 0.5f;
 
     private float m_OrigGroundCheckDistance;
     private float m_TurnAmount;
@@ -146,6 +145,7 @@ public class CharacterControl : MonoBehaviour
 
         // 지상에서 대쉬상태에서 공격버튼이 눌러지면 대쉬어택
         if (mb_IsAttacking == true &&
+            m_Rigidbody.velocity.magnitude > 1.0f &&
             mb_IsGrounded &&
             Input.GetKey(KeyCode.LeftShift))
         {
@@ -207,6 +207,7 @@ public class CharacterControl : MonoBehaviour
            new Vector3(m_MoveSpeed * m_Move.x,
            m_Rigidbody.velocity.y,
            m_MoveSpeed * m_Move.z);
+
     }
 
     void ApplyExtraTurnRotation()
@@ -230,11 +231,6 @@ public class CharacterControl : MonoBehaviour
             mb_IsGrounded = false;
             m_GroundNormal = Vector3.up;
         }
-    }
-
-    void AfterJump()
-    {
-        mb_Jump = false;
     }
 }
 

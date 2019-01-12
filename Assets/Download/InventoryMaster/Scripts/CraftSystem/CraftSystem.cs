@@ -5,6 +5,8 @@ using UnityEditor;
 #endif
 using UnityEngine.UI;
 using System.Collections.Generic;
+using inventory;
+using System;
 
 public class CraftSystem : MonoBehaviour
 {
@@ -75,6 +77,11 @@ public class CraftSystem : MonoBehaviour
             GameObject draggingItem = (GameObject)Instantiate(Resources.Load("Prefabs/DraggingItem") as GameObject);
             draggingItem.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, true);
         }
+    }
+
+    internal void deleteItems(inventory.Item item)
+    {
+        throw new NotImplementedException();
     }
 #endif
 
