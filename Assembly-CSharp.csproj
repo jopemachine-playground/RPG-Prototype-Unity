@@ -197,9 +197,11 @@
     <Compile Include="Assets\Scripts\Item\ItemOnObject.cs" />
     <Compile Include="Assets\Scripts\Item\ItemType.cs" />
     <Compile Include="Assets\Scripts\Item\PickUpItem.cs" />
-    <Compile Include="Assets\Scripts\Monster.cs" />
+    <Compile Include="Assets\Scripts\Monster\Monster.cs" />
+    <Compile Include="Assets\Scripts\Monster\MonsterType.cs" />
     <Compile Include="Assets\Scripts\ObjectPool\ItemPool.cs" />
     <Compile Include="Assets\Scripts\ObjectPool\JsonManager.cs" />
+    <Compile Include="Assets\Scripts\ObjectPool\MonsterPool.cs" />
     <Compile Include="Assets\Scripts\Portal.cs" />
     <Compile Include="Assets\Scripts\Singleton\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Singleton\GameManager.cs" />
@@ -254,6 +256,7 @@
     <None Include="Assets\Download\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Download\Standard Assets\Environment\Water\Water4\Shaders\WaterInclude.cginc" />
     <None Include="Assets\Download\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Advanced.shader" />
+    <None Include="Assets\RainEntertainment\FantasyMonster2\Orc Sword\readMe.txt" />
     <None Include="Assets\Download\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
     <None Include="Assets\Download\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
     <None Include="Assets\Download\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularDisplacement.shader" />
