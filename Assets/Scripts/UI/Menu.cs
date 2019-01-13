@@ -7,18 +7,24 @@ public class Menu : MonoBehaviour
 
     public GameObject mMenu;
     public GameObject mInventory;
+    public GameObject mEquipment;
     //public AudioManager theAudio;
     public string call_sound;
 
     private bool isMenuActived;
     private bool isInvenoryActived;
+    private bool isEquipmentActived;
 
     private void Awake()
     {
+        isMenuActived = false;
         isInvenoryActived = false;
+        isEquipmentActived = false;
+        mMenu.SetActive(false);
+        mInventory.SetActive(false);
+        mEquipment.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -46,35 +52,32 @@ public class Menu : MonoBehaviour
 
     public void ShowMenu()
     {
-        isMenuActived = !isMenuActived;
-
-        if (isMenuActived)
-        {
-            mMenu.SetActive(true);
-            //theAudio.Play(call_sound);
-        }
-
-        if (!isMenuActived)
-        {
-            mMenu.SetActive(false);
-            //theAudio.Play(call_sound);
-        }
+        windowOpenClose(mMenu, ref isMenuActived);
     }
 
     public void ShowInventory()
     {
-        isInvenoryActived = !isInvenoryActived;
-        if (isInvenoryActived)
+        windowOpenClose(mInventory, ref isInvenoryActived);
+    }
+
+    public void ShowEquipment()
+    {
+        windowOpenClose(mEquipment, ref isEquipmentActived);
+    }
+
+    private void windowOpenClose(GameObject obj, ref bool actived)
+    {
+        actived = !actived;
+        if (actived)
         {
-            mInventory.SetActive(true);
+            obj.SetActive(true);
             //theAudio.Play(call_sound);
         }
 
-        if (!isInvenoryActived)
+        if (!actived)
         {
-            mInventory.SetActive(false);
+            obj.SetActive(false);
             //theAudio.Play(call_sound);
         }
     }
-
 }

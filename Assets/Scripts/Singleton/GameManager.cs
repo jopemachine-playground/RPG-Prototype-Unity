@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
-    public MusicManager mBGM;
+    public MusicManager bgmManager;
     public int mSelectedMusicNumber;
 
     private void Awake()
     {
-        mBGM = FindObjectOfType<MusicManager>();
+        bgmManager = FindObjectOfType<MusicManager>();
 
-        if (mBGM != null)
+        if (bgmManager != null)
         {
-            mBGM.Play(mSelectedMusicNumber);
+            bgmManager.Play(mSelectedMusicNumber);
         }
         else
         {
@@ -26,7 +25,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
 
     }
     

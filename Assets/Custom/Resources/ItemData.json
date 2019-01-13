@@ -1,0 +1,9 @@
+[{"ID":10001,"Name":"초급자의 빨간 물약","Description":"체력을 50 회복시키는 마법의 물약","Rarity":1,"ShopPrice":500,"ItemModel":null,"ItemValue":1,"ItemIcon":null,"ItemType":2},
+{"ID":10002,"Name":"초급자의 파란 물약","Description":"마력을 50 회복시키는 마법의 물약","Rarity":1,"ShopPrice":750,"ItemModel":null,"ItemValue":1,"ItemIcon":null,"ItemType":2},
+{"ID":11001,"Name":"초급 아이템 상자","Description":"초급 아이템들을 얻을 수 있는 아이템 상자","Rarity":1,"ShopPrice":750,"ItemModel":null,"ItemValue":1,"ItemIcon":null,"ItemType":2},
+{"ID":10003,"Name":"중급자의 빨간 물약","Description":"체력을 100 회복시키는 마법의 물약","Rarity":1,"ShopPrice":1200,"ItemModel":null,"ItemValue":1,"ItemIcon":null,"ItemType":2},
+{"ID":10004,"Name":"중급자의 파란 물약","Description":"마력을 100 회복시키는 마법의 물약","Rarity":1,"ShopPrice":1600,"ItemModel":null,"ItemValue":1,"ItemIcon":null,"ItemType":2},
+{"ID":11002,"Name":"중급 아이템 상자","Description":"중급 아이템들을 얻을 수 있는 아이템 상자","Rarity":1,"ShopPrice":1500,"ItemModel":null,"ItemValue":1,"ItemIcon":null,"ItemType":2},
+{"ID":10005,"Name":"상급자의 빨간 물약","Description":"체력을 200 회복시키는 마법의 물약","Rarity":1,"ShopPrice":3000,"ItemModel":null,"ItemValue":1,"ItemIcon":null,"ItemType":2},
+{"ID":10006,"Name":"상급자의 파란 물약","Description":"마력을 200 회복시키는 마법의 물약","Rarity":1,"ShopPrice":3500,"ItemModel":null,"ItemValue":1,"ItemIcon":null,"ItemType":2},
+{"ID":20001,"Name":"초심자의 칼","Description":"이제 막 모험을 시작한 초심자의 칼","Rarity":1,"ShopPrice":10000,"ItemModel":null,"ItemValue":1,"ItemIcon":null,"ItemType":1}]

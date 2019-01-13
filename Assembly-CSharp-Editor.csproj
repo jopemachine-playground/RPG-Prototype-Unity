@@ -61,14 +61,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Download\EffectExamples\TutorialInfo\Scripts\Editor\ReadmeEditor.cs" />
-    <Compile Include="Assets\Download\InventoryMaster\Editor\CraftSystemEditor.cs" />
-    <Compile Include="Assets\Download\InventoryMaster\Editor\EquipmentSystemEditor.cs" />
-    <Compile Include="Assets\Download\InventoryMaster\Editor\HotbarEditor.cs" />
-    <Compile Include="Assets\Download\InventoryMaster\Editor\IM_Manager.cs" />
-    <Compile Include="Assets\Download\InventoryMaster\Editor\InventoryDesignEditor.cs" />
-    <Compile Include="Assets\Download\InventoryMaster\Editor\InventoryEditor.cs" />
-    <Compile Include="Assets\Download\InventoryMaster\Editor\StorageInventoryEditor.cs" />
-    <Compile Include="Assets\Download\InventoryMaster\Editor\TooltipEditor.cs" />
     <Compile Include="Assets\Download\Standard Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
     <Compile Include="Assets\Download\Standard Assets\Editor\Water\Water4\GerstnerDisplaceEditor.cs" />
     <Compile Include="Assets\Download\Standard Assets\Editor\Water\Water4\PlanarReflectionEditor.cs" />
@@ -327,6 +319,9 @@
     </Reference>
     <Reference Include="PackageManagerAssembly">
       <HintPath>C:/Unity Chan/Unity Chan/Assets/Download/EffectExamples/Editor/PackageManagerAssembly/PackageManagerAssembly.dll</HintPath>
+    </Reference>
+    <Reference Include="LitJson">
+      <HintPath>C:/Unity Chan/Unity Chan/Assets/Plugins/LitJson.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>C:/Unity Chan/Unity Chan/Library/PackageCache/com.unity.ads@2.3.1/Editor/UnityEditor.Advertisements.dll</HintPath>
