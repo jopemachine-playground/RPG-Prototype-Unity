@@ -13,10 +13,10 @@ Hp 바, MP 바 rawimage는 유튜브에 '케이디' 란 닉네임의 '2D RPG 쯔
 
 폰트는 인터넷에서 무료로 배포되던 'HS Summer.ttf'를 썼고, 그 외 몇몇 raw image는 인터넷에서 구한 것을 포토샵으로 작업 해 넣었다.
 
-애니메이션 스크립트와 Animator는 'Stardard Asset'의 'ThirdPersonControl.cs'와  수정해 사용했고
+애니메이션 스크립트와 Animator는 'Stardard Asset'의 'ThirdPersonControl.cs'를 수정해 사용했고
 
-카메라 조정 스크립트 작성은 인터넷(구글) 을 많이 참고했다.
+카메라 조정 스크립트 작성은 인터넷(구글) 을 참고해 작성했다.
 
-인벤토리 시스템의 스크립트는 Inventory Master-uGUI를 수정하여 작성했으며, 
+인벤토리 시스템의 스크립트는 Inventory Master-uGUI를 수정하여 작성했고, 
 
 UI 구현에 필요한 이미지 파일들도 위 에셋에 포함된 것을 사용했다.
