@@ -15,8 +15,8 @@ Hp 바, MP 바 rawimage는 유튜브에 '케이디' 란 닉네임의 '2D RPG 쯔
 
 애니메이션 스크립트와 Animator는 'Stardard Asset'의 'ThirdPersonControl.cs'를 수정해 사용했고
 
-카메라 조정 스크립트 작성은 인터넷(구글) 을 참고해 작성했다.
+카메라 조정 스크립트 작성은 구글을 참고해 작성했다.
 
-인벤토리 시스템의 스크립트는 Inventory Master-uGUI를 수정하여 작성했고, 
+인벤토리 시스템의 스크립트는 Inventory Master-uGUI에서 제공되던 cs 스크립트를 수정해 작성했고, 
 
 UI 구현에 필요한 이미지 파일들도 위 에셋에 포함된 것을 사용했다.
