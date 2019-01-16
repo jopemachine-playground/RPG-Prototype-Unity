@@ -36,14 +36,14 @@ class MonsterPool : MonoBehaviour
     {
         string JsonString = File.ReadAllText(Application.dataPath + "/Custom/Resources/MonsterData.json");
 
-        JsonData itemData = JsonMapper.ToObject(JsonString);
+        JsonData monsterData = JsonMapper.ToObject(JsonString);
 
-        ParsingJsonItem(itemData);
+        ParsingJsonMonster(monsterData);
 
         yield return null;
     }
 
-    private void ParsingJsonItem(JsonData name)
+    private void ParsingJsonMonster(JsonData name)
     {
         for (int i = 0; i < name.Count; i++)
         {
@@ -51,6 +51,12 @@ class MonsterPool : MonoBehaviour
             entireMonsterList[i].Name = (name[i]["Name"]).ToString();
             entireMonsterList[i].Description = (name[i]["Description"]).ToString();
             entireMonsterList[i].Type = (MonsterType)((int)(name[i]["MonsterType"]));
+            entireMonsterList[i].MaxHP = (int)(name[i]["MaxHP"]);
+            entireMonsterList[i].currentHP = entireMonsterList[i].MaxHP;
+            entireMonsterList[i].AttackValue = (int)(name[i]["AttackValue"]);
+            entireMonsterList[i].DefenceValue = (int)(name[i]["DefenceValue"]);
+            entireMonsterList[i].ExperienceValue = (int)(name[i]["ExperienceValue"]);
+            entireMonsterList[i].Speed = (int)(name[i]["Speed"]);
             entireMonsterList[i].MonsterModel = objModel[i];
         }
 

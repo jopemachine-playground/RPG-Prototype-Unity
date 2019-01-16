@@ -1,0 +1,7 @@
+[{"ID":10001,"Name":"초급 오크","Description":"쉽게 쓰러뜨릴 수 있는 초급 몬스터","MaxHP":100,"AttackValue":8,"DefenceValue":1,"ExperienceValue":100,"Speed":2,"MonsterType":0},
+{"ID":20001,"Name":"엘리트 오크","Description":"약간 버거운 느낌의 초급 오크","MaxHP":160,"AttackValue":16,"DefenceValue":3,"ExperienceValue":250,"Speed":3,"MonsterType":1},
+{"ID":30001,"Name":"보스 오크","Description":"스테이지 보스","MaxHP":800,"AttackValue":60,"DefenceValue":10,"ExperienceValue":2000,"Speed":4,"MonsterType":2},
+{"ID":10002,"Name":"철갑 오크","Description":"온 몸을 철갑으로 감싸 강력한 방어력을 갖고 있다.","MaxHP":400,"AttackValue":25,"DefenceValue":15,"ExperienceValue":500,"Speed":2,"MonsterType":0},
+{"ID":20002,"Name":"엘리트 철갑 오크","Description":"보스 오크만큼이나 강력하다.","MaxHP":600,"AttackValue":45,"DefenceValue":17,"ExperienceValue":750,"Speed":2,"MonsterType":1},
+{"ID":20003,"Name":"좀비 오크","Description":"속도는 느리지만, 엄청난 체력을 갖고 있어 버거운 상대","MaxHP":1200,"AttackValue":38,"DefenceValue":15,"ExperienceValue":900,"Speed":1,"MonsterType":1},
+{"ID":10003,"Name":"이벤트 오크","Description":"플레이어를 보면 엄청나게 재빠른 속도로 도망간다.","MaxHP":1,"AttackValue":0,"DefenceValue":0,"ExperienceValue":1500,"Speed":10,"MonsterType":0}]

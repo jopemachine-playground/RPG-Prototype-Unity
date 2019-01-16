@@ -2,7 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+/*
+ 주의 : Monobehavior를 상속받지 않아야 함
+ */
+
+[System.Serializable]
+public class Monster
 {
     public int currentHP;
 
@@ -12,24 +17,14 @@ public class Monster : MonoBehaviour
     public int MaxHP;
     public int AttackValue;
     public int DefenceValue;
-    public int ExpeienceValue;
+    public int ExperienceValue;
     public int Speed;
     public MonsterType Type;
     public GameObject MonsterModel;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        currentHP = MaxHP;
-        this.gameObject.SetActive(false);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    // spawn Area에 생성될 수 있는 최대 몬스터 갯수.
+    // spawn Area에 따라 달라지므로, Spawn Manager에서 지정.
+    public int MaxGenerateNumber;
 
     public void Damaged(int playerAtk)
     {
@@ -46,12 +41,26 @@ public class Monster : MonoBehaviour
 
         currentHP -= resultDamage;
 
-        if (currentHP <= 0)
-        {
-            this.gameObject.SetActive(false);
-        }
-
     }
 
+    public Monster() { }
+
+    public Monster(int _ID, string _Name, string _Description, int _MaxHP, int _AttackValue, int _DefenceValue, int _ExperienceValue, int _Speed, MonsterType _Type)
+    {
+        ID = _ID;
+        Name = _Name;
+        Description = _Description;
+        MaxHP = _MaxHP;
+        AttackValue = _AttackValue;
+        DefenceValue = _DefenceValue;
+        ExperienceValue = _ExperienceValue;
+        Speed = _Speed;
+        Type = _Type;
+    }
+
+    public Monster getCopy()
+    {
+        return (Monster)this.MemberwiseClone();
+    }
 
 }

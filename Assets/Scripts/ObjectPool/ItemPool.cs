@@ -39,13 +39,30 @@ public class ItemPool : MonoBehaviour
 
     IEnumerator LoadCoroutine()
     {
-        string JsonString = File.ReadAllText(Application.dataPath + "/Custom/Resources/ItemData.json");
+        string JsonString_item = File.ReadAllText(Application.dataPath + "/Custom/Resources/ItemData.json");
+        string JsonString_attribute = File.ReadAllText(Application.dataPath + "/Custom/Resources/ItemAttribute.json");
 
-        JsonData itemData = JsonMapper.ToObject(JsonString);
+        JsonData itemData = JsonMapper.ToObject(JsonString_item);
+        JsonData itemAttributeData = JsonMapper.ToObject(JsonString_attribute);
+
+        Debug.Assert(itemData != null, "item Data == null");
+        Debug.Assert(itemAttributeData != null, "itemAttribute Data == null");
 
         ParsingJsonItem(itemData);
+        ParsingJsonItemAttribute(itemAttributeData);
 
         yield return null;
+    }
+    
+
+    private void ParsingJsonItemAttribute(JsonData name)
+    {
+        for (int i = 0; i < name.Count; i++)
+        {
+            getItemByID((int)(name[i]["ID"])).
+                ItemAttributes.Add
+                (new ItemAttribute((name[i]["AttributeName"]).ToString(), (int)(name[i]["AttributeValue"])));
+        }
     }
 
     private void ParsingJsonItem(JsonData name)
@@ -63,6 +80,16 @@ public class ItemPool : MonoBehaviour
             entireItemList[i].ItemValue = 1;
         }
 
+    }
+
+    public Item getItemByID(int id)
+    {
+        for (int i = 0; i < entireItemList.Count; i++)
+        {
+            if (entireItemList[i].ID == id)
+                return entireItemList[i].getCopy();
+        }
+        return null;
     }
 
 }

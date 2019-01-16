@@ -1,0 +1,10 @@
+[{"ID":10001,"AttributeName":"heal_hp","AttributeValue":50},
+{"ID":10002,"AttributeName":"heal_mp","AttributeValue":50},
+{"ID":11001,"AttributeName":"get_item","AttributeValue":1},
+{"ID":10003,"AttributeName":"heal_hp","AttributeValue":100},
+{"ID":10004,"AttributeName":"heal_mp","AttributeValue":100},
+{"ID":11002,"AttributeName":"get_item","AttributeValue":2},
+{"ID":10005,"AttributeName":"heal_hp","AttributeValue":200},
+{"ID":10006,"AttributeName":"heal_mp","AttributeValue":200},
+{"ID":20001,"AttributeName":"adj_atk","AttributeValue":30},
+{"ID":20001,"AttributeName":"adj_def","AttributeValue":-3}]

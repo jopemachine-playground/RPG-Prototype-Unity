@@ -1,0 +1,11 @@
+ID,AttributeName,AttributeValue
+10001,heal_hp,50
+10002,heal_mp,50
+11001,get_item,1
+10003,heal_hp,100
+10004,heal_mp,100
+11002,get_item,2
+10005,heal_hp,200
+10006,heal_mp,200
+20001,adj_atk,30
+20001,adj_def,-3

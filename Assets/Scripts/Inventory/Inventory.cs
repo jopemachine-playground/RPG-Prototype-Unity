@@ -4,16 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// 플레이어의 인벤토리
+
 class Inventory : MonoBehaviour
 {
     [SerializeField]
     public List<Item> playerItems = new List<Item>();
-
-
-    private void Start()
-    {
-        
-    }
 
     private void Update()
     {
@@ -22,6 +18,7 @@ class Inventory : MonoBehaviour
 
     private void ConsumeItem(Item item)
     {
+        
 
     }
 
@@ -34,9 +31,6 @@ class Inventory : MonoBehaviour
     {
 
     }
-
-
-
 
     public void ItemPickup(Item item)
     {
@@ -58,9 +52,30 @@ class Inventory : MonoBehaviour
     {
         for (int i = 0; i < playerItems.Count; i++)
         {
-            playerItems[i].indexItemInList = i;
+            playerItems[i].IndexItemInList = i;
         }
     }
+
+    public Item getItemByID(int id)
+    {
+        for (int i = 0; i < playerItems.Count; i++)
+        {
+            if (playerItems[i].ID == id)
+                return playerItems[i].getCopy();
+        }
+        return null;
+    }
+
+    public Item getItemByName(string name)
+    {
+        for (int i = 0; i < playerItems.Count; i++)
+        {
+            if (playerItems[i].Name.ToLower().Equals(name.ToLower()))
+                return playerItems[i].getCopy();
+        }
+        return null;
+    }
+
 
 }
 

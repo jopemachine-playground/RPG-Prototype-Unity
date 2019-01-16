@@ -33,28 +33,20 @@ public class Item
     public ItemType ItemType;
 
     // 인벤토리 내 인덱스 번호
-    public int indexItemInList;
+    public int IndexItemInList;
 
-    public Item(int itemID, int shopPrice, string itemName, int rarity, string itemDes, GameObject itemModel, ItemType itemType, Sprite itemIcon)
-    {
-        ID = itemID;
-        ShopPrice = shopPrice;
-        Name = itemName;
-        Description = itemDes;
-        ItemIcon = itemIcon;
-        ItemType = itemType;
-        ItemModel = itemModel;
-        Rarity = rarity;
-    }
+    // 아이템이 갖고 있을 성질들
+    [SerializeField]
+    public List<ItemAttribute> ItemAttributes = new List<ItemAttribute>();
 
-    public Item(int itemID, int shopPrice, string itemName, int rarity, string itemDes, ItemType itemType)
+    public Item(int _ID, int _ShopPrice, string _Name, int _Rarity, string _Description, ItemType _ItemType)
     {
-        ID = itemID;
-        ShopPrice = shopPrice;
-        Name = itemName;
-        Description = itemDes;
-        Rarity = rarity;
-        ItemType = itemType;
+        ID = _ID;
+        ShopPrice = _ShopPrice;
+        Name = _Name;
+        Description = _Description;
+        Rarity = _Rarity;
+        ItemType = _ItemType;
     }
 
     public Item getCopy()

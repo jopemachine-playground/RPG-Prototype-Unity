@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
 
+// Inventory Master에서 가져옴
+
 public class DragInventory : MonoBehaviour, IPointerDownHandler, IDragHandler
 {
 
