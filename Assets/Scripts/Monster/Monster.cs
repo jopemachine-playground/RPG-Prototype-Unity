@@ -43,21 +43,6 @@ public class Monster
 
     }
 
-    public Monster() { }
-
-    public Monster(int _ID, string _Name, string _Description, int _MaxHP, int _AttackValue, int _DefenceValue, int _ExperienceValue, int _Speed, MonsterType _Type)
-    {
-        ID = _ID;
-        Name = _Name;
-        Description = _Description;
-        MaxHP = _MaxHP;
-        AttackValue = _AttackValue;
-        DefenceValue = _DefenceValue;
-        ExperienceValue = _ExperienceValue;
-        Speed = _Speed;
-        Type = _Type;
-    }
-
     public Monster getCopy()
     {
         return (Monster)this.MemberwiseClone();

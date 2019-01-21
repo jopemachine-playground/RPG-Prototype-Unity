@@ -9,13 +9,13 @@ using UnityEngine.UI;
 
 class InventorySystem : MonoBehaviour
 {
+    public List<ItemSlot> SlotList = new List<ItemSlot>();
 
-    Inventory inv;
+    public Inventory playerInventory;
 
-
-    private void Start()
+    private void Awake()
     {
-
+        playerInventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
     }
 
     private void Update()

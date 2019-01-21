@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-class PickUpItem : MonoBehaviour
+public class PickUpItem : MonoBehaviour
 {
     // 일정 시간이 지난 아이템은 삭제해 메모리 버그를 방지
     public const float elapsedTime = 15.0f;
@@ -16,6 +16,10 @@ class PickUpItem : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         Debug.Assert(player, "player not existed");
         inv = player.GetComponent<Inventory>();
+    }
+
+    private void Start()
+    {
         Invoke("ItemDestroy", elapsedTime);
     }
 
@@ -23,16 +27,24 @@ class PickUpItem : MonoBehaviour
     // Pickupitem 객체 비활성화 한다.
     void OnCollisionEnter(Collision col)
     {
-        if(col.collider.tag == "Player")
+        if (col.collider.tag == "Player")
         {
-            Destroy(this.gameObject);
+            // ItemIndexInList는 InventorySystem에서 아이템 순서를 드래깅으로 변경할 때,
+            // PickUpItem과 충돌했을 때 변경, 초기화 된다.
             inv.ItemPickup(item);
+            Destroy(this.gameObject);
+
         }
     }
 
     private void ItemDestroy()
     {
         Destroy(this.gameObject);
+    }
+
+    public PickUpItem(Item _item)
+    {
+        item = _item;
     }
 
 

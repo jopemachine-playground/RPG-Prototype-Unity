@@ -39,16 +39,6 @@ public class Item
     [SerializeField]
     public List<ItemAttribute> ItemAttributes = new List<ItemAttribute>();
 
-    public Item(int _ID, int _ShopPrice, string _Name, int _Rarity, string _Description, ItemType _ItemType)
-    {
-        ID = _ID;
-        ShopPrice = _ShopPrice;
-        Name = _Name;
-        Description = _Description;
-        Rarity = _Rarity;
-        ItemType = _ItemType;
-    }
-
     public Item getCopy()
     {
         return (Item)this.MemberwiseClone();

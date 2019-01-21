@@ -19,6 +19,7 @@ public class ItemPool : MonoBehaviour
 
     private void Awake()
     {
+        // 싱글톤
         if (mInstance != null)
         {
             Destroy(this.gameObject);
@@ -29,12 +30,9 @@ public class ItemPool : MonoBehaviour
             mInstance = this;
         }
 
-        Load();
-    }
-
-    public void Load()
-    {
+        // 파싱되어 있는 데이터 로드
         StartCoroutine("LoadCoroutine");
+
     }
 
     IEnumerator LoadCoroutine()
@@ -53,7 +51,7 @@ public class ItemPool : MonoBehaviour
 
         yield return null;
     }
-    
+
 
     private void ParsingJsonItemAttribute(JsonData name)
     {
@@ -63,6 +61,16 @@ public class ItemPool : MonoBehaviour
                 ItemAttributes.Add
                 (new ItemAttribute((name[i]["AttributeName"]).ToString(), (int)(name[i]["AttributeValue"])));
         }
+    }
+
+    public Item getItemByID(int id)
+    {
+        for (int i = 0; i < entireItemList.Count; i++)
+        {
+            if (entireItemList[i].ID == id)
+                return entireItemList[i].getCopy();
+        }
+        return null;
     }
 
     private void ParsingJsonItem(JsonData name)
@@ -78,19 +86,36 @@ public class ItemPool : MonoBehaviour
             entireItemList[i].ItemModel = objModel[i];
             entireItemList[i].ItemIcon = objIcon[i];
             entireItemList[i].ItemValue = 1;
+
+            MakePickUpItemPool(i, entireItemList[i].ID);
         }
 
     }
 
-    public Item getItemByID(int id)
+    private void MakePickUpItemPool(int _index, int _ID)
     {
-        for (int i = 0; i < entireItemList.Count; i++)
-        {
-            if (entireItemList[i].ID == id)
-                return entireItemList[i].getCopy();
-        }
-        return null;
+        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cube.name = "" + _ID;
+        cube.SetActive(false);
+        cube.AddComponent<Rigidbody>();
+        cube.AddComponent<PickUpItem>();
+        cube.GetComponent<PickUpItem>().item = entireItemList[_index];
+
+        // Item Pool 아래에 PickUpItem 들을 미리 생성
+        cube.transform.parent = GameObject.FindGameObjectWithTag("ItemPool").transform;
+       
+        // Renderer 내 Material 배열 교체.
+        cube.GetComponent<Renderer>().materials = entireItemList[_index].ItemModel.GetComponent<Renderer>().sharedMaterials;
+        cube.GetComponent<MeshFilter>().mesh = entireItemList[_index].ItemModel.GetComponent<MeshFilter>().sharedMesh;
     }
 
+    public void GeneratePickUpItem(Vector3 _genPoint, Quaternion _genRotate, int _ID)
+    {
+        Transform obj = GameObject.FindGameObjectWithTag("ItemPool").transform.Find("" + _ID);
+        Transform tr = Instantiate(obj, _genPoint, _genRotate);
+        tr.gameObject.SetActive(true);
+        tr.parent = GameObject.FindGameObjectWithTag("Pickup Items").transform;
+    }
+    
 }
 
