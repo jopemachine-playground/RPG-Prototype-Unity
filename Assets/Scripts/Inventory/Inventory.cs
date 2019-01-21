@@ -13,7 +13,7 @@ class Inventory : MonoBehaviour
 
     private void Awake()
     {
-        // FindObjectsOfType는 무작위로 찾기 때문에 정렬해줘야 함.
+        // FindObjectsOfType는 무작위로 찾기 때문에 정렬해줘야 함
         ItemSlot[] temp = FindObjectsOfType<ItemSlot>();
 
         Debug.Assert(temp != null);
@@ -22,18 +22,13 @@ class Inventory : MonoBehaviour
         {
             for (int j = 0; j < temp.Length; j++)
             {
-                if (temp[j].name == "Slot" + (i + 1))
+                if (temp[j].name == "Slot (" + i + ")")
                 {
                     playerItems[i] = temp[j];
                     break;
                 }
             }
         }
-    }
-
-    private void Update()
-    {
-        updateItemIndex();
     }
 
     private void ConsumeItem(Item item)
@@ -63,24 +58,25 @@ class Inventory : MonoBehaviour
 
         for (int i = 0; i < playerItems.Count; i++)
         {
+            // 처음으로 비어 있는 슬롯을 발견하면 check하고 index를 기억해놓음.
             if ((check == false) && playerItems[i].ItemExist == false)
             {
                 checkIndex = i;
                 check = true;
             }
 
+            // 슬롯을 뒤져 같은 물품이 있다면 주운 PickUpItem의 Value만큼 증가시킴.
             if (playerItems[i].Item.ID == item.ID)
             {
-                playerItems[i].Item.ItemValue++;
+                playerItems[i].Item.ItemValue += item.ItemValue;
                 return;
             }
-            else
-            {
-                Debug.Assert(check == true, "Error - Pickup Bug Occured. - ItemPickup() In Inventory.cs");
-                playerItems[checkIndex].Item = item;
-                playerItems[checkIndex].ItemExist = true;
-            }
         }
+        // 슬롯을 모두 뒤졌는데, 같은 물품이 없다면 체크해둔 슬롯에 아이템을 넣음
+        playerItems[checkIndex].Item = item;
+        playerItems[checkIndex].ItemExist = true;
+
+        updateItemIndex();
     }
 
     public void updateItemIndex()

@@ -193,7 +193,6 @@
     <Compile Include="Assets\Scripts\Inventory\Tooltip.cs" />
     <Compile Include="Assets\Scripts\Item\Item.cs" />
     <Compile Include="Assets\Scripts\Item\ItemAttribute.cs" />
-    <Compile Include="Assets\Scripts\Item\ItemOnObject.cs" />
     <Compile Include="Assets\Scripts\Item\ItemSpawnManager.cs" />
     <Compile Include="Assets\Scripts\Item\ItemSpawnPoint.cs" />
     <Compile Include="Assets\Scripts\Item\ItemType.cs" />

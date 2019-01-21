@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Item
 {
-    // 아이템 고유번호
+    // 아이템 고유번호. (중복되지 않음)
     public int ID;
 
     // 아이템 이름
@@ -14,7 +14,7 @@ public class Item
     // 툴팁 내 아이템 설명
     public string Description;
 
-    // 희귀 수치에 따라 Looting 확률 변동
+    // 아이템 레어도
     public int Rarity;
 
     // 상점 가격
