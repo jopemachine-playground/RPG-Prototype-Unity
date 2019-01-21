@@ -1,4 +1,6 @@
 # Unity-Chan
+스크립트는 모두 C#으로 작성했고, 유니티는 2018.3.0f2 Personal 를 사용했다.
+
 캐릭터의 FBX 모델은 에셋 스토어의 'Unity Chan! Model'이고,
 
 맵에 사용한 에셋은 Free basic Dungeon', 'LowPoly Dungeon Modules' 이다.
