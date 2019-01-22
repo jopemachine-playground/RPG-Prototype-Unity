@@ -6,13 +6,17 @@ using UnityEngine.UI;
 
 // 플레이어의 인벤토리
 
-class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviour
 {
     [SerializeField]
     public List<ItemSlot> playerItems = new List<ItemSlot>();
 
+    public InventorySystem invSystem;
+
     private void Awake()
     {
+        invSystem = GameObject.FindGameObjectWithTag("InventorySystem").GetComponent<InventorySystem>();
+
         // FindObjectsOfType는 무작위로 찾기 때문에 정렬해줘야 함
         ItemSlot[] temp = FindObjectsOfType<ItemSlot>();
 
@@ -31,6 +35,7 @@ class Inventory : MonoBehaviour
         }
     }
 
+    #region Item Use
     private void ConsumeItem(Item item)
     {
         Debug.Assert(item.ItemType == ItemType.UseAble, "Error - Item Use Bug Occured. - ConsumeItem() In Inventory.cs");
@@ -49,6 +54,7 @@ class Inventory : MonoBehaviour
 
 
     }
+    #endregion
 
     public void ItemPickup(Item item)
     {
@@ -69,6 +75,7 @@ class Inventory : MonoBehaviour
             if (playerItems[i].Item.ID == item.ID)
             {
                 playerItems[i].Item.ItemValue += item.ItemValue;
+                invSystem.ItemIconUpdate();
                 return;
             }
         }
@@ -77,7 +84,10 @@ class Inventory : MonoBehaviour
         playerItems[checkIndex].ItemExist = true;
 
         updateItemIndex();
+        invSystem.ItemIconUpdate();
     }
+
+    #region Update
 
     public void updateItemIndex()
     {
@@ -87,6 +97,9 @@ class Inventory : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Get Item Info
     public Item getItemByID(int id)
     {
         for (int i = 0; i < playerItems.Count; i++)
@@ -106,7 +119,7 @@ class Inventory : MonoBehaviour
         }
         return null;
     }
-
+    #endregion
 
 }
 

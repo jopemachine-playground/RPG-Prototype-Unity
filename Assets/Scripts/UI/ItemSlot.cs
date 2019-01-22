@@ -10,32 +10,8 @@ using UnityEngine.EventSystems;
 
 public class ItemSlot : MonoBehaviour
 {
-    public int IconSize = 45;
-
     public Item Item;
-
-    public Text ItemCountText;
-
-    private WaitForSeconds waitTime = new WaitForSeconds(0.01f);
 
     public bool ItemExist;
 
-
-    // Use this for initialization
-    void Awake()
-    {
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (ItemExist == false)
-        {
-            return;
-        }
-
-
-    }
 }

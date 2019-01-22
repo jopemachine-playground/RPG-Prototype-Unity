@@ -35,6 +35,7 @@ public class ItemPool : MonoBehaviour
 
     }
 
+    #region Data Parsing And Load
     IEnumerator LoadCoroutine()
     {
         string JsonString_item = File.ReadAllText(Application.dataPath + "/Custom/Resources/ItemData.json");
@@ -63,15 +64,6 @@ public class ItemPool : MonoBehaviour
         }
     }
 
-    public Item getItemByID(int id)
-    {
-        for (int i = 0; i < entireItemList.Count; i++)
-        {
-            if (entireItemList[i].ID == id)
-                return entireItemList[i].getCopy();
-        }
-        return null;
-    }
 
     private void ParsingJsonItem(JsonData name)
     {
@@ -92,6 +84,9 @@ public class ItemPool : MonoBehaviour
 
     }
 
+    #endregion
+
+    #region Make Item Pool
     private void MakePickUpItemPool(int _index, int _ID)
     {
         GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -116,6 +111,32 @@ public class ItemPool : MonoBehaviour
         tr.gameObject.SetActive(true);
         tr.parent = GameObject.FindGameObjectWithTag("Pickup Items").transform;
     }
-    
+
+    #endregion
+
+    #region Get Item Info
+
+    public Item getItemByID(int id)
+    {
+        for (int i = 0; i < entireItemList.Count; i++)
+        {
+            if (entireItemList[i].ID == id)
+                return entireItemList[i].getCopy();
+        }
+        return null;
+    }
+
+    public Sprite getItemIcon(int _ID)
+    {
+        for (int i = 0; i < entireItemList.Count; i++)
+        {
+            if (entireItemList[i].ID == _ID)
+                return entireItemList[i].ItemIcon;
+        }
+        return null;
+    }
+
+    #endregion
+
 }
 
