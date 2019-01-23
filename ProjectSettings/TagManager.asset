@@ -10,19 +10,16 @@ TagManager:
   - Panel
   - Timer
   - DraggingItem
-  - Canvas
   - ItemPool
   - MonsterPool
   - CraftSystem
   - Tooltip
-  - EquipmentSystem
-  - ResultSlot
-  - Item
   - ItemIcon
   - InventorySystem
   - FieldSpawnItem
   - Pickup Items
   - ItemIconText
+  - Menu
   layers:
   - Default
   - TransparentFX

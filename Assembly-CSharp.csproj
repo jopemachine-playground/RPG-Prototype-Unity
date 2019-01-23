@@ -189,7 +189,6 @@
     <Compile Include="Assets\Scripts\Inventory\DragInventory.cs" />
     <Compile Include="Assets\Scripts\Inventory\DragItem.cs" />
     <Compile Include="Assets\Scripts\Inventory\Inventory.cs" />
-    <Compile Include="Assets\Scripts\Inventory\ShowTooltip.cs" />
     <Compile Include="Assets\Scripts\Inventory\Tooltip.cs" />
     <Compile Include="Assets\Scripts\Item\Item.cs" />
     <Compile Include="Assets\Scripts\Item\ItemAttribute.cs" />
@@ -215,6 +214,8 @@
     <Compile Include="Assets\Scripts\UI\ItemSlot.cs" />
     <Compile Include="Assets\Scripts\UI\Menu.cs" />
     <Compile Include="Assets\Scripts\UI\TitleMenu.cs" />
+    <Compile Include="Assets\Scripts\UI\UI - Panel\ICheckPanel.cs" />
+    <Compile Include="Assets\Scripts\UI\UI - Panel\ItemDeletePanel.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
     <None Include="Assets\Download\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
     <None Include="Assets\Download\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
@@ -846,6 +847,20 @@
     <Reference Include="System.Xml.Serialization">
       <HintPath>C:/Program Files/Unity/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="UniRx.csproj">
+      <Project>{44959B48-2449-29DD-87EB-7EF4B2CAF324}</Project>
+      <Name>UniRx</Name>
+    </ProjectReference>
+    <ProjectReference Include="UniRx.Async.csproj">
+      <Project>{9CD28017-351B-4929-5394-340A48AFA59C}</Project>
+      <Name>UniRx.Async</Name>
+    </ProjectReference>
+    <ProjectReference Include="UniRx.Async.Editor.csproj">
+      <Project>{F14CAA72-B33E-3E23-B01B-DFE98295A10D}</Project>
+      <Name>UniRx.Async.Editor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -5,8 +5,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-// 플레이어 Inventory의 Raw Image 컴포넌트에 접근해 관리
-
 public class InventorySystem : MonoBehaviour
 {
     public Image[] itemImage;
@@ -15,40 +13,34 @@ public class InventorySystem : MonoBehaviour
 
     public Inventory playerInventory;
 
-    private void Awake()
+    // GameManager에서 초기화
+    public void Initialize()
     {
         playerInventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Inventory>();
 
-        GameObject[] ItemIcons = GameObject.FindGameObjectsWithTag("ItemIcon");
-        GameObject[] ItemIconTexts = GameObject.FindGameObjectsWithTag("ItemIconText");
+        Debug.Assert(playerInventory != null);
 
-        itemImage = new Image[ItemIcons.Length];
-        itemText = new Text[ItemIconTexts.Length];
+        int SlotValue = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").Find("Item Grid Slot").childCount;
 
-        Debug.Assert(ItemIcons != null);
+        itemImage = new Image[SlotValue];
+        itemText = new Text[SlotValue];
 
-        for (int i = 0; i < ItemIcons.Length; i++)
+        for (int i = 0; i < SlotValue; i++)
         {
-            for (int j = 0; j < ItemIcons.Length; j++)
-            {
-                if (ItemIcons[j].transform.parent.name == "Slot (" + i + ")")
-                {
-                    itemImage[i] = ItemIcons[j].GetComponent<Image>();
-                    itemText[i] = ItemIconTexts[j].GetComponent<Text>();
-                    break;
-                }
-            }
+            Image itemIcon = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").Find("Item Grid Slot").GetChild(i).Find("Image").gameObject.GetComponent<Image>();
+            Text itemIconText = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").Find("Item Grid Slot").GetChild(i).Find("Text").gameObject.GetComponent<Text>();
+            itemImage[i] = itemIcon.GetComponent<Image>();
+            itemText[i] = itemIconText.GetComponent<Text>();
         }
 
-        ItemIconUpdate();
-
     }
 
-    private void Update()
+    private void Start()
     {
-
+        ItemIconUpdate();
     }
 
+    // 변경 필요
     public void ItemIconUpdate()
     {
         for (int i = 0; i < playerInventory.playerItems.Count; i++)

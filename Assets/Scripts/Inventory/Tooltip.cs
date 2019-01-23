@@ -6,29 +6,29 @@ using UnityEngine.UI;
 public class Tooltip : MonoBehaviour
 {
     public Item item;
+    public Text itemNameText;
+    public Text itemDescText;
+    public Text itemRarityText;
+    public Image itemIcon;
 
-
-    // Start is called before the first frame update
-    void Start()
+    public void Initialize()
     {
-        deactivateTooltip();
+        itemNameText = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Tooltip").Find("ItemName").gameObject.GetComponent<Text>();
+        itemDescText = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Tooltip").Find("ItemDesc").gameObject.GetComponent<Text>();
+        itemRarityText = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Tooltip").Find("ItemDetail").gameObject.GetComponent<Text>();
+        itemIcon = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Tooltip").Find("ItemIcon").gameObject.GetComponent<Image>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ActivateTooltip()               
     {
-
+        GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Tooltip").gameObject.SetActive(true);
     }
 
-    public void activateTooltip()               //if you activate the tooltip through hovering over an item
+    public void DeactivateTooltip()             
     {
-
-
+        this.enabled = false;
     }
-    public void deactivateTooltip()             //deactivating the tooltip after you went out of a slot
-    {
 
-    }
 
 
 }

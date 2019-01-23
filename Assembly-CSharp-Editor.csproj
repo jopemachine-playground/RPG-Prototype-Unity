@@ -704,6 +704,18 @@
       <Project>{189E3DE7-AFD6-FCE6-40B0-6FA3E4F27E72}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
+    <ProjectReference Include="UniRx.csproj">
+      <Project>{44959B48-2449-29DD-87EB-7EF4B2CAF324}</Project>
+      <Name>UniRx</Name>
+    </ProjectReference>
+    <ProjectReference Include="UniRx.Async.csproj">
+      <Project>{9CD28017-351B-4929-5394-340A48AFA59C}</Project>
+      <Name>UniRx.Async</Name>
+    </ProjectReference>
+    <ProjectReference Include="UniRx.Async.Editor.csproj">
+      <Project>{F14CAA72-B33E-3E23-B01B-DFE98295A10D}</Project>
+      <Name>UniRx.Async.Editor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

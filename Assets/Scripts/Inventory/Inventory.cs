@@ -13,25 +13,17 @@ public class Inventory : MonoBehaviour
 
     public InventorySystem invSystem;
 
-    private void Awake()
+    public void Initialize()
     {
-        invSystem = GameObject.FindGameObjectWithTag("InventorySystem").GetComponent<InventorySystem>();
+        // 비활성화 되어 있는 컴포넌트에 접근할 경우, 우선 활성화된 부모 컴포넌트에 접근해야 한다.
+        invSystem = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").gameObject.GetComponent<InventorySystem>();
 
-        // FindObjectsOfType는 무작위로 찾기 때문에 정렬해줘야 함
-        ItemSlot[] temp = FindObjectsOfType<ItemSlot>();
+        int SlotValue = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").Find("Item Grid Slot").childCount;
 
-        Debug.Assert(temp != null);
-
-        for (int i = 0; i < temp.Length; i++)
+        for (int i = 0; i < SlotValue; i++)
         {
-            for (int j = 0; j < temp.Length; j++)
-            {
-                if (temp[j].name == "Slot (" + i + ")")
-                {
-                    playerItems[i] = temp[j];
-                    break;
-                }
-            }
+            ItemSlot itemSlot = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").Find("Item Grid Slot").GetChild(i).gameObject.GetComponent<ItemSlot>();
+            playerItems[i] = itemSlot;
         }
     }
 
@@ -120,6 +112,7 @@ public class Inventory : MonoBehaviour
         return null;
     }
     #endregion
+
 
 }
 
