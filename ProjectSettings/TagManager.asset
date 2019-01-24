@@ -5,12 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Slot
-  - Hotbar
   - Slots
-  - DraggingItem
   - ItemPool
   - MonsterPool
-  - CraftSystem
   - Tooltip
   - ItemIcon
   - InventorySystem
@@ -18,7 +15,8 @@ TagManager:
   - Pickup Items
   - ItemIconText
   - Menu
-  - EquipmentSystem
+  - PlayerInfoSystem
+  - Manager
   layers:
   - Default
   - TransparentFX

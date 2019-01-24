@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public InventorySystem invSysInitManager;
     public Tooltip tooltipInitManager;
     public DraggingItem draggingItemInitManager;
+    public LevelInfo levelInfoInitManager;
 
     public int mSelectedMusicNumber;
 
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
         invSysInitManager = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").gameObject.GetComponent<InventorySystem>();
         tooltipInitManager = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Tooltip").gameObject.GetComponent<Tooltip>();
         draggingItemInitManager = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("DraggingItem").gameObject.GetComponent<DraggingItem>();
+        levelInfoInitManager = GameObject.FindGameObjectWithTag("Manager").transform.Find("PlayerInfo Manager").gameObject.GetComponent<LevelInfo>();
 
         bgmManager = FindObjectOfType<MusicManager>();
 
@@ -42,6 +44,7 @@ public class GameManager : MonoBehaviour
         invSysInitManager.Initialize();
         tooltipInitManager.Initialize();
         draggingItemInitManager.Initialize();
+        levelInfoInitManager.Initialize();
     } 
 
 }

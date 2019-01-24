@@ -45,25 +45,40 @@ public class Menu : MonoBehaviour
         }
     }
 
-    public void Exit()
+    #region Button Click Event
+
+    public void ExitButtonClicked()
     {
         Application.Quit();
     }
 
-    public void ShowMenu()
+    public void MenuButtonClicked()
     {
         windowOpenClose(mMenu, ref isMenuActived);
     }
 
-    public void ShowInventory()
+    public void InventoryButtonClicked()
     {
         windowOpenClose(mInventory, ref isInvenoryActived);
     }
 
-    public void ShowEquipment()
+    public void EquipmentButtonClicked()
     {
         windowOpenClose(mEquipment, ref isEquipmentActived);
     }
+
+    public void SaveButtonClicked()
+    {
+        PlayerInfo.mInstance.SaveData();
+    }
+
+    public void MuteButtonClicked()
+    {
+        MusicManager.mInstance.Pause();
+        AudioManager.mInstance.Mute();
+    }
+
+    #endregion
 
     private void windowOpenClose(GameObject obj, ref bool actived)
     {

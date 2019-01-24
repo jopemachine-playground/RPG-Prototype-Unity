@@ -29,6 +29,7 @@ class MonsterPool : MonoBehaviour
         StartCoroutine("LoadCoroutine");
     }
 
+    #region Data Parsing and Load
     IEnumerator LoadCoroutine()
     {
         string JsonString = File.ReadAllText(Application.dataPath + "/Custom/Resources/MonsterData.json");
@@ -62,7 +63,9 @@ class MonsterPool : MonoBehaviour
         }
 
     }
+    #endregion
 
+    #region UNUSED CODE
     // * 몬스터는 아이템과 달리 내부에 만들어줄 객체가 너무 많기 때문에, 유니티에서 컴파일 시점에 만들어 둠. 
     // * 아래 메서드는 몬스터 풀을 런타임에 만들어주지만, 안의 모든 컴포넌트를 모두 코드로 만들기엔 너무 많은 것 같아 포기함.
 
@@ -85,6 +88,7 @@ class MonsterPool : MonoBehaviour
     //    cube.GetComponent<MeshRenderer>().materials = monsterModel[_index].GetComponentInChildren<SkinnedMeshRenderer>().sharedMaterials;
     //    cube.GetComponent<MeshFilter>().mesh = monsterModel[_index].GetComponentInChildren<SkinnedMeshRenderer>().sharedMesh;
     //}
+    #endregion
 
     public void GenerateMonster()
     {

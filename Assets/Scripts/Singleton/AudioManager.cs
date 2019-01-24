@@ -49,4 +49,9 @@ public class AudioManager : MonoBehaviour
         mSource.Pause();
     }
 
+    public void Mute()
+    {
+        mSource.volume = 0;
+    }
+
 }
