@@ -44,4 +44,13 @@ public class Item
         return (Item)this.MemberwiseClone();
     }
 
+    public void clean()
+    {
+        ID = 0;
+        Name = "";
+        Description = "";
+        Rarity = 0;
+        ShopPrice = 0;
+        ItemValue = 0;
+    }
 }

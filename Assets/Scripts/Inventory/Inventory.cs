@@ -8,6 +8,21 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
+    public static Inventory mInstance;
+
+    private void Awake()
+    {
+        if (mInstance != null)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(this.gameObject);
+            mInstance = this;
+        }
+    }
+
     [SerializeField]
     public List<ItemSlot> playerItems = new List<ItemSlot>();
 

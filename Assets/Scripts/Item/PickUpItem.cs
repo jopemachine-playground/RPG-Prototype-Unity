@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class PickUpItem : MonoBehaviour
 {
-    // 일정 시간이 지난 아이템은 삭제해 메모리 버그를 방지
+    // 일정 시간이 지난 아이템은 삭제
     public const float elapsedTime = 15.0f;
 
     public Item item;

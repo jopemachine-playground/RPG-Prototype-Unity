@@ -7,8 +7,6 @@ TagManager:
   - Slot
   - Hotbar
   - Slots
-  - Panel
-  - Timer
   - DraggingItem
   - ItemPool
   - MonsterPool
@@ -20,6 +18,7 @@ TagManager:
   - Pickup Items
   - ItemIconText
   - Menu
+  - EquipmentSystem
   layers:
   - Default
   - TransparentFX
@@ -29,7 +28,7 @@ TagManager:
   - UI
   - 
   - 
-  - PostProcessing
+  - 
   - 
   - 
   - 
@@ -56,4 +55,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: GamingUI
+    uniqueID: 4108993529
+    locked: 0
+  - name: MenuUI
+    uniqueID: 3121600437
+    locked: 0
+  - name: InventoryUI
+    uniqueID: 228395517
     locked: 0
