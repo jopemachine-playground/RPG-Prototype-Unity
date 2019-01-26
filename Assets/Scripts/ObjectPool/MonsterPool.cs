@@ -43,20 +43,20 @@ class MonsterPool : MonoBehaviour
         yield return null;
     }
 
-    private void ParsingJsonMonster(JsonData name)
+    private void ParsingJsonMonster(JsonData monsterData)
     {
-        for (int i = 0; i < name.Count; i++)
+        for (int i = 0; i < monsterData.Count; i++)
         {
-            entireMonsterList[i].ID = (int)(name[i]["ID"]);
-            entireMonsterList[i].Name = (name[i]["Name"]).ToString();
-            entireMonsterList[i].Description = (name[i]["Description"]).ToString();
-            entireMonsterList[i].Type = (MonsterType)((int)(name[i]["MonsterType"]));
-            entireMonsterList[i].MaxHP = (int)(name[i]["MaxHP"]);
+            entireMonsterList[i].ID = (int)(monsterData[i]["ID"]);
+            entireMonsterList[i].Name = (monsterData[i]["Name"]).ToString();
+            entireMonsterList[i].Description = (monsterData[i]["Description"]).ToString();
+            entireMonsterList[i].Type = (MonsterType)((int)(monsterData[i]["MonsterType"]));
+            entireMonsterList[i].MaxHP = (int)(monsterData[i]["MaxHP"]);
             entireMonsterList[i].currentHP = entireMonsterList[i].MaxHP;
-            entireMonsterList[i].AttackValue = (int)(name[i]["AttackValue"]);
-            entireMonsterList[i].DefenceValue = (int)(name[i]["DefenceValue"]);
-            entireMonsterList[i].ExperienceValue = (int)(name[i]["ExperienceValue"]);
-            entireMonsterList[i].Speed = (int)(name[i]["Speed"]);
+            entireMonsterList[i].AttackValue = (int)(monsterData[i]["AttackValue"]);
+            entireMonsterList[i].DefenceValue = (int)(monsterData[i]["DefenceValue"]);
+            entireMonsterList[i].ExperienceValue = (int)(monsterData[i]["ExperienceValue"]);
+            entireMonsterList[i].Speed = (int)(monsterData[i]["Speed"]);
             entireMonsterList[i].MonsterModel = monsterModel[i];
 
             // MakeMonsterPool(i, entireMonsterList[i].ID);
@@ -64,6 +64,16 @@ class MonsterPool : MonoBehaviour
 
     }
     #endregion
+
+    public Monster getMonsterByID(int id)
+    {
+        for (int i = 0; i < entireMonsterList.Count; i++)
+        {
+            if (entireMonsterList[i].ID == id)
+                return entireMonsterList[i].getCopy();
+        }
+        return null;
+    }
 
     #region UNUSED CODE
     // * 몬스터는 아이템과 달리 내부에 만들어줄 객체가 너무 많기 때문에, 유니티에서 컴파일 시점에 만들어 둠. 

@@ -157,7 +157,7 @@ public class CharacterControl : MonoBehaviour
             mb_IsGrounded &&
             mb_IsDashAttack != true)
         {
-            m_Rigidbody.velocity = new Vector3(0, 0, 0);
+            m_Rigidbody.velocity = Vector3.zero;
             m_Animator.SetInteger("AttackState", 1);
         }
 
