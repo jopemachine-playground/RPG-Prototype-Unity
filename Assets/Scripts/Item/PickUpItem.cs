@@ -10,6 +10,7 @@ public class PickUpItem : MonoBehaviour
     public Item item;
     private Inventory inv;
     private GameObject player;
+    private Light light;
 
     private void Awake()
     {
@@ -20,7 +21,11 @@ public class PickUpItem : MonoBehaviour
 
     private void Start()
     {
-        Invoke("ItemDestroy", elapsedTime);
+        light = GetComponent<Light>();
+        light.type = LightType.Point;
+        light.range = 4;
+
+        Invoke("DestroyByTimeElapse", elapsedTime);
     }
 
     // 땅에 떨어진 Pickupitem 객체와 플레이어가 충돌하면 플레이어의 아이템이 되고
@@ -37,15 +42,17 @@ public class PickUpItem : MonoBehaviour
         }
     }
 
-    private void ItemDestroy()
+    // 아이템을 움직이게 해, 애니메이션 처럼 보이게 함.
+    private void Update()
+    {
+        transform.Rotate(45 * Time.deltaTime, 90 * Time.deltaTime, 0);
+    }
+
+    public void DestroyByTimeElapse()
     {
         Destroy(this.gameObject);
     }
 
-    public PickUpItem(Item _item)
-    {
-        item = _item;
-    }
 
 
 }

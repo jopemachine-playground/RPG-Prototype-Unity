@@ -89,19 +89,20 @@ public class ItemPool : MonoBehaviour
     #region Make Item Pool
     private void MakePickUpItemPool(int _index, int _ID)
     {
-        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        cube.name = "" + _ID;
-        cube.SetActive(false);
-        cube.AddComponent<Rigidbody>();
-        cube.AddComponent<PickUpItem>();
-        cube.GetComponent<PickUpItem>().item = entireItemList[_index];
+        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        sphere.name = "" + _ID;
+        sphere.SetActive(false);
+        sphere.AddComponent<PickUpItem>();
+        sphere.AddComponent<Rigidbody>();
+        sphere.AddComponent<Light>();
+        sphere.GetComponent<PickUpItem>().item = entireItemList[_index];
 
         // Item Pool 아래에 PickUpItem 들을 미리 생성
-        cube.transform.parent = GameObject.FindGameObjectWithTag("ItemPool").transform;
-       
+        sphere.transform.parent = GameObject.FindGameObjectWithTag("ItemPool").transform;
+
         // Renderer 내 Material 배열 교체.
-        cube.GetComponent<Renderer>().materials = entireItemList[_index].ItemModel.GetComponent<Renderer>().sharedMaterials;
-        cube.GetComponent<MeshFilter>().mesh = entireItemList[_index].ItemModel.GetComponent<MeshFilter>().sharedMesh;
+        sphere.GetComponent<Renderer>().materials = entireItemList[_index].ItemModel.GetComponent<Renderer>().sharedMaterials;
+        sphere.GetComponent<MeshFilter>().mesh = entireItemList[_index].ItemModel.GetComponent<MeshFilter>().sharedMesh;
     }
 
     public void GeneratePickUpItem(Vector3 _genPoint, Quaternion _genRotate, int _ID)

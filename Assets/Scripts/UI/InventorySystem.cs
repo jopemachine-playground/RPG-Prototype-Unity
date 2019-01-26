@@ -9,8 +9,9 @@ public class InventorySystem : MonoBehaviour
 {
 
     public Image[] itemImage;
-
     public Text[] itemText;
+
+    public Text moneyText;
 
     // GameManager에서 초기화
     public void Initialize()
@@ -28,6 +29,8 @@ public class InventorySystem : MonoBehaviour
             itemImage[i] = itemIcon.GetComponent<Image>();
             itemText[i] = itemIconText.GetComponent<Text>();
         }
+
+        moneyText = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").Find("Money Text").Find("Text").gameObject.GetComponent<Text>();
 
     }
 
@@ -68,8 +71,16 @@ public class InventorySystem : MonoBehaviour
 
     }
 
+    public void moneyUpdate()
+    {
+        moneyText.text = PlayerInfo.mInstance.player.Money.ToString();
+    }
 
-
+    private void Update()
+    {
+        ItemIconUpdate();
+        moneyUpdate();
+    }
 
 }
 

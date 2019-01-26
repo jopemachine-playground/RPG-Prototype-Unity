@@ -49,9 +49,11 @@ public class PlayerInfoSystem: MonoBehaviour
     {
         if (player.ExperienceValue > LevelInfo.getMaxExp(player.Level))
         {
-            SliderMaxValueChange();
             player.ExperienceValue -= LevelInfo.getMaxExp(player.Level);
             player.Level++;
+            player.currentHP = LevelInfo.getMAXHP(player.Level);
+            player.currentMP = LevelInfo.getMAXMP(player.Level);
+            SliderMaxValueChange();
             LevelText.text = "Lv." + (player.Level).ToString();
         }
 

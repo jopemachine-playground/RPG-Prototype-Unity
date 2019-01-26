@@ -28,6 +28,7 @@ public class Inventory : MonoBehaviour
 
     public InventorySystem invSystem;
 
+
     public void Initialize()
     {
         // 비활성화 되어 있는 컴포넌트에 접근할 경우, 우선 활성화된 부모 컴포넌트에 접근해야 한다.
@@ -38,30 +39,10 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < SlotValue; i++)
         {
             ItemSlot itemSlot = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").Find("Item Grid Slot").GetChild(i).gameObject.GetComponent<ItemSlot>();
+            itemSlot.IndexItemInList = i;
             playerItems[i] = itemSlot;
         }
     }
-
-    #region Item Use
-    private void ConsumeItem(Item item)
-    {
-        Debug.Assert(item.ItemType == ItemType.UseAble, "Error - Item Use Bug Occured. - ConsumeItem() In Inventory.cs");
-
-    }
-
-    private void EquipItem(Item item)
-    {
-        Debug.Assert(item.ItemType == ItemType.EquipAble, "Error - Item Use Bug Occured. - EquipItem() In Inventory.cs");
-
-    }
-
-    private void UnEquipItem(Item item)
-    {
-        Debug.Assert(item.ItemType == ItemType.EquipAble, "Error - Item Use Bug Occured. - UnEquipItem() In Inventory.cs");
-
-
-    }
-    #endregion
 
     public void ItemPickup(Item item)
     {
@@ -90,23 +71,21 @@ public class Inventory : MonoBehaviour
         playerItems[checkIndex].Item = item;
         playerItems[checkIndex].ItemExist = true;
 
-        updateItemIndex();
-        invSystem.ItemIconUpdate();
     }
 
-    #region Update
+    #region Get Item Info
 
-    public void updateItemIndex()
+    public int getItemIndexByID(int id)
     {
         for (int i = 0; i < playerItems.Count; i++)
         {
-            playerItems[i].Item.IndexItemInList = i;
+            if (playerItems[i].Item.ID == id)
+                return playerItems[i].IndexItemInList;
         }
+        
+        return -1;
     }
 
-    #endregion
-
-    #region Get Item Info
     public Item getItemByID(int id)
     {
         for (int i = 0; i < playerItems.Count; i++)

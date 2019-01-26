@@ -16,6 +16,8 @@ public class ItemSlot : MonoBehaviour, IPointerExitHandler, IPointerClickHandler
 
     public bool ItemExist;
 
+    public int IndexItemInList;
+
     [SerializeField]
     public Button button;
 
@@ -26,7 +28,7 @@ public class ItemSlot : MonoBehaviour, IPointerExitHandler, IPointerClickHandler
     public static Tooltip tooltip;
     public static DraggingItem draggingItem;
 
-    private Vector3 DistanceFromMouse;
+    private static Vector3 TooltipDistanceFromMouse;
 
     #region Pointer Event
     // ToolTip을 활성화
@@ -47,7 +49,7 @@ public class ItemSlot : MonoBehaviour, IPointerExitHandler, IPointerClickHandler
 
     // 오른쪽 클릭을 처리. 오른쪽 클릭 시 아이템을 삭제할 것이냐고 묻는 창을 띄움.
     public void OnPointerClick(PointerEventData data)
-    { 
+    {
         if (data.button == PointerEventData.InputButton.Right && panel.gameObject.active == false)
         {
             ShowDeletePanel();
@@ -57,24 +59,33 @@ public class ItemSlot : MonoBehaviour, IPointerExitHandler, IPointerClickHandler
     // Dragging Item으로 복사
     public void OnBeginDrag(PointerEventData data)
     {
-        if (!ItemExist)
+        if (ItemExist == false)
         {
             return;
         }
         draggingItem.item = this.Item.getCopy();
-        draggingItem.indexInInventory = this.Item.IndexItemInList;
+        draggingItem.IsExist = this.ItemExist;
+        draggingItem.indexInInventory = this.IndexItemInList;
         draggingItem.itemIcon.sprite = draggingItem.item.ItemIcon;
+        draggingItem.DragFromItemSlot = true;
     }
 
     public void OnDrag(PointerEventData data)
     {
-        draggingItem.gameObject.SetActive(true);
+        if (ItemExist == false)
+        {
+            return;
+        }
+
+        draggingItem.itemIcon.enabled = true;
         draggingItem.pointerOffset.position = data.position;
     }
 
     public void OnEndDrag(PointerEventData data)
     {
-        draggingItem.gameObject.SetActive(false);
+        draggingItem.itemIcon.enabled = false;
+        draggingItem.item.clean();
+        draggingItem.DragFromItemSlot = false;
     }
 
     #endregion
@@ -82,7 +93,7 @@ public class ItemSlot : MonoBehaviour, IPointerExitHandler, IPointerClickHandler
     void Start()
     {
         rect = GetComponent<RectTransform>();
-        DistanceFromMouse = new Vector3(20, -40);
+        TooltipDistanceFromMouse = new Vector3(20, -40);
         var doubleLeftClickStream = Observable.EveryUpdate().Where(_ => Input.GetMouseButtonDown(0));
         var rightClickStream = Observable.EveryUpdate().Where(_ => Input.GetMouseButtonDown(1));
 
@@ -112,8 +123,10 @@ public class ItemSlot : MonoBehaviour, IPointerExitHandler, IPointerClickHandler
             .Where(xs => xs.Count >= 2)
             .Subscribe(_ =>
             {
-                Debug.Log("두 번 클릭");
+                UseItem();
             });
+
+        
     }
 
     private void Update()
@@ -122,16 +135,25 @@ public class ItemSlot : MonoBehaviour, IPointerExitHandler, IPointerClickHandler
         {
             if (!ItemExist) return;
 
-            tooltip.transform.position = Input.mousePosition + DistanceFromMouse;
+            tooltip.transform.position = Input.mousePosition + TooltipDistanceFromMouse;
             tooltip.ActivateTooltip();
         }
 
     }
 
+    // 아이템을 오른쪽 클릭하거나 드래그로 바깥에 끌면, 삭제 질의가 나온다.
     public void ShowDeletePanel()
     {
         panel.DeleteSlot = this;
         panel.gameObject.SetActive(true);
     }
+
+    public void UseItem()
+    {
+        Item.use();
+
+        if (Item.ItemValue == 0) this.ItemExist = false;
+    }
+
 
 }

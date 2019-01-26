@@ -32,9 +32,6 @@ public class Item
     // 아이템 타입. 장비 아이템, 소비용 아이템, 퀘스트용 아이템 등. ItemType 참조.
     public ItemType ItemType;
 
-    // 인벤토리 내 인덱스 번호
-    public int IndexItemInList;
-
     // 아이템이 갖고 있을 성질들
     [SerializeField]
     public List<ItemAttribute> ItemAttributes = new List<ItemAttribute>();
@@ -52,5 +49,114 @@ public class Item
         Rarity = 0;
         ShopPrice = 0;
         ItemValue = 0;
+        ItemType = 0;
     }
+
+    #region Item Use
+    public void use()
+    {
+        Debug.Log(LevelInfo.getMAXMP(PlayerInfo.mInstance.player.Level));
+        Debug.Log(PlayerInfo.mInstance.player.currentMP);
+        Debug.Log(PlayerInfo.mInstance.player.Level);
+        Debug.Log(PlayerInfo.mInstance.player.currentHP == LevelInfo.getMAXHP(PlayerInfo.mInstance.player.Level));
+
+        if (ItemType == ItemType.UseAble)
+        {
+            bool used = false;
+
+            for (int i = 0; i < ItemAttributes.Count; i++)
+            {
+                switch (ItemAttributes[i].AttributeName)
+                {
+                    #region heal_hp
+                    case "heal_hp":
+                        {
+                            if (PlayerInfo.mInstance.player.currentHP == LevelInfo.getMAXHP(PlayerInfo.mInstance.player.Level))
+                            {
+                                continue;
+                            }
+                            else if (PlayerInfo.mInstance.player.currentHP + ItemAttributes[i].AttributeValue >= LevelInfo.getMAXHP(PlayerInfo.mInstance.player.Level))
+                            {
+                                Debug.Log(ItemAttributes[i].AttributeValue);
+                                PlayerInfo.mInstance.player.currentHP = LevelInfo.getMAXHP(PlayerInfo.mInstance.player.Level);
+                                used = true;
+                            }
+                            else if (PlayerInfo.mInstance.player.currentHP + ItemAttributes[i].AttributeValue < LevelInfo.getMAXHP(PlayerInfo.mInstance.player.Level))
+                            {
+                                PlayerInfo.mInstance.player.currentHP += ItemAttributes[i].AttributeValue;
+                                used = true;
+                            }
+                            break;
+                        }
+                    #endregion
+
+                    #region heal_mp
+                    case "heal_mp":
+                        {
+                            if (PlayerInfo.mInstance.player.currentMP == LevelInfo.getMAXMP(PlayerInfo.mInstance.player.Level))
+                            {
+                                continue;
+                            }
+                            else if (PlayerInfo.mInstance.player.currentMP + ItemAttributes[i].AttributeValue >= LevelInfo.getMAXMP(PlayerInfo.mInstance.player.Level))
+                            {
+                                PlayerInfo.mInstance.player.currentMP = LevelInfo.getMAXMP(PlayerInfo.mInstance.player.Level);
+                                used = true;
+                            }
+                            else if (PlayerInfo.mInstance.player.currentMP + ItemAttributes[i].AttributeValue < LevelInfo.getMAXMP(PlayerInfo.mInstance.player.Level))
+                            {
+                                PlayerInfo.mInstance.player.currentMP += ItemAttributes[i].AttributeValue;
+                                used = true;
+                            }
+                            
+                            break;
+                        }
+                    #endregion
+
+                    #region get_item
+                    case "get_item":
+                        {
+                            break;
+                        }
+                    #endregion
+
+                    default: Debug.Assert(false, "Attribute does not exist!"); break;
+
+                }
+            }
+
+            if (used == true)
+            {
+                if (ItemValue == 1)
+                {
+                    clean();
+                }
+                else
+                {
+                    ItemValue--;
+                }
+
+            }
+
+
+        }
+
+        if (ItemType == ItemType.EquipAble)
+        {
+            for (int i = 0; i < ItemAttributes.Count; i++)
+            {
+                switch (ItemAttributes[i].AttributeName)
+                {
+
+                    case "adj_atk": PlayerInfo.mInstance.player.currentHP += ItemAttributes[i].AttributeValue; break;
+
+                    case "adj_def": PlayerInfo.mInstance.player.currentMP += ItemAttributes[i].AttributeValue; break;
+
+                    default: Debug.Assert(false, "Attribute does not exist!"); break;
+
+                }
+            }
+        }
+
+    }
+    #endregion 
 }

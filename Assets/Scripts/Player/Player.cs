@@ -23,11 +23,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     public int DefenceValue;
 
-    private void Awake()
-    {
-
-    }
-
     public int Damaged(int monsterAtk)
     {
         int resultDamage;

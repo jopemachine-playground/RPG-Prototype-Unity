@@ -42,9 +42,9 @@ public class ItemSpawnManager : MonoBehaviour
 
                 int index = UnityEngine.Random.Range(0, SpawnPoint.Length);
 
-                float probability = ((float)UnityEngine.Random.Range(0, 100)) / 100f;
+                float probability = ((float)UnityEngine.Random.Range(0, 10000)) / 10000f;
 
-                int ID = ReturnID(probability, index, 0.01f);
+                int ID = ReturnID(probability, index, 0.0001f);
 
                 ItemPool.mInstance.GeneratePickUpItem(SpawnPoint[index].transform.position, Quaternion.identity, ID);
             }
