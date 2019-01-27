@@ -285,3 +285,9 @@ C:\Unity-Chan\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
 C:\Unity-Chan\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 C:\Unity-Chan\obj\Debug\Assembly-CSharp.dll
 C:\Unity-Chan\obj\Debug\Assembly-CSharp.pdb
+C:\Unity-Chan\Temp\bin\Debug\Boo.Lang.dll
+C:\Unity-Chan\Temp\bin\Debug\UnityEditor.UI.dll
+C:\Unity-Chan\Temp\bin\Debug\UniRx.pdb
+C:\Unity-Chan\Temp\bin\Debug\UniRx.Async.pdb
+C:\Unity-Chan\Temp\bin\Debug\UniRx.Async.Editor.pdb
+C:\Unity-Chan\Temp\bin\Debug\UnityEditor.UI.xml
