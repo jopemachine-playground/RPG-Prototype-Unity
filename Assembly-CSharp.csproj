@@ -194,10 +194,11 @@
     <Compile Include="Assets\Scripts\Map\MonsterSpawnPoint.cs" />
     <Compile Include="Assets\Scripts\Map\Portal.cs" />
     <Compile Include="Assets\Scripts\Monster\Behavior\MonsterAttack.cs" />
+    <Compile Include="Assets\Scripts\Monster\Behavior\MonsterChasing.cs" />
     <Compile Include="Assets\Scripts\Monster\Behavior\MonsterDamaged.cs" />
     <Compile Include="Assets\Scripts\Monster\Behavior\MonsterDashAttack.cs" />
     <Compile Include="Assets\Scripts\Monster\Behavior\MonsterDie.cs" />
-    <Compile Include="Assets\Scripts\Monster\Behavior\MonsterWalk.cs" />
+    <Compile Include="Assets\Scripts\Monster\Behavior\MonsterRoaming.cs" />
     <Compile Include="Assets\Scripts\Monster\Monster.cs" />
     <Compile Include="Assets\Scripts\Monster\MonsterAdapter.cs" />
     <Compile Include="Assets\Scripts\Monster\MonsterControl.cs" />

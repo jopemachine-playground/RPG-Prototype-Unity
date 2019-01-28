@@ -36,7 +36,6 @@ public class MonsterControl : MonoBehaviour
     public MonsterPatrolArea patrolArea;
 
     private static WaitForSeconds CheckingTime;
-    private static WaitForSeconds IdleTime;
 
     private bool IsGrounded;
     private bool IsAttacking;
@@ -46,6 +45,7 @@ public class MonsterControl : MonoBehaviour
     private bool IsDamaged;
 
     private Vector3 movingDirection;
+    private Vector3 nextMovingDirection;
 
     // 바닥 감지 거리
     private float GroundCheckDistance;
@@ -57,12 +57,11 @@ public class MonsterControl : MonoBehaviour
     public float dashAttackDistance;
 
     // Roaming , Idle을 반복하는 시간을 재기 위한 타이머
-    private const float RoamingTime = 6.0f;
+    private const float RoamingTime = 1000.0f;
     private const float Idletime = 3.0f;
     private float RoamingTimer;
 
     private Animator animator;
-
 
     private void Start()
     {
@@ -73,14 +72,11 @@ public class MonsterControl : MonoBehaviour
         nvAgent = GetComponent<NavMeshAgent>();
         AIState = MonsterState.Idle;
         CheckingTime = new WaitForSeconds(0.2f);
-        IdleTime = new WaitForSeconds(1.67f);
-
 
         attackDistance = 2.0f;
         dashAttackDistance = 6.0f;
         detectionDistance = 14.5f;
 
-        nvAgent.speed = 3;
 
         RoamingTimer = 0;
 
@@ -115,7 +111,6 @@ public class MonsterControl : MonoBehaviour
                     AIState = MonsterState.Death;
                     IsDied = true;
                 }
-
             }
 
             // 데미지를 받고 있는 상태가 아닐 때
@@ -157,9 +152,7 @@ public class MonsterControl : MonoBehaviour
             {
                 AIState = MonsterState.Stun;
             }
-
         }
-
     }
 
     IEnumerator MonsterAction()
@@ -174,12 +167,7 @@ public class MonsterControl : MonoBehaviour
             {
                 case MonsterState.Airbone:
                     {
-                        animator.SetBool("IsAttacking", false);
                         animator.SetBool("IsAirDamaged", true);
-                        animator.SetBool("IsDashAttacking", false);
-                        animator.SetBool("IsGrounded", false);
-                        animator.SetBool("IsMoving", false);
-                        animator.SetBool("IsStunned", false);
                         break;
                     }
                 case MonsterState.Attacking:
@@ -191,11 +179,6 @@ public class MonsterControl : MonoBehaviour
                         }
                         nvAgent.ResetPath();
                         animator.SetBool("IsAttacking", true);
-                        animator.SetBool("IsAirDamaged", true);
-                        animator.SetBool("IsDashAttacking", false);
-                        animator.SetBool("IsGrounded", true);
-                        animator.SetBool("IsMoving", false);
-                        animator.SetBool("IsStunned", false);
                         break;
                     }
                 case MonsterState.Chasing:
@@ -203,12 +186,8 @@ public class MonsterControl : MonoBehaviour
                         nvAgent.ResetPath();
                         nvAgent.SetDestination(playerTr.position);
 
-                        animator.SetBool("IsAttacking", false);
-                        animator.SetBool("IsAirDamaged", true);
-                        animator.SetBool("IsDashAttacking", false);
-                        animator.SetBool("IsGrounded", true);
-                        animator.SetBool("IsMoving", true);
-                        animator.SetBool("IsStunned", false);
+                        animator.SetBool("IsChasing", true);
+
                         break;
                     }
                 case MonsterState.Damaged:
@@ -216,10 +195,8 @@ public class MonsterControl : MonoBehaviour
                         nvAgent.ResetPath();
                         monsterTr.LookAt(playerTr);
 
-                        animator.SetBool("IsAttacking", false);
-                        animator.SetBool("IsDashAttacking", false);
                         animator.SetBool("IsDamaged", true);
-                        animator.SetBool("IsMoving", false);
+
                         break;
                     }
 
@@ -228,12 +205,8 @@ public class MonsterControl : MonoBehaviour
                         monsterTr.LookAt(playerTr);
                         nvAgent.SetDestination(playerTr.position);
 
-                        animator.SetBool("IsAttacking", false);
-                        animator.SetBool("IsAirDamaged", false);
                         animator.SetBool("IsDashAttacking", true);
-                        animator.SetBool("IsGrounded", true);
-                        animator.SetBool("IsMoving", false);
-                        animator.SetBool("IsStunned", false);
+
                         break;
                     }
                 case MonsterState.Death:
@@ -246,20 +219,19 @@ public class MonsterControl : MonoBehaviour
                     {
                         RoamingTimer += Time.deltaTime;
 
+                        animator.SetBool("IsChasing", false);
+                        animator.SetBool("IsIdle", true);
+
                         if (RoamingTimer > Idletime)
                         {
                             movingDirection = RandomDecideRoamingDirection();
+                            nextMovingDirection = RandomDecideRoamingDirection();
                             RoamingTimer = 0;
                             AIState = MonsterState.Roaming;
                         }
 
                         nvAgent.ResetPath();
-                        animator.SetBool("IsAttacking", false);
-                        animator.SetBool("IsAirDamaged", false);
-                        animator.SetBool("IsDashAttacking", false);
-                        animator.SetBool("IsGrounded", true);
-                        animator.SetBool("IsMoving", false);
-                        animator.SetBool("IsStunned", false);
+
                         break;
                     }
 
@@ -267,34 +239,29 @@ public class MonsterControl : MonoBehaviour
                     {
                         RoamingTimer += Time.deltaTime;
 
+                        animator.SetBool("IsChasing", false);
+                        animator.SetBool("IsIdle", false);
+
                         if (RoamingTimer > RoamingTime)
                         {
                             RoamingTimer = 0;
                             AIState = MonsterState.Idle;
                         }
 
-                        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Walk"))
+                        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Roaming"))
                         {
                             monsterTr.LookAt(movingDirection);
                             nvAgent.ResetPath();
                             nvAgent.SetDestination(movingDirection);
+
+                            if (isAtTargetLocation(nvAgent, movingDirection, nvAgent.stoppingDistance))
+                            {
+                                movingDirection = nextMovingDirection;
+                            }
                         }
 
-                        // 아래 코드는 도착지에 도착한 경우 Idle 상태로 미리 만들어 놓으려는 의도였으나 작동하지 않음.
-                        // 나중에 도전해 볼 것
+                        animator.SetBool("IsRoaming", true);
 
-                        //if (nvAgent.remainingDistance <= nvAgent.stoppingDistance)
-                        //{
-                        //    movingDirection = RandomDecideRoamingDirection();
-                        //    monsterTr.LookAt(movingDirection);
-                        //    nvAgent.SetDestination(movingDirection);
-                        //}
-                        animator.SetBool("IsAttacking", false);
-                        animator.SetBool("IsAirDamaged", false);
-                        animator.SetBool("IsDashAttacking", false);
-                        animator.SetBool("IsGrounded", true);
-                        animator.SetBool("IsMoving", true);
-                        animator.SetBool("IsStunned", false);
                         break;
                     }
 
@@ -302,14 +269,19 @@ public class MonsterControl : MonoBehaviour
                     {
                         nvAgent.ResetPath();
 
-                        animator.SetBool("IsAttacking", false);
-                        animator.SetBool("IsAirDamaged", false);
-                        animator.SetBool("IsDashAttacking", false);
-                        animator.SetBool("IsGrounded", true);
-                        animator.SetBool("IsMoving", false);
                         animator.SetBool("IsStunned", true);
                         break;
                     }
+
+            }
+
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            {
+                nvAgent.velocity = Vector3.zero;
+            }
+            else
+            {
+                nvAgent.speed = 6;
             }
 
             yield return null;
@@ -340,5 +312,24 @@ public class MonsterControl : MonoBehaviour
             IsGrounded = false;
         }
     }
+
+    // remaining Distance가 왜 0인지 이해가 안 되서, 구글에 검색하다 찾음
+    private bool isAtTargetLocation(NavMeshAgent navMeshAgent, Vector3 moveTarget, float minDistance)
+    {
+        float dist;
+
+        //-- If navMeshAgent is still looking for a path then use line test
+        if (navMeshAgent.pathPending)
+        {
+            dist = Vector3.Distance(transform.position, moveTarget);
+        }
+        else
+        {
+            dist = navMeshAgent.remainingDistance;
+        }
+
+        return dist <= minDistance;
+    }
+
 
 }
