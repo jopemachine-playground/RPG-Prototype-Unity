@@ -55,10 +55,10 @@ public class Item
     #region Item Use
     public void use()
     {
-        Debug.Log(LevelInfo.getMAXMP(PlayerInfo.mInstance.player.Level));
+        Debug.Log(LevelInfo.getMaxMP(PlayerInfo.mInstance.player.Level));
         Debug.Log(PlayerInfo.mInstance.player.currentMP);
         Debug.Log(PlayerInfo.mInstance.player.Level);
-        Debug.Log(PlayerInfo.mInstance.player.currentHP == LevelInfo.getMAXHP(PlayerInfo.mInstance.player.Level));
+        Debug.Log(PlayerInfo.mInstance.player.currentHP == LevelInfo.getMaxHP(PlayerInfo.mInstance.player.Level));
 
         if (ItemType == ItemType.UseAble)
         {
@@ -71,17 +71,17 @@ public class Item
                     #region heal_hp
                     case "heal_hp":
                         {
-                            if (PlayerInfo.mInstance.player.currentHP == LevelInfo.getMAXHP(PlayerInfo.mInstance.player.Level))
+                            if (PlayerInfo.mInstance.player.currentHP == LevelInfo.getMaxHP(PlayerInfo.mInstance.player.Level))
                             {
                                 continue;
                             }
-                            else if (PlayerInfo.mInstance.player.currentHP + ItemAttributes[i].AttributeValue >= LevelInfo.getMAXHP(PlayerInfo.mInstance.player.Level))
+                            else if (PlayerInfo.mInstance.player.currentHP + ItemAttributes[i].AttributeValue >= LevelInfo.getMaxHP(PlayerInfo.mInstance.player.Level))
                             {
                                 Debug.Log(ItemAttributes[i].AttributeValue);
-                                PlayerInfo.mInstance.player.currentHP = LevelInfo.getMAXHP(PlayerInfo.mInstance.player.Level);
+                                PlayerInfo.mInstance.player.currentHP = LevelInfo.getMaxHP(PlayerInfo.mInstance.player.Level);
                                 used = true;
                             }
-                            else if (PlayerInfo.mInstance.player.currentHP + ItemAttributes[i].AttributeValue < LevelInfo.getMAXHP(PlayerInfo.mInstance.player.Level))
+                            else if (PlayerInfo.mInstance.player.currentHP + ItemAttributes[i].AttributeValue < LevelInfo.getMaxHP(PlayerInfo.mInstance.player.Level))
                             {
                                 PlayerInfo.mInstance.player.currentHP += ItemAttributes[i].AttributeValue;
                                 used = true;
@@ -93,16 +93,16 @@ public class Item
                     #region heal_mp
                     case "heal_mp":
                         {
-                            if (PlayerInfo.mInstance.player.currentMP == LevelInfo.getMAXMP(PlayerInfo.mInstance.player.Level))
+                            if (PlayerInfo.mInstance.player.currentMP == LevelInfo.getMaxMP(PlayerInfo.mInstance.player.Level))
                             {
                                 continue;
                             }
-                            else if (PlayerInfo.mInstance.player.currentMP + ItemAttributes[i].AttributeValue >= LevelInfo.getMAXMP(PlayerInfo.mInstance.player.Level))
+                            else if (PlayerInfo.mInstance.player.currentMP + ItemAttributes[i].AttributeValue >= LevelInfo.getMaxMP(PlayerInfo.mInstance.player.Level))
                             {
-                                PlayerInfo.mInstance.player.currentMP = LevelInfo.getMAXMP(PlayerInfo.mInstance.player.Level);
+                                PlayerInfo.mInstance.player.currentMP = LevelInfo.getMaxMP(PlayerInfo.mInstance.player.Level);
                                 used = true;
                             }
-                            else if (PlayerInfo.mInstance.player.currentMP + ItemAttributes[i].AttributeValue < LevelInfo.getMAXMP(PlayerInfo.mInstance.player.Level))
+                            else if (PlayerInfo.mInstance.player.currentMP + ItemAttributes[i].AttributeValue < LevelInfo.getMaxMP(PlayerInfo.mInstance.player.Level))
                             {
                                 PlayerInfo.mInstance.player.currentMP += ItemAttributes[i].AttributeValue;
                                 used = true;

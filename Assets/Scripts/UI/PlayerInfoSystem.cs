@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 
+// 플레이어의 현재 HP, 경험치 등의 정보를 실제로 UI에 표시하는 클래스
 
 public class PlayerInfoSystem: MonoBehaviour
 {
@@ -37,9 +38,9 @@ public class PlayerInfoSystem: MonoBehaviour
 
     private void Update()
     {
-        HPText.text = (player.currentHP).ToString() + " / " + LevelInfo.getMAXHP(player.Level);
+        HPText.text = (player.currentHP).ToString() + " / " + player.MaxHP;
         HPSlider.value = player.currentHP;
-        MPText.text = (player.currentMP).ToString() + " / " + LevelInfo.getMAXMP(player.Level);
+        MPText.text = (player.currentMP).ToString() + " / " + player.MaxMP;
         MPSlider.value = player.currentMP;
         EXPSlider.value = player.ExperienceValue;
         LevelUP();
@@ -51,18 +52,19 @@ public class PlayerInfoSystem: MonoBehaviour
         {
             player.ExperienceValue -= LevelInfo.getMaxExp(player.Level);
             player.Level++;
-            player.currentHP = LevelInfo.getMAXHP(player.Level);
-            player.currentMP = LevelInfo.getMAXMP(player.Level);
+            player.currentHP = player.MaxHP;
+            player.currentMP = player.MaxMP;
             SliderMaxValueChange();
             LevelText.text = "Lv." + (player.Level).ToString();
+            player.playerInfoUpdate();
         }
 
     }
 
     private void SliderMaxValueChange()
     {
-        HPSlider.maxValue = LevelInfo.getMAXHP(player.Level);
-        MPSlider.maxValue = LevelInfo.getMAXMP(player.Level);
+        HPSlider.maxValue = player.MaxHP;
+        MPSlider.maxValue = player.MaxMP;
         EXPSlider.maxValue = LevelInfo.getMaxExp(player.Level);
     }
 

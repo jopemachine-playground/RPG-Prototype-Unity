@@ -7,27 +7,6 @@ public class MonsterControl : MonoBehaviour
 {
     private Monster monster;
 
-    public enum MonsterState
-    {
-        Idle, // 대기 상태. Wait00
-
-        Chasing, // 플레이어 추적 상태. OverlapSphere 으로 Trigger 발동되면 Chasing 으로 변화하되, 탐색 범위는 몬스터의 앞 쪽을 기준으로 해서 반구를 그려야 됨.
-
-        Roaming, // 랜덤으로 운동. 이동 상태는 랜덤으로 정해지되, 자연스러운 움직임을 위해, 방향이 꺽이지 않고
-
-        Attacking, // 공격 상태
-
-        DashAttacking,
-
-        Airbone, // 공중에 떠 있는 상태
-
-        Stun, // 데미지를 받으면 일정 확률로 스턴 상태에 돌입
-
-        Damaged, // 데미지를 받고 있는 상태
-
-        Death, // 죽어 있는 상태
-    }
-
     public Transform monsterTr;
     public Transform playerTr;
     public NavMeshAgent nvAgent;
@@ -42,7 +21,6 @@ public class MonsterControl : MonoBehaviour
     private bool IsDashAttack;
     private bool IsDied;
     private bool IsStuned;
-    private bool IsDamaged;
 
     private Vector3 movingDirection;
     private Vector3 nextMovingDirection;
@@ -54,10 +32,11 @@ public class MonsterControl : MonoBehaviour
     // 탐지 거리
     public float detectionDistance;
     // 대쉬 어택 거리
-    public float dashAttackDistance;
+    public float dashAttackMinDistance;
+    public float dashAttackMaxDistance;
 
     // Roaming , Idle을 반복하는 시간을 재기 위한 타이머
-    private const float RoamingTime = 1000.0f;
+    private const float RoamingTime = 6.0f;
     private const float Idletime = 3.0f;
     private float RoamingTimer;
 
@@ -74,9 +53,9 @@ public class MonsterControl : MonoBehaviour
         CheckingTime = new WaitForSeconds(0.2f);
 
         attackDistance = 2.0f;
-        dashAttackDistance = 6.0f;
+        dashAttackMinDistance = 10.0f;
+        dashAttackMaxDistance = 12.0f;
         detectionDistance = 14.5f;
-
 
         RoamingTimer = 0;
 
@@ -91,26 +70,16 @@ public class MonsterControl : MonoBehaviour
         {
             yield return CheckingTime;
 
-            // 데미지를 받고 있는 상태
-            if (IsDamaged == true)
+            if (monster.currentHP < 0)
             {
-                // 지상에서 공격 받음
-                if (IsGrounded == true)
-                {
-                    AIState = MonsterState.Damaged;
-                }
-                // 공중에서 공격 받음
-                else
-                {
-                    AIState = MonsterState.Airbone;
-                    IsStuned = false;
-                }
+                AIState = MonsterState.Death;
+                IsDied = true;
+            }
 
-                if (monster.currentHP < 0)
-                {
-                    AIState = MonsterState.Death;
-                    IsDied = true;
-                }
+            // 데미지를 받는 State는 OnTriggerEvent로 따로 처리한다
+            if (AIState == MonsterState.Damaged || AIState == MonsterState.Airbone)
+            {
+                yield return null;
             }
 
             // 데미지를 받고 있는 상태가 아닐 때
@@ -120,13 +89,14 @@ public class MonsterControl : MonoBehaviour
                 float DistanceFromPlayer = Vector3.Distance(playerTr.position, monsterTr.position);
 
                 // 플레이어가 탐지 거리 내로 들어오면 추적 시작
-                if (DistanceFromPlayer < detectionDistance && DistanceFromPlayer > dashAttackDistance)
+                if ((DistanceFromPlayer < detectionDistance && DistanceFromPlayer > dashAttackMaxDistance) ||
+                    (DistanceFromPlayer > attackDistance && DistanceFromPlayer < dashAttackMinDistance))
                 {
                     AIState = MonsterState.Chasing;
                 }
 
                 // 플레이어가 애매한 거리에 있으면 대쉬 공격으로 거리를 좁히며 공격
-                else if (DistanceFromPlayer < dashAttackDistance && DistanceFromPlayer > attackDistance)
+                else if (DistanceFromPlayer < dashAttackMaxDistance && DistanceFromPlayer > dashAttackMinDistance)
                 {
                     AIState = MonsterState.DashAttacking;
                 }
@@ -163,6 +133,7 @@ public class MonsterControl : MonoBehaviour
 
             animator.SetBool("OnGround", IsGrounded);
 
+            #region Change by AI State
             switch (AIState)
             {
                 case MonsterState.Airbone:
@@ -185,7 +156,7 @@ public class MonsterControl : MonoBehaviour
                     {
                         nvAgent.ResetPath();
                         nvAgent.SetDestination(playerTr.position);
-
+                        monsterTr.LookAt(playerTr);
                         animator.SetBool("IsChasing", true);
 
                         break;
@@ -272,17 +243,25 @@ public class MonsterControl : MonoBehaviour
                         animator.SetBool("IsStunned", true);
                         break;
                     }
-
             }
+
+            #endregion
+
+            #region Change by Animation Play
 
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
             {
                 nvAgent.velocity = Vector3.zero;
             }
-            else
+
+            // 대쉬 어택의 velocity를 높이려면, 애니메이션 시간을 줄여야 한다.
+            // 공격 속도를 조절하려면 Idle의 시간을 조절해야 할 듯?
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Dash Attack"))
             {
-                nvAgent.speed = 6;
+               // nvAgent.velocity *= 1.01f;
             }
+
+            #endregion
 
             yield return null;
         }
@@ -313,7 +292,7 @@ public class MonsterControl : MonoBehaviour
         }
     }
 
-    // remaining Distance가 왜 0인지 이해가 안 되서, 구글에 검색하다 찾음
+    // remaining Distance가 0이 아닐 상황에서도, 왜 계속 0인지 이해가 안 되서, 구글에 검색하다 찾음
     private bool isAtTargetLocation(NavMeshAgent navMeshAgent, Vector3 moveTarget, float minDistance)
     {
         float dist;
@@ -331,5 +310,23 @@ public class MonsterControl : MonoBehaviour
         return dist <= minDistance;
     }
 
+    void OnTriggerEnter(Collider coll)
+    {
+        if (Player.mInstance.state == PlayerState.GroundAttack1 && coll.gameObject.tag == "PlayerLeftLeg")
+        {
+            animator.SetTrigger("IsDamaged");
+        }
+
+        if (Player.mInstance.state == PlayerState.GroundAttack2 && coll.gameObject.tag == "PlayerRightLeg")
+        {
+            animator.SetBool("IsDamaged", true);
+        }
+
+        if (Player.mInstance.state == PlayerState.GroundAttack3 && coll.gameObject.tag == "PlayerLeftLeg")
+        {
+            animator.SetBool("IsDamaged", true);
+        }
+
+    }
 
 }

@@ -5,6 +5,8 @@ using System.Collections;
 using LitJson;
 using System.IO;
 
+// 플레이어의 정보를 세이브, 로드 함
+
 public class PlayerInfo : MonoBehaviour
 {
     static public PlayerInfo mInstance;

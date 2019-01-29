@@ -204,6 +204,7 @@
     <Compile Include="Assets\Scripts\Monster\MonsterControl.cs" />
     <Compile Include="Assets\Scripts\Monster\MonsterList.cs" />
     <Compile Include="Assets\Scripts\Monster\MonsterSpawnManager.cs" />
+    <Compile Include="Assets\Scripts\Monster\MonsterState.cs" />
     <Compile Include="Assets\Scripts\Monster\MonsterType.cs" />
     <Compile Include="Assets\Scripts\ObjectPool\ItemPool.cs" />
     <Compile Include="Assets\Scripts\ObjectPool\MonsterPool.cs" />
@@ -211,11 +212,12 @@
     <Compile Include="Assets\Scripts\Player\Behavior\PlayerGroundAttack1.cs" />
     <Compile Include="Assets\Scripts\Player\Behavior\PlayerGroundAttack2.cs" />
     <Compile Include="Assets\Scripts\Player\Behavior\PlayerGroundAttack3.cs" />
-    <Compile Include="Assets\Scripts\Player\CharacterCam.cs" />
-    <Compile Include="Assets\Scripts\Player\CharacterControl.cs" />
     <Compile Include="Assets\Scripts\Player\LevelInfo.cs" />
     <Compile Include="Assets\Scripts\Player\Player.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerCamera.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerControl.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerInfo.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerState.cs" />
     <Compile Include="Assets\Scripts\Singleton\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Singleton\GameManager.cs" />
     <Compile Include="Assets\Scripts\Singleton\MusicManager.cs" />

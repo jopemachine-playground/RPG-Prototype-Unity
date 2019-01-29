@@ -16,7 +16,6 @@ public class InventorySystem : MonoBehaviour
     // GameManager에서 초기화
     public void Initialize()
     {
-
         int SlotValue = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").Find("Item Grid Slot").childCount;
 
         itemImage = new Image[SlotValue];

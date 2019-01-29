@@ -567,7 +567,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.1448192
   m_TransitionOffset: 0.0052194046
   m_ExitTime: 0.81545293
-  m_HasExitTime: 0
+  m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -1099,7 +1099,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Collapse
+  m_Name: Stand up
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1194,7 +1194,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: c7df2ec8d896a4a15abc7636d440631b, type: 3}
+  m_Motion: {fileID: 7400000, guid: f3f0c03e68108e045bb11d995c0c7274, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1274,7 +1274,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: dbce3ee7956f11b4e8d949e96b6cc8b0, type: 3}
+  m_Motion: {fileID: 7400000, guid: 532517e68da965e49ba8465ea132ab90, type: 3}
   m_Tag: GroundAttack
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1331,7 +1331,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 59c7dab75889cc747a38565aacf425cb, type: 3}
+  m_Motion: {fileID: 7400000, guid: f4bf18b5e6c7fc94e863868e028a1b84, type: 3}
   m_Tag: GroundAttack
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1429,7 +1429,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Rest
+  m_Name: Down
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:

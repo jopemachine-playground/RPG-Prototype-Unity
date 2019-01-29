@@ -17,6 +17,12 @@ TagManager:
   - Menu
   - PlayerInfoSystem
   - Manager
+  - EquipmentSystem
+  - DraggingItem
+  - PlayerLeftLeg
+  - PlayerRightLeg
+  - OrcWeapon
+  - Panel
   layers:
   - Default
   - TransparentFX
@@ -26,9 +32,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
+  - PlayerLeg
+  - MonsterWeapon
+  - Floor
   - 
   - 
   - 
