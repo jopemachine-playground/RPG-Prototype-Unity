@@ -26,7 +26,7 @@ public class Monster
     // spawn Area에 따라 달라지므로, Spawn Manager에서 지정.
     public int MaxGenerateNumber;
 
-    public void Damaged(int playerAtk)
+    public int Damaged(int playerAtk)
     {
         int resultDamage;
 
@@ -41,6 +41,7 @@ public class Monster
 
         currentHP -= resultDamage;
 
+        return resultDamage;
     }
 
     public Monster getCopy()

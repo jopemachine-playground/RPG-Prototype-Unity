@@ -219,7 +219,7 @@ public class PlayerControl : MonoBehaviour
     {
         RaycastHit hitInfo;
 
-        // 10은 Floor Layer이다. 따라서, Ray는 Floor Layer만을 감지한다.
+        // 아래의 마지막 인자에서 10은 Floor Layer이다. 따라서, Ray는 Floor Layer만을 감지한다.
         // https://docs.unity3d.com/kr/530/Manual/Layers.html 참고
 
         if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, m_GroundCheckDistance, 1 << 10))

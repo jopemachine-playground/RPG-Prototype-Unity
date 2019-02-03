@@ -67,6 +67,8 @@
     <Compile Include="Assets\Download Asset\Standard Assets\Editor\Water\Water4\SpecularLightingEditor.cs" />
     <Compile Include="Assets\Download Asset\Standard Assets\Editor\Water\Water4\WaterBaseEditor.cs" />
     <Compile Include="Assets\Download Asset\Standard Assets\Editor\Water\Water4\WaterEditorUtility.cs" />
+    <Compile Include="Assets\RainMaker\Editor\RainMakerEditor.cs" />
+    <Compile Include="Assets\UITween\Editor\EditorUITween.cs" />
     <None Include="Assets\Download Asset\EffectExamples\Editor\PackageManagerAssembly\PackageImportList.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Unity-Chan/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -322,6 +324,9 @@
     </Reference>
     <Reference Include="LitJson">
       <HintPath>C:/Unity-Chan/Assets/Plugins/LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="RichTextPlugin">
+      <HintPath>C:/Unity-Chan/Assets/RichTextPlugin/RichTextPlugin.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>C:/Unity-Chan/Library/PackageCache/com.unity.ads@2.3.1/Editor/UnityEditor.Advertisements.dll</HintPath>
@@ -700,9 +705,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{2241BDA6-A50B-FA4B-6722-D9DE9C0649C0}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="Assembly-CSharp.csproj">
       <Project>{189E3DE7-AFD6-FCE6-40B0-6FA3E4F27E72}</Project>
       <Name>Assembly-CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="Assembly-CSharp-Editor-firstpass.csproj">
+      <Project>{7C942D08-C2E5-AB22-87B2-DA9BED7FA8DC}</Project>
+      <Name>Assembly-CSharp-Editor-firstpass</Name>
     </ProjectReference>
     <ProjectReference Include="UniRx.csproj">
       <Project>{44959B48-2449-29DD-87EB-7EF4B2CAF324}</Project>

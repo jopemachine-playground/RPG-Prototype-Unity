@@ -65,7 +65,8 @@ public class Player : MonoBehaviour
         playerInfoUpdate();
     }
 
-    // 항상 변하는 변수가 아닌, 아이템 착탈의, 레벨 업시에만 변하는 변수들이므로 update에 넣지 않았다
+    // 항상 변하는 변수가 아닌, 아이템 착탈의, 레벨 업시에만 변하는 변수들이므로 성능을 위해 update에 넣지 않았다
+    // 후에 update에 넣어야 한다면 아래 함수를 그대로 Update로 바꿀 것
     public void playerInfoUpdate()
     {
         MaxHP = LevelInfo.getMaxHP(Level) + MaxHPIncrement;
@@ -87,7 +88,7 @@ public class Player : MonoBehaviour
     }
 
     // 데미지 계산공식은 처음부터 복잡하게 만들기보단, 일단 간단하게 해 봤음
-    public int PlayerAttack()
+    public int DecideAttackValue()
     {
         float minDamage = AttackValue - 50;
         float maxDamage = AttackValue + 50;

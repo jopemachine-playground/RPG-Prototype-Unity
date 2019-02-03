@@ -63,7 +63,6 @@ public class MonsterControl : MonoBehaviour
         StartCoroutine(this.MonsterAction());
     }
 
-
     IEnumerator CheckMonsterAI()
     {
         while (IsDied == false)
@@ -133,7 +132,7 @@ public class MonsterControl : MonoBehaviour
 
             animator.SetBool("OnGround", IsGrounded);
 
-            #region Change by AI State
+            #region Action Change by AI State
             switch (AIState)
             {
                 case MonsterState.Airbone:
@@ -143,7 +142,8 @@ public class MonsterControl : MonoBehaviour
                     }
                 case MonsterState.Attacking:
                     {
-                        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") != false)
+                        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") != false && 
+                            animator.GetCurrentAnimatorStateInfo(0).IsName("Down") != true)
                         {
                             monsterTr.LookAt(playerTr);
                             nvAgent.SetDestination(playerTr.position);
@@ -156,7 +156,12 @@ public class MonsterControl : MonoBehaviour
                     {
                         nvAgent.ResetPath();
                         nvAgent.SetDestination(playerTr.position);
-                        monsterTr.LookAt(playerTr);
+
+                        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Down") != true)
+                        {
+                            monsterTr.LookAt(playerTr);
+                        }
+
                         animator.SetBool("IsChasing", true);
 
                         break;
@@ -247,9 +252,19 @@ public class MonsterControl : MonoBehaviour
 
             #endregion
 
-            #region Change by Animation Play
+            #region Action Change by Animation Play
 
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            {
+                nvAgent.velocity = Vector3.zero;
+            }
+
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Emerge"))
+            {
+                nvAgent.velocity = Vector3.zero;
+            }
+
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Down") || animator.GetCurrentAnimatorStateInfo(0).IsName("StandUp"))
             {
                 nvAgent.velocity = Vector3.zero;
             }
@@ -258,12 +273,12 @@ public class MonsterControl : MonoBehaviour
             // 공격 속도를 조절하려면 Idle의 시간을 조절해야 할 듯?
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("Dash Attack"))
             {
-               // nvAgent.velocity *= 1.01f;
+                // nvAgent.velocity *= 1.01f;
             }
 
             #endregion
-
             yield return null;
+
         }
     }
 
@@ -310,21 +325,24 @@ public class MonsterControl : MonoBehaviour
         return dist <= minDistance;
     }
 
-    void OnTriggerEnter(Collider coll)
+    public void OnTriggerEnter(Collider coll)
     {
         if (Player.mInstance.state == PlayerState.GroundAttack1 && coll.gameObject.tag == "PlayerLeftLeg")
         {
-            animator.SetTrigger("IsDamaged");
+            animator.SetTrigger("Damaged");
+            DamageIndicator.mInstance.CallFloatingText(monsterTr, monster.Damaged(Player.mInstance.DecideAttackValue()));
         }
 
         if (Player.mInstance.state == PlayerState.GroundAttack2 && coll.gameObject.tag == "PlayerRightLeg")
         {
-            animator.SetBool("IsDamaged", true);
+            animator.SetTrigger("Damaged");
+            DamageIndicator.mInstance.CallFloatingText(monsterTr, monster.Damaged(Player.mInstance.DecideAttackValue()));
         }
 
         if (Player.mInstance.state == PlayerState.GroundAttack3 && coll.gameObject.tag == "PlayerLeftLeg")
         {
-            animator.SetBool("IsDamaged", true);
+            animator.SetBool("IsDown", true);
+            DamageIndicator.mInstance.CallFloatingText(monsterTr, monster.Damaged(Player.mInstance.DecideAttackValue()));
         }
 
     }

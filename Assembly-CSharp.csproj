@@ -180,6 +180,16 @@
     <Compile Include="Assets\Download Asset\UnityChan\Scripts\SceneLoader.cs" />
     <Compile Include="Assets\Download Asset\UnityChan\Scripts\ThirdPersonCamera.cs" />
     <Compile Include="Assets\Download Asset\UnityChan\Scripts\UnityChanControlScriptWithRgidBody.cs" />
+    <Compile Include="Assets\RainMaker\Demo\DemoScript.cs" />
+    <Compile Include="Assets\RainMaker\Demo\DemoScript2D.cs" />
+    <Compile Include="Assets\RainMaker\Demo\DemoScriptStartRainOnSpaceBar.cs" />
+    <Compile Include="Assets\RainMaker\Prefab\BaseRainScript.cs" />
+    <Compile Include="Assets\RainMaker\Prefab\RainCollision.cs" />
+    <Compile Include="Assets\RainMaker\Prefab\RainScript.cs" />
+    <Compile Include="Assets\RainMaker\Prefab\RainScript2D.cs" />
+    <Compile Include="Assets\RichTextPlugin\Examples\AnimableRichText.cs" />
+    <Compile Include="Assets\RichTextPlugin\Examples\RichTextExampleGUI.cs" />
+    <Compile Include="Assets\RichTextPlugin\Examples\RicxhTextExampleConsole.cs" />
     <Compile Include="Assets\Scripts\Inventory\DragInventory.cs" />
     <Compile Include="Assets\Scripts\Inventory\Inventory.cs" />
     <Compile Include="Assets\Scripts\Item\DraggingItem.cs" />
@@ -198,7 +208,9 @@
     <Compile Include="Assets\Scripts\Monster\Behavior\MonsterDamaged.cs" />
     <Compile Include="Assets\Scripts\Monster\Behavior\MonsterDashAttack.cs" />
     <Compile Include="Assets\Scripts\Monster\Behavior\MonsterDie.cs" />
+    <Compile Include="Assets\Scripts\Monster\Behavior\MonsterDown.cs" />
     <Compile Include="Assets\Scripts\Monster\Behavior\MonsterRoaming.cs" />
+    <Compile Include="Assets\Scripts\Monster\Behavior\MonsterStandUp.cs" />
     <Compile Include="Assets\Scripts\Monster\Monster.cs" />
     <Compile Include="Assets\Scripts\Monster\MonsterAdapter.cs" />
     <Compile Include="Assets\Scripts\Monster\MonsterControl.cs" />
@@ -222,17 +234,26 @@
     <Compile Include="Assets\Scripts\Singleton\GameManager.cs" />
     <Compile Include="Assets\Scripts\Singleton\MusicManager.cs" />
     <Compile Include="Assets\Scripts\Singleton\TimeManager.cs" />
-    <Compile Include="Assets\Scripts\UI\EquipmentSystem.cs" />
-    <Compile Include="Assets\Scripts\UI\Hotbar.cs" />
-    <Compile Include="Assets\Scripts\UI\HotbarSlot.cs" />
-    <Compile Include="Assets\Scripts\UI\InventorySystem.cs" />
-    <Compile Include="Assets\Scripts\UI\ItemSlot.cs" />
+    <Compile Include="Assets\Scripts\UI\DamageIndicator.cs" />
+    <Compile Include="Assets\Scripts\UI\FloatingTextTweener.cs" />
+    <Compile Include="Assets\Scripts\UI\Inventory\EquipmentSystem.cs" />
+    <Compile Include="Assets\Scripts\UI\Inventory\Hotbar.cs" />
+    <Compile Include="Assets\Scripts\UI\Inventory\HotbarSlot.cs" />
+    <Compile Include="Assets\Scripts\UI\Inventory\InventorySystem.cs" />
+    <Compile Include="Assets\Scripts\UI\Inventory\ItemSlot.cs" />
+    <Compile Include="Assets\Scripts\UI\Inventory\Tooltip.cs" />
     <Compile Include="Assets\Scripts\UI\Menu.cs" />
+    <Compile Include="Assets\Scripts\UI\Panel\ICheckPanel.cs" />
+    <Compile Include="Assets\Scripts\UI\Panel\ItemDeletePanel.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerInfoSystem.cs" />
     <Compile Include="Assets\Scripts\UI\TitleMenu.cs" />
-    <Compile Include="Assets\Scripts\UI\Tooltip.cs" />
-    <Compile Include="Assets\Scripts\UI\UI - Panel\ICheckPanel.cs" />
-    <Compile Include="Assets\Scripts\UI\UI - Panel\ItemDeletePanel.cs" />
+    <Compile Include="Assets\UITween\Prefabs\Click Effect Pref\ClickedWaveAnimation.cs" />
+    <Compile Include="Assets\UITween\ScenesExamplesScripts\ActivateOnEnable.cs" />
+    <Compile Include="Assets\UITween\ScenesExamplesScripts\CreateAnimImage.cs" />
+    <Compile Include="Assets\UITween\ScenesExamplesScripts\FollowClick.cs" />
+    <Compile Include="Assets\UITween\Scripts\EasyTween.cs" />
+    <Compile Include="Assets\UITween\Scripts\ReferencedFrom.cs" />
+    <Compile Include="Assets\UITween\Scripts\UITween.cs" />
     <None Include="Assets\Download Asset\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\Download Asset\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_fuku.shader" />
@@ -256,6 +277,7 @@
     <None Include="Assets\Download Asset\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Vehicles\Car\Shaders\ReflectiveDiffuseSpec.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Environment\Water\DO_NOT_WORK_IN_VR.txt" />
+    <None Include="Assets\RainMaker\Prefab\RainShader.shader" />
     <None Include="Assets\Download Asset\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hair_ds.shader" />
     <None Include="Assets\Download Asset\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
     <None Include="Assets\Download Asset\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_akarami_blend.shader" />
@@ -275,6 +297,7 @@
     <None Include="Assets\Download Asset\Standard Assets\Vehicles\Car\CarGuidelines.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\Projectors\Shaders\ProjectorMultiply.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
+    <None Include="Assets\RainMaker\Readme.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Cameras\CameraGuidelines.txt" />
     <None Include="Assets\Custom\Fabs\Map\UrbanNightSky\Readme.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
@@ -503,6 +526,9 @@
     </Reference>
     <Reference Include="LitJson">
       <HintPath>C:/Unity-Chan/Assets/Plugins/LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="RichTextPlugin">
+      <HintPath>C:/Unity-Chan/Assets/RichTextPlugin/RichTextPlugin.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Advertisements">
       <HintPath>C:/Unity-Chan/Library/PackageCache/com.unity.ads@2.3.1/Runtime/UnityEngine.Advertisements.dll</HintPath>
@@ -866,6 +892,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{2241BDA6-A50B-FA4B-6722-D9DE9C0649C0}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
     <ProjectReference Include="UniRx.csproj">
       <Project>{44959B48-2449-29DD-87EB-7EF4B2CAF324}</Project>
       <Name>UniRx</Name>
