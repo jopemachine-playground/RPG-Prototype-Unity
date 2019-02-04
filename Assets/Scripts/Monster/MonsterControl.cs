@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class MonsterControl : MonoBehaviour
 {
-    private Monster monster;
+    public MonsterAdapter monsterAdpt;
 
     public Transform monsterTr;
     public Transform playerTr;
@@ -29,9 +29,9 @@ public class MonsterControl : MonoBehaviour
     private float GroundCheckDistance;
     // 공격 거리
     public float attackDistance;
-    // 탐지 거리
+    // 플레이어 탐지 거리
     public float detectionDistance;
-    // 대쉬 어택 거리
+    // 대쉬 어택 판정 거리
     public float dashAttackMinDistance;
     public float dashAttackMaxDistance;
 
@@ -42,9 +42,12 @@ public class MonsterControl : MonoBehaviour
 
     private Animator animator;
 
+    // 죽은 몬스터가 사라지는데 걸리는 시간
+    private float monsterDisappearingTime = 3f;
+
     private void Start()
     {
-        monster = GetComponent<MonsterAdapter>().monster;
+        monsterAdpt = GetComponent<MonsterAdapter>();
         monsterTr = GetComponent<Transform>();
         animator = GetComponent<Animator>();
         playerTr = GameObject.FindWithTag("Player").GetComponent<Transform>();
@@ -68,12 +71,6 @@ public class MonsterControl : MonoBehaviour
         while (IsDied == false)
         {
             yield return CheckingTime;
-
-            if (monster.currentHP < 0)
-            {
-                AIState = MonsterState.Death;
-                IsDied = true;
-            }
 
             // 데미지를 받는 State는 OnTriggerEvent로 따로 처리한다
             if (AIState == MonsterState.Damaged || AIState == MonsterState.Airbone)
@@ -120,6 +117,11 @@ public class MonsterControl : MonoBehaviour
             if (IsStuned == true && IsGrounded == true)
             {
                 AIState = MonsterState.Stun;
+            }
+
+            if (monsterAdpt.monster.currentHP < 0)
+            {
+                AIState = MonsterState.Death;
             }
         }
     }
@@ -187,7 +189,9 @@ public class MonsterControl : MonoBehaviour
                     }
                 case MonsterState.Death:
                     {
+                        IsDied = true;
                         animator.SetBool("IsDied", true);
+                        Invoke("DeactivateMonster", monsterDisappearingTime);
                         break;
                     }
 
@@ -292,6 +296,10 @@ public class MonsterControl : MonoBehaviour
 
     }
 
+    private void DeactivateMonster()
+    {
+        gameObject.active = false;
+    }
 
     private void CheckGroundStatus()
     {
@@ -327,23 +335,33 @@ public class MonsterControl : MonoBehaviour
 
     public void OnTriggerEnter(Collider coll)
     {
+        #region UnderAttack Event
+
+        // 죽은 경우 모든 공격을 무시함
+        if (IsDied == true)
+        {
+            return;
+        }
+
         if (Player.mInstance.state == PlayerState.GroundAttack1 && coll.gameObject.tag == "PlayerLeftLeg")
         {
             animator.SetTrigger("Damaged");
-            DamageIndicator.mInstance.CallFloatingText(monsterTr, monster.Damaged(Player.mInstance.DecideAttackValue()));
+            DamageIndicator.mInstance.CallFloatingText(monsterTr, monsterAdpt.monster.Damaged(Player.mInstance.DecideAttackValue()));
         }
 
         if (Player.mInstance.state == PlayerState.GroundAttack2 && coll.gameObject.tag == "PlayerRightLeg")
         {
             animator.SetTrigger("Damaged");
-            DamageIndicator.mInstance.CallFloatingText(monsterTr, monster.Damaged(Player.mInstance.DecideAttackValue()));
+            DamageIndicator.mInstance.CallFloatingText(monsterTr, monsterAdpt.monster.Damaged(Player.mInstance.DecideAttackValue()));
         }
 
         if (Player.mInstance.state == PlayerState.GroundAttack3 && coll.gameObject.tag == "PlayerLeftLeg")
         {
             animator.SetBool("IsDown", true);
-            DamageIndicator.mInstance.CallFloatingText(monsterTr, monster.Damaged(Player.mInstance.DecideAttackValue()));
+            DamageIndicator.mInstance.CallFloatingText(monsterTr, monsterAdpt.monster.Damaged(Player.mInstance.DecideAttackValue()));
         }
+
+        #endregion
 
     }
 

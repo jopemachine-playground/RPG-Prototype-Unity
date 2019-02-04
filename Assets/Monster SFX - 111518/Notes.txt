@@ -1,0 +1,17 @@
+	Monster SFX - 111518
+	Artist: GWriterStudio
+monster (idle/atk/die) :
+ +6 bird : 17s
+ +2 insect : 7s
+ +8 lowlevel : 22s
+ +13 highlevel : 47s
+roar :
+ +6 lowlevel : 11s
+ +37 highlevel : 1m18s
+
+Notice : 
+Sfx in 'monster' folder with 'atk' or 'die' behind the name (mob1atk, mob1die)
+can be used for monster attack/being hit and dead sfx.
+
+Have Questions contact me via gmail:
+gwriterstudio@gmail.com

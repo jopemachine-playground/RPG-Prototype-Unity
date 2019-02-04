@@ -8,7 +8,6 @@ public class Menu : MonoBehaviour
     public GameObject mMenu;
     public GameObject mInventory;
     public GameObject mEquipment;
-    //public AudioManager theAudio;
     public string call_sound;
 
     private bool isMenuActived;
@@ -74,8 +73,7 @@ public class Menu : MonoBehaviour
 
     public void MuteButtonClicked()
     {
-        MusicManager.mInstance.Pause();
-        AudioManager.mInstance.Mute();
+
     }
 
     #endregion

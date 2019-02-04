@@ -77,14 +77,24 @@ public class Player : MonoBehaviour
         DefenceValueIncrement = LevelInfo.getDefaultDefenceValue(Level) + DefenceValueIncrement;
     }
 
-
     #region Interaction Method With Monster
 
-    // 공격 받았을 때 호출됨
-    public void Damaged(int monsterAtk)
+    public int Damaged(int monsterAtk)
     {
+        int resultDamage;
 
+        if (DefenceValue >= monsterAtk)
+        {
+            resultDamage = 1;
+        }
+        else
+        {
+            resultDamage = monsterAtk - DefenceValue;
+        }
 
+        currentHP -= resultDamage;
+
+        return resultDamage;
     }
 
     // 데미지 계산공식은 처음부터 복잡하게 만들기보단, 일단 간단하게 해 봤음

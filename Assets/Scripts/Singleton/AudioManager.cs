@@ -4,54 +4,36 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
+    public List<AudioClip> Clips; 
 
-    static public AudioManager mInstance;
-
-    public AudioClip[] mClips; // 배경음악 파일들
-
-    public AudioSource mSource;
+    public AudioSource Source;
 
     void Start()
     {
-        mSource = GetComponent<AudioSource>();
-
-        if (mSource == null) Debug.Log("Error - mSource not initated");
-
+        Source = GetComponent<AudioSource>();
     }
 
-    private void Awake()
+    public void Play(int audioNumber, float volume = 1f)
     {
-        if (mInstance != null)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            DontDestroyOnLoad(this.gameObject);
-            mInstance = this;
-        }
-    }
-
-    public void Play(int musicNumber)
-    {
-        mSource.volume = 1f;
-        mSource.clip = mClips[musicNumber];
-        mSource.Play();
+        Source.Stop();
+        Source.volume = volume;
+        Source.clip = Clips[audioNumber];
+        Source.Play();
     }
 
     public void Stop()
     {
-        mSource.Stop();
+        Source.Stop();
     }
 
     public void Pause()
     {
-        mSource.Pause();
+        Source.Pause();
     }
 
     public void Mute()
     {
-        mSource.volume = 0;
+        Source.volume = 0;
     }
 
 }

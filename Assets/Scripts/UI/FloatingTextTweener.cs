@@ -11,23 +11,24 @@ public class FloatingTextTweener: MonoBehaviour
 {
     public Text text;
 
-    public const float DisableTime = 0.5f;
-    public const float FadeoutTime = .2f;
-    private WaitForSeconds FadeoutTimeW;
+    public const float DisableTime = 2.0f;
     private float DisableTimer;
 
     public bool isActived;
 
     public Transform targetTr;
     public int damagedValue;
+    // 플로팅 텍스트를 world 좌표계에서 UI (2D)로 가져오려면 플레이어의 Camera가 필요하다.
     public Camera cam;
+
+    private int updateCounter; 
 
     private void Awake()
     {
         isActived = false;
         DisableTimer = 0;
+        updateCounter = 0;
         text = GetComponent<Text>();
-        FadeoutTimeW = new WaitForSeconds(FadeoutTime);
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         text.font = gameObject.GetComponentInParent<DamageIndicator>().font;
         text.fontSize = 42;
@@ -46,23 +47,25 @@ public class FloatingTextTweener: MonoBehaviour
     {
         while (true)
         {
-            yield return FadeoutTimeW;
-
             DisableTimer += Time.deltaTime;
 
             if (DisableTimer > DisableTime)
             {
                 DisableTimer = 0;
+                updateCounter = 0;
                 isActived = false;
                 gameObject.active = false;
             }
 
             else
             {
-                Vector3 swap = text.transform.position;
-                swap.y += 4.0f;
+                updateCounter++;
+                Vector3 swap = cam.WorldToScreenPoint(targetTr.position);
+                swap.y += 2f * updateCounter;
                 text.transform.position = swap;
             }
+
+            yield return null;
         }
 
     }

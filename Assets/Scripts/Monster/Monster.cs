@@ -26,6 +26,38 @@ public class Monster
     // spawn Area에 따라 달라지므로, Spawn Manager에서 지정.
     public int MaxGenerateNumber;
 
+    // 데미지 계산공식은 처음부터 복잡하게 만들기보단, 일단 간단하게 해 봤음
+    public int DecideAttackValue()
+    {
+        float minDamage = AttackValue - 50;
+        float maxDamage = AttackValue + 50;
+
+        float damage = Random.Range(minDamage, maxDamage);
+
+        if (DecideFatalBlow())
+        {
+            damage *= (20 / 100);
+        }
+
+        return (int)(Mathf.Floor(damage));
+    }
+
+    // 이번 공격이 치명타인지 결정
+    public bool DecideFatalBlow()
+    {
+        int prob = Random.Range(0, 100);
+
+        if (prob > 20)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
+    }
+
     public int Damaged(int playerAtk)
     {
         int resultDamage;

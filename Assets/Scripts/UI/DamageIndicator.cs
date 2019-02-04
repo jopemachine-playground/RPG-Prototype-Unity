@@ -76,8 +76,6 @@ public class DamageIndicator : MonoBehaviour
             }
         }
 
-        Debug.Log("capacity 부족");
-
         floatingTextsObj.Capacity = currentTextValue * 2;
         floatingTextUpdate();
         CallFloatingText(targetTr, damageValue);

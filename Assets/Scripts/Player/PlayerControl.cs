@@ -6,56 +6,127 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
+    public float JumpPower;
+    public float MoveSpeed;
 
-    private Transform m_Cam;
-    private Vector3 m_CamForward;
-    private Vector3 m_Move;
-    private Vector3 m_GroundNormal;
-    private Vector3 m_CapsuleCenter;
+    private Vector3 CamForward;
+    private Vector3 MoveVector;
+    private Vector3 GroundNormal;
+    private Vector3 CapsuleCenter;
 
     private const float MOVING_TURN_SPEED = 360;
     private const float STATIONARY_TURN_SPEED = 180;
 
     private float GRAVITY_MULTIPLIER = 2f;
-    private const float RUN_CYCLE_LEG_OFFSET = 0.2f;
-    // specific to the character in sample assets, will need to be modified to work with others
-    private const float ANIM_SPEED_MULTIPLIER = 1f;
 
-    private float m_OrigGroundCheckDistance;
-    private float m_TurnAmount;
-    private float m_ForwardAmount;
-    private float m_CapsuleHeight;
-    private float m_GroundCheckDistance;
+    private float OrigGroundCheckDistance;
+    private float TurnAmount;
+    private float ForwardAmount;
+    private float CapsuleHeight;
+    private float GroundCheckDistance;
 
-    private bool mb_IsGrounded;
-    private bool mb_Jump;
-    private bool mb_IsAttacking;
-    private bool mb_IsAirAttacking;
-    private bool mb_IsDashAttack;
+    private bool IsGrounded;
+    private bool IsJump;
+    private bool IsAttacking;
+    private bool IsAirAttacking;
+    private bool IsDashAttack;
 
-    public Rigidbody m_Rigidbody;
-    public Animator m_Animator;
-    public CapsuleCollider m_Capsule;
-    public float m_JumpPower;
-    public float m_MoveSpeed;
+    private Rigidbody Rigidbody;
+    private Animator Animator;
+    private CapsuleCollider Capsule;
+    public AudioManager voiceAudioManager;
+    public AudioManager moveAudioManager;
+    private Transform playerTr;
+    private Transform cam;
+
+    #region Sound Processing by Animation State
+    private enum Voice
+    {
+        attack,
+        attack2,
+        jump,
+        yay,
+        hehehe,
+        hahaha,
+        ouch,
+        damage,
+        hmm,
+        wow
+    }
+
+    private enum MoveSound
+    {
+
+    }
+
+    private void HandleVoiceSoundByAnimation(Voice voice)
+    {
+        int voiceInt = (int)voice;
+        float volume = 1f;
+
+        switch (voice)
+        {
+            case Voice.attack:
+                break;
+            case Voice.attack2:
+                break;
+            case Voice.jump:
+                break;
+            case Voice.yay:
+                break;
+            case Voice.hehehe:
+                break;
+            case Voice.hahaha:
+                break;
+            case Voice.ouch:
+                break;
+            case Voice.damage:
+                break;
+            case Voice.hmm:
+                break;
+            case Voice.wow:
+                break;
+            default:
+                Debug.Assert(false, "unexpected value");
+                break;
+        }
+
+        voiceAudioManager.Play(voiceInt, volume);
+    }
+
+    private void HandleMoveSoundByAnimation(MoveSound moveSound)
+    {
+        int moveSoundInt = (int)moveSound;
+        float volume = 1f;
+
+        switch (moveSound)
+        {
+            default:
+                Debug.Assert(false, "unexpected value");
+                break;
+        }
+
+        moveAudioManager.Play(moveSoundInt, volume);
+    }
+
+
+    #endregion
 
     void Start()
     {
+        cam = GameObject.FindGameObjectWithTag("MainCamera").gameObject.GetComponent<Transform>();
+        voiceAudioManager = transform.Find("Sound").Find("Voice").gameObject.GetComponent<AudioManager>();
+        moveAudioManager = transform.Find("Sound").Find("Move").gameObject.GetComponent<AudioManager>();
+        Animator = GetComponent<Animator>();
+        Rigidbody = GetComponent<Rigidbody>();
+        playerTr = GetComponent<Transform>();
+        Capsule = GetComponent<CapsuleCollider>();
 
-        if (Camera.main != null)
-        {
-            m_Cam = Camera.main.transform;
-        }
-        else
-        {
-            Debug.Assert(false, "Warning: no main camera found. Third person character needs a Camera tagged \"MainCamera\", for camera-relative controls.");
-        }
+        CapsuleHeight = Capsule.height;
+        CapsuleCenter = Capsule.center;
 
-        m_CapsuleHeight = m_Capsule.height;
-        m_CapsuleCenter = m_Capsule.center;
-
-        m_GroundCheckDistance = 0.1f;
-        m_OrigGroundCheckDistance = m_GroundCheckDistance;
+        GroundCheckDistance = 0.1f;
+        OrigGroundCheckDistance = GroundCheckDistance;
     }
 
     // Fixed update is called in sync with physics
@@ -65,45 +136,44 @@ public class PlayerControl : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        if (mb_Jump == false)
+        if (IsJump == false)
         {
-            mb_Jump = Input.GetButtonDown("Jump");
+            IsJump = Input.GetButtonDown("Jump");
         }
 
-        if (mb_IsAttacking == false &&
-            m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") &&
+        if (IsAttacking == false &&
+            Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") &&
             Input.GetButtonDown("Attack"))
         {
-            mb_IsAttacking = true;
+            IsAttacking = true;
         }
 
-        Debug.Assert(m_Cam != null, "Error: m_Cam == null");
 
         // 기본동작은 걷기
-        m_CamForward = Vector3.Scale(m_Cam.forward, new Vector3(1, 0, 1)).normalized;
-        m_Move = (v * m_CamForward + h * m_Cam.right) / 2;
+        CamForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
+        MoveVector = (v * CamForward + h * cam.right) / 2;
 
         // 지상에서 왼쪽 쉬프트 버튼을 누르면 달리기
-        if (Input.GetKey(KeyCode.LeftShift) && mb_IsGrounded)
+        if (Input.GetKey(KeyCode.LeftShift) && IsGrounded)
         {
-            m_Move *= 2;
+            MoveVector *= 2;
         }
 
         // Attack 중이라면 움직일 수 없음
-        if (m_Animator.GetInteger("AttackState") == 0 &&
-            m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") |
-            m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Airborne"))
+        if (Animator.GetInteger("AttackState") == 0 &&
+            Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") |
+            Animator.GetCurrentAnimatorStateInfo(0).IsName("Airborne"))
         {
-            Move(m_Move, mb_Jump);
+            Move(MoveVector, IsJump);
         }
 
-        mb_IsAttacking = false;
-        mb_IsAirAttacking = false;
-        mb_IsDashAttack = false;
-        mb_Jump = false;
+        IsAttacking = false;
+        IsAirAttacking = false;
+        IsDashAttack = false;
+        IsJump = false;
     }
 
-    public void Move(Vector3 move, bool jump)
+    public void Move(Vector3 move, bool IsJump)
     {
 
         // convert the world relative moveInput vector into a local-relative
@@ -112,16 +182,16 @@ public class PlayerControl : MonoBehaviour
         if (move.magnitude > 1f) move.Normalize();
         move = transform.InverseTransformDirection(move);
         CheckGroundStatus();
-        move = Vector3.ProjectOnPlane(move, m_GroundNormal);
-        m_TurnAmount = Mathf.Atan2(move.x, move.z);
-        m_ForwardAmount = move.z;
+        move = Vector3.ProjectOnPlane(move, GroundNormal);
+        TurnAmount = Mathf.Atan2(move.x, move.z);
+        ForwardAmount = move.z;
 
         ApplyExtraTurnRotation();
 
         // control and velocity handling is different when grounded and airborne:
-        if (mb_IsGrounded == true)
+        if (IsGrounded == true)
         {
-            HandleGroundedMovement(jump);
+            HandleGroundedMovement(IsJump);
         }
         else
         {
@@ -137,31 +207,31 @@ public class PlayerControl : MonoBehaviour
     void UpdateAnimator(Vector3 move)
     {
         // update the animator parameters
-        m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.smoothDeltaTime);
-        m_Animator.SetFloat("Turn", m_TurnAmount, 0.1f, Time.smoothDeltaTime);
-        m_Animator.SetBool("OnGround", mb_IsGrounded);
-        m_Animator.SetBool("IsAirAttack", mb_IsAirAttacking);
-        m_Animator.SetBool("IsJump", mb_Jump);
+        Animator.SetFloat("Forward", ForwardAmount, 0.1f, Time.smoothDeltaTime);
+        Animator.SetFloat("Turn", TurnAmount, 0.1f, Time.smoothDeltaTime);
+        Animator.SetBool("OnGround", IsGrounded);
+        Animator.SetBool("IsAirAttack", IsAirAttacking);
+        Animator.SetBool("IsJump", IsJump);
 
         // 지상에서 대쉬상태에서 공격버튼이 눌러지면 대쉬어택
-        if (mb_IsAttacking == true &&
-            m_Rigidbody.velocity.magnitude > 1.0f &&
-            mb_IsGrounded &&
+        if (IsAttacking == true &&
+            Rigidbody.velocity.magnitude > 1.0f &&
+            IsGrounded &&
             Input.GetKey(KeyCode.LeftShift))
         {
-            mb_IsDashAttack = true;
+            IsDashAttack = true;
         }
 
         // 지상에서 움직이지 않는 상태에서 공격버튼이 눌러지면 AttackState를 1로 활성화.
-        if (mb_IsAttacking == true &&
-            mb_IsGrounded &&
-            mb_IsDashAttack != true)
+        if (IsAttacking == true &&
+            IsGrounded &&
+            IsDashAttack != true)
         {
-            m_Rigidbody.velocity = Vector3.zero;
-            m_Animator.SetInteger("AttackState", 1);
+            Rigidbody.velocity = Vector3.zero;
+            Animator.SetInteger("AttackState", 1);
         }
 
-        m_Animator.SetBool("IsDashAttack", mb_IsDashAttack);
+        Animator.SetBool("IsDashAttack", IsDashAttack);
 
     }
 
@@ -170,49 +240,49 @@ public class PlayerControl : MonoBehaviour
     {
         // apply extra gravity from multiplier:
         Vector3 extraGravityForce = (Physics.gravity * GRAVITY_MULTIPLIER) - Physics.gravity;
-        m_Rigidbody.AddForce(extraGravityForce);
+        Rigidbody.AddForce(extraGravityForce);
 
-        m_GroundCheckDistance = m_Rigidbody.velocity.y < 0 ? m_OrigGroundCheckDistance : 0.01f;
+        GroundCheckDistance = Rigidbody.velocity.y < 0 ? OrigGroundCheckDistance : 0.01f;
 
         // 공중에서의 키 입력에 따른 캐릭터 조정
-        m_Rigidbody.velocity =
-           new Vector3(0.65f * m_MoveSpeed * m_Move.x,
-           m_Rigidbody.velocity.y,
-           0.65f * m_MoveSpeed * m_Move.z);
+        Rigidbody.velocity =
+           new Vector3(0.65f * MoveSpeed * MoveVector.x,
+           Rigidbody.velocity.y,
+           0.65f * MoveSpeed * MoveVector.z);
 
         // 공중에서 공격 시 더 빨리 떨어지게 조정
         // 특정 높이 이상에서만 공중 공격이 가능하도록 조정할 것
         if (Input.GetButtonDown("Attack"))
         {
-            mb_IsAirAttacking = true;
-            m_Rigidbody.AddForce(10 * Physics.gravity);
+            IsAirAttacking = true;
+            Rigidbody.AddForce(10 * Physics.gravity);
         }
     }
 
 
-    void HandleGroundedMovement(bool jump)
+    void HandleGroundedMovement(bool IsJump)
     {
         // 점프 
-        if (jump == true &&
-            m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
+        if (IsJump == true &&
+            Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
         {
-            m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, m_JumpPower, m_Rigidbody.velocity.z);
-            mb_IsGrounded = false;
+            Rigidbody.velocity = new Vector3(Rigidbody.velocity.x, JumpPower, Rigidbody.velocity.z);
+            IsGrounded = false;
 
-            m_GroundCheckDistance = 0.1f;
+            GroundCheckDistance = 0.1f;
             return;
         }
 
         // 지상에서의 키 입력에 따른 캐릭터 조정
 
-        m_Rigidbody.velocity = Vector3.Lerp(m_Rigidbody.velocity, new Vector3(m_MoveSpeed * m_Move.x, m_Rigidbody.velocity.y, m_MoveSpeed * m_Move.z), Time.deltaTime * 8f);
+        Rigidbody.velocity = Vector3.Lerp(Rigidbody.velocity, new Vector3(MoveSpeed * MoveVector.x, Rigidbody.velocity.y, MoveSpeed * MoveVector.z), Time.deltaTime * 8f);
     }
 
     void ApplyExtraTurnRotation()
     {
         // help the character turn faster (this is in addition to root rotation in the animation)
-        float turnSpeed = Mathf.Lerp(STATIONARY_TURN_SPEED, MOVING_TURN_SPEED, m_ForwardAmount);
-        transform.Rotate(0, m_TurnAmount * turnSpeed * Time.smoothDeltaTime, 0);
+        float turnSpeed = Mathf.Lerp(STATIONARY_TURN_SPEED, MOVING_TURN_SPEED, ForwardAmount);
+        transform.Rotate(0, TurnAmount * turnSpeed * Time.smoothDeltaTime, 0);
     }
 
     void CheckGroundStatus()
@@ -222,17 +292,39 @@ public class PlayerControl : MonoBehaviour
         // 아래의 마지막 인자에서 10은 Floor Layer이다. 따라서, Ray는 Floor Layer만을 감지한다.
         // https://docs.unity3d.com/kr/530/Manual/Layers.html 참고
 
-        if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, m_GroundCheckDistance, 1 << 10))
+        if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, GroundCheckDistance, 1 << 10))
         {
-            m_GroundNormal = hitInfo.normal;
-            mb_IsGrounded = true;
+            GroundNormal = hitInfo.normal;
+            IsGrounded = true;
         }
         else
         {
-            mb_IsGrounded = false;
-            m_GroundNormal = Vector3.up;
+            IsGrounded = false;
+            GroundNormal = Vector3.up;
         }
     }
+
+    public void OnTriggerEnter(Collider coll)
+    {
+        #region UnderAttack Event
+
+        MonsterState state = coll.gameObject.GetComponent<MonsterControl>().AIState;
+        
+        if (state == MonsterState.Attacking && coll.gameObject.tag == "OrcWeapon")
+        {
+            Animator.SetTrigger("Damaged");
+            DamageIndicator.mInstance.CallFloatingText(playerTr, Player.mInstance.Damaged(coll.gameObject.GetComponent<MonsterAdapter>().monster.DecideAttackValue()));
+        }
+        
+        else if (state == MonsterState.DashAttacking)
+        {
+            Animator.SetTrigger("Down");
+        }
+
+        #endregion
+
+    }
+
 }
 
 

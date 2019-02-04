@@ -61,14 +61,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Download Asset\EffectExamples\TutorialInfo\Scripts\Editor\ReadmeEditor.cs" />
-    <Compile Include="Assets\Download Asset\Standard Assets\Editor\CrossPlatformInput\CrossPlatformInputInitialize.cs" />
+    <Compile Include="Assets\Download Asset\query-chan-model\Editor\MyEditor.cs" />
+    <Compile Include="Assets\Download Asset\RainMaker\Editor\RainMakerEditor.cs" />
     <Compile Include="Assets\Download Asset\Standard Assets\Editor\Water\Water4\GerstnerDisplaceEditor.cs" />
     <Compile Include="Assets\Download Asset\Standard Assets\Editor\Water\Water4\PlanarReflectionEditor.cs" />
     <Compile Include="Assets\Download Asset\Standard Assets\Editor\Water\Water4\SpecularLightingEditor.cs" />
     <Compile Include="Assets\Download Asset\Standard Assets\Editor\Water\Water4\WaterBaseEditor.cs" />
     <Compile Include="Assets\Download Asset\Standard Assets\Editor\Water\Water4\WaterEditorUtility.cs" />
-    <Compile Include="Assets\RainMaker\Editor\RainMakerEditor.cs" />
-    <Compile Include="Assets\UITween\Editor\EditorUITween.cs" />
     <None Include="Assets\Download Asset\EffectExamples\Editor\PackageManagerAssembly\PackageImportList.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Unity-Chan/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
