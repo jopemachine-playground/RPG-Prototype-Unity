@@ -7,8 +7,8 @@ using UnityEngine;
 public class PlayerCamera : MonoBehaviour
 {
     // 카메라 Rig의 회전 각도
-    private float mCameraRotateValueX;
-    private float mCameraRotateValueY;
+    private float CameraRotateValueX;
+    private float CameraRotateValueY;
 
     // 카메라 수동 회전 속도
     private const float X_SPEED = 180.0f;
@@ -19,16 +19,15 @@ public class PlayerCamera : MonoBehaviour
     private const float Y_MaxAngle = 80f;
 
     // 카메라와 타겟 객체
-    public Transform mTarget;
-    public Camera mCam;
+    public Transform target;
 
     public Vector3 DistanceFromCharacter;
 
     private void Awake()
     {
-        //mTarget = GetComponent<Transform>();
-        mCameraRotateValueX = 175.0f;
-        mCameraRotateValueY = 10.0f;
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+        CameraRotateValueX = 175.0f;
+        CameraRotateValueY = 10.0f;
         DistanceFromCharacter = new Vector3(0, 0.0f, -4f);
     }
 
@@ -38,22 +37,22 @@ public class PlayerCamera : MonoBehaviour
         // Q가 입력되면 캐릭터가 바라보는 방향으로 카메라를 맞춤.
         if (Input.GetKey(KeyCode.Q))
         {
-            mCameraRotateValueX = mTarget.eulerAngles.y;
-            mCameraRotateValueY = mTarget.eulerAngles.x;
+            CameraRotateValueX = target.eulerAngles.y;
+            CameraRotateValueY = target.eulerAngles.x;
         }
 
         // 카메라의 회전각도
-        mCameraRotateValueX += Input.GetAxis("CamHorizontal") * X_SPEED * Time.smoothDeltaTime;
-        mCameraRotateValueY -= Input.GetAxis("CamVertical") * Y_SPEED * Time.smoothDeltaTime;
+        CameraRotateValueX += Input.GetAxis("CamHorizontal") * X_SPEED * Time.smoothDeltaTime;
+        CameraRotateValueY -= Input.GetAxis("CamVertical") * Y_SPEED * Time.smoothDeltaTime;
 
         //앵글값 정하기
         //y값의 Min과 MaX 없애면 y값이 360도 계속 돎
         //x값은 계속 돌고 y값만 제한
-        mCameraRotateValueY = ClampAngle(mCameraRotateValueY, Y_MinAngle, Y_MaxAngle);
+        CameraRotateValueY = ClampAngle(CameraRotateValueY, Y_MinAngle, Y_MaxAngle);
 
         // 카메라의 위치와 각도 변경
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(mCameraRotateValueY, mCameraRotateValueX, 0), Time.smoothDeltaTime * 8.0f);
-        transform.position = Vector3.Lerp(transform.position, transform.rotation * DistanceFromCharacter + mTarget.position, Time.smoothDeltaTime * 15.0f);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(CameraRotateValueY, CameraRotateValueX, 0), Time.smoothDeltaTime * 8.0f);
+        transform.position = Vector3.Lerp(transform.position, transform.rotation * DistanceFromCharacter + target.position, Time.smoothDeltaTime * 15.0f);
 
     }
 

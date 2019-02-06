@@ -640,8 +640,8 @@ ModelImporter:
     - serializedVersion: 16
       name: DAMAGED00
       takeName: Take 001
-      firstFrame: 1
-      lastFrame: 35
+      firstFrame: 0.3
+      lastFrame: 29.2
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

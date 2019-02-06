@@ -17,7 +17,7 @@ public class FloatingTextTweener: MonoBehaviour
     public bool isActived;
 
     public Transform targetTr;
-    public int damagedValue;
+    public Damage damage;
     // 플로팅 텍스트를 world 좌표계에서 UI (2D)로 가져오려면 플레이어의 Camera가 필요하다.
     public Camera cam;
 
@@ -33,12 +33,17 @@ public class FloatingTextTweener: MonoBehaviour
         text.font = gameObject.GetComponentInParent<DamageIndicator>().font;
         text.fontSize = 42;
         text.horizontalOverflow = HorizontalWrapMode.Overflow;
+        if (damage.IsFatalBlow)
+        {
+            text.color = Color.red;
+            text.fontSize = 44;
+        }
     }
 
     private void OnEnable()
     {
         isActived = true;
-        text.text = damagedValue + "";
+        text.text = damage.value + "";
         text.transform.position = cam.WorldToScreenPoint(targetTr.position);
         StartCoroutine("textUpdate");
     }

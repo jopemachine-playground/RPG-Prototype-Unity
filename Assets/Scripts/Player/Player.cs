@@ -79,38 +79,48 @@ public class Player : MonoBehaviour
 
     #region Interaction Method With Monster
 
-    public int Damaged(int monsterAtk)
+    // 플레이어의 방어력 속성들을 이용해 최종적인 데미지를 계산
+    public Damage Damaged(Damage playerAtk)
     {
         int resultDamage;
 
-        if (DefenceValue >= monsterAtk)
+        if (DefenceValue >= playerAtk.value)
         {
             resultDamage = 1;
         }
         else
         {
-            resultDamage = monsterAtk - DefenceValue;
+            resultDamage = playerAtk.value - DefenceValue;
         }
 
-        currentHP -= resultDamage;
+        if (currentHP - resultDamage >= 0)
+        {
+            currentHP -= resultDamage;
+        }
+        else
+        {
+            currentHP = 0;
+        }
 
-        return resultDamage;
+        return new Damage(resultDamage, playerAtk.IsFatalBlow);
     }
 
     // 데미지 계산공식은 처음부터 복잡하게 만들기보단, 일단 간단하게 해 봤음
-    public int DecideAttackValue()
+    public Damage DecideAttackValue()
     {
+        bool isFatalBlow;
+
         float minDamage = AttackValue - 50;
         float maxDamage = AttackValue + 50;
 
         float damage = Random.Range(minDamage, maxDamage);
 
-        if (DecideFatalBlow())
+        if (isFatalBlow = DecideFatalBlow())
         {
             damage *= (FatalBlowValue / 100);
         }
 
-        return (int) (Mathf.Floor(damage));
+        return new Damage((int)(Mathf.Floor(damage)), isFatalBlow);
     }
 
     // 이번 공격이 치명타인지 결정

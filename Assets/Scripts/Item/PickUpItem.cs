@@ -4,27 +4,21 @@ using UnityEngine.UI;
 
 public class PickUpItem : MonoBehaviour
 {
-    // 일정 시간이 지난 아이템은 삭제
     public const float elapsedTime = 15.0f;
 
     public Item item;
     private Inventory inv;
     private GameObject player;
-    private Light light;
 
     private void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        Debug.Assert(player, "player not existed");
         inv = player.GetComponent<Inventory>();
     }
 
     private void Start()
     {
-        light = GetComponent<Light>();
-        light.type = LightType.Point;
-        light.range = 4;
-
+        // 일정 시간이 지난 아이템은 삭제
         Invoke("DestroyByTimeElapse", elapsedTime);
     }
 
@@ -42,7 +36,7 @@ public class PickUpItem : MonoBehaviour
         }
     }
 
-    // 아이템을 움직이게 해, 애니메이션 처럼 보이게 함.
+    // 아이템을 움직이게 해, 애니메이션 처럼 보이게 하려고 했음.
     private void Update()
     {
         transform.Rotate(45 * Time.deltaTime, 90 * Time.deltaTime, 0);

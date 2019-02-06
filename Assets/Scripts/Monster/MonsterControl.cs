@@ -144,13 +144,19 @@ public class MonsterControl : MonoBehaviour
                     }
                 case MonsterState.Attacking:
                     {
-                        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack") != false && 
+                        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack") == true && 
                             animator.GetCurrentAnimatorStateInfo(0).IsName("Down") != true)
                         {
                             monsterTr.LookAt(playerTr);
                             nvAgent.SetDestination(playerTr.position);
                         }
                         nvAgent.ResetPath();
+
+                        if (animator.GetInteger("AttackType") == 0)
+                        {
+                            RandomDecideAttackType();
+                        }
+
                         animator.SetBool("IsAttacking", true);
                         break;
                     }
@@ -258,17 +264,11 @@ public class MonsterControl : MonoBehaviour
 
             #region Action Change by Animation Play
 
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
-            {
-                nvAgent.velocity = Vector3.zero;
-            }
-
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Emerge"))
-            {
-                nvAgent.velocity = Vector3.zero;
-            }
-
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Down") || animator.GetCurrentAnimatorStateInfo(0).IsName("StandUp"))
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") |
+                animator.GetCurrentAnimatorStateInfo(0).IsName("Emerge") |
+                animator.GetCurrentAnimatorStateInfo(0).IsName("Down") |
+                animator.GetCurrentAnimatorStateInfo(0).IsName("StandUp") |
+                animator.GetCurrentAnimatorStateInfo(0).IsName("Wait"))
             {
                 nvAgent.velocity = Vector3.zero;
             }
@@ -294,6 +294,12 @@ public class MonsterControl : MonoBehaviour
 
         return new Vector3(x, 0, z);
 
+    }
+
+    // 공격할 스킬을 결정
+    private void RandomDecideAttackType()
+    {
+        animator.SetInteger("AttackType", UnityEngine.Random.Range(1, 5));
     }
 
     private void DeactivateMonster()

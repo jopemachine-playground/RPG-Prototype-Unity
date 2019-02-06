@@ -23,6 +23,7 @@ TagManager:
   - PlayerRightLeg
   - OrcWeapon
   - Panel
+  - MonsterCollider
   layers:
   - Default
   - TransparentFX

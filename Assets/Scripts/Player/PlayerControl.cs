@@ -39,6 +39,10 @@ public class PlayerControl : MonoBehaviour
     private Transform playerTr;
     private Transform cam;
 
+    // 피격 당한 경우 잠시의 무적 시간
+    public const float gracePeriod = 0.5f;
+    public bool IsGracePeriod;
+
     #region Sound Processing by Animation State
     private enum Voice
     {
@@ -132,7 +136,7 @@ public class PlayerControl : MonoBehaviour
     // Fixed update is called in sync with physics
     private void FixedUpdate()
     {
-        // 입력 받기
+
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
@@ -148,7 +152,6 @@ public class PlayerControl : MonoBehaviour
             IsAttacking = true;
         }
 
-
         // 기본동작은 걷기
         CamForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
         MoveVector = (v * CamForward + h * cam.right) / 2;
@@ -161,8 +164,7 @@ public class PlayerControl : MonoBehaviour
 
         // Attack 중이라면 움직일 수 없음
         if (Animator.GetInteger("AttackState") == 0 &&
-            Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") |
-            Animator.GetCurrentAnimatorStateInfo(0).IsName("Airborne"))
+            (Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") | Animator.GetCurrentAnimatorStateInfo(0).IsName("Airborne") | Animator.GetCurrentAnimatorStateInfo(0).IsName("Damaged")))
         {
             Move(MoveVector, IsJump);
         }
@@ -306,23 +308,55 @@ public class PlayerControl : MonoBehaviour
 
     public void OnTriggerEnter(Collider coll)
     {
+        // 무적 상태, 죽은 상태에선 공격을 무시함
+        if (IsGracePeriod)
+        {
+            return;
+        }
+
         #region UnderAttack Event
 
-        MonsterState state = coll.gameObject.GetComponent<MonsterControl>().AIState;
-        
-        if (state == MonsterState.Attacking && coll.gameObject.tag == "OrcWeapon")
+        if (coll.gameObject.tag == "OrcWeapon")
         {
-            Animator.SetTrigger("Damaged");
-            DamageIndicator.mInstance.CallFloatingText(playerTr, Player.mInstance.Damaged(coll.gameObject.GetComponent<MonsterAdapter>().monster.DecideAttackValue()));
-        }
+            Animator monsterAnimator = coll.gameObject.GetComponentInParent<Animator>();
+
+            if (monsterAnimator.GetCurrentAnimatorStateInfo(0).IsTag("Attack") |
+                monsterAnimator.GetAnimatorTransitionInfo(0).IsUserName("AttackTrans"))
+            {
+                Animator.SetBool("IsDamaged", true);
+                DamageIndicator.mInstance.CallFloatingText(playerTr, Player.mInstance.Damaged(coll.gameObject.GetComponentInParent<MonsterAdapter>().monster.DecideAttackValue()));
+                Rigidbody.velocity = Vector3.zero;
+                playerTr.LookAt(monsterAnimator.transform);
+                IsGracePeriod = true;
+                CancelInvoke();
+                Invoke("OffGracePeriod", gracePeriod);
+            }
         
-        else if (state == MonsterState.DashAttacking)
-        {
-            Animator.SetTrigger("Down");
         }
 
+        // 몬스터 컴포넌트의 Collider의 IsTrigger를 체크할 순 없으니, 자식 컴포넌트에 Collider를 달아 사용했다.
+        if (coll.gameObject.tag == "MonsterCollider")
+        {
+            Animator monsterAnimator = coll.gameObject.GetComponentInParent<Animator>();
+
+            if (monsterAnimator.GetCurrentAnimatorStateInfo(0).IsName("Dash Attack") |
+                monsterAnimator.GetAnimatorTransitionInfo(0).IsName("Dash Attack -> Attack"))
+            {
+                Animator.SetTrigger("Down");
+                DamageIndicator.mInstance.CallFloatingText(playerTr, Player.mInstance.Damaged(coll.gameObject.GetComponentInParent<MonsterAdapter>().monster.DecideAttackValue()));
+                playerTr.LookAt(monsterAnimator.transform);
+                IsGracePeriod = true;
+                CancelInvoke();
+                // 일어서는 시간에 공격을 무시하고, gracePeriod는 따로 부여
+                Invoke("OffGracePeriod", gracePeriod + monsterAnimator.GetCurrentAnimatorStateInfo(0).length);
+            }
+        }
         #endregion
+    }
 
+    private void OffGracePeriod()
+    {
+        IsGracePeriod = false;
     }
 
 }
