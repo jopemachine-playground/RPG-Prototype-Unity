@@ -42,6 +42,10 @@ public class MonsterControl : MonoBehaviour
 
     private Animator animator;
 
+    // 피격 당한 경우 잠시의 무적 시간
+    public const float gracePeriod = 0.5f;
+    public bool IsGracePeriod;
+
     // 죽은 몬스터가 사라지는데 걸리는 시간
     private float monsterDisappearingTime = 3f;
 
@@ -344,7 +348,8 @@ public class MonsterControl : MonoBehaviour
         #region UnderAttack Event
 
         // 죽은 경우 모든 공격을 무시함
-        if (IsDied == true)
+        if (IsDied == true | 
+            IsGracePeriod)
         {
             return;
         }
@@ -353,22 +358,39 @@ public class MonsterControl : MonoBehaviour
         {
             animator.SetTrigger("Damaged");
             DamageIndicator.mInstance.CallFloatingText(monsterTr, monsterAdpt.monster.Damaged(Player.mInstance.DecideAttackValue()));
+            HandleGracePeriod(gracePeriod);
         }
 
         if (Player.mInstance.state == PlayerState.GroundAttack2 && coll.gameObject.tag == "PlayerRightLeg")
         {
             animator.SetTrigger("Damaged");
             DamageIndicator.mInstance.CallFloatingText(monsterTr, monsterAdpt.monster.Damaged(Player.mInstance.DecideAttackValue()));
+            HandleGracePeriod(gracePeriod);
         }
 
         if (Player.mInstance.state == PlayerState.GroundAttack3 && coll.gameObject.tag == "PlayerLeftLeg")
         {
             animator.SetBool("IsDown", true);
             DamageIndicator.mInstance.CallFloatingText(monsterTr, monsterAdpt.monster.Damaged(Player.mInstance.DecideAttackValue()));
+            HandleGracePeriod(gracePeriod);
         }
 
         #endregion
 
     }
+
+    private void HandleGracePeriod(float time)
+    {
+        IsGracePeriod = true;
+        CancelInvoke();
+        // 일어서는 시간에 공격을 무시하고, gracePeriod는 따로 부여
+        Invoke("OffGracePeriod", time);
+    }
+
+    private void OffGracePeriod()
+    {
+        IsGracePeriod = false;
+    }
+
 
 }

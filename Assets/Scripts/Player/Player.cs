@@ -48,6 +48,7 @@ public class Player : MonoBehaviour
 
     public float currentStamina;
     public float StaminaMax;
+
     public float[] skillCoefficient;
 
     #endregion

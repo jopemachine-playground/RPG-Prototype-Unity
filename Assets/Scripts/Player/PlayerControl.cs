@@ -128,16 +128,6 @@ public class PlayerControl : MonoBehaviour
 
     #endregion
 
-    private void TransformReset()
-    {
-        //transform.rotation = Quaternion.Euler(0, transform.rotation.y ,0);
-    }
-
-    private void RandomDecideRestType()
-    {
-        Animator.SetInteger("RestType", UnityEngine.Random.Range(1, 4));
-    }
-
     void Start()
     {
         cam = GameObject.FindGameObjectWithTag("MainCamera").gameObject.GetComponent<Transform>();
@@ -156,14 +146,8 @@ public class PlayerControl : MonoBehaviour
         OrigGroundCheckDistance = GroundCheckDistance;
     }
 
-    // Fixed update is called in sync with physics
-    private void FixedUpdate()
+    private void Update()
     {
-        waitingTimeForWaitingMotionTimer += Time.deltaTime;
-
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
-
         if (IsJump == false)
         {
             IsJump = Input.GetButtonDown("Jump");
@@ -176,15 +160,23 @@ public class PlayerControl : MonoBehaviour
             IsAttacking = true;
         }
 
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+
         if ((h != 0 | v != 0))
         {
-            Animator.SetInteger("RestType", 0);
-            waitingTimeForWaitingMotionTimer = 0;
+            BreakRestTime();
         }
 
         // 기본동작은 걷기
         CamForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
         MoveVector = (v * CamForward + h * cam.right) / 2;
+    }
+
+    // Fixed update is called in sync with physics
+    private void FixedUpdate()
+    {
+        waitingTimeForWaitingMotionTimer += Time.deltaTime;
 
         // 지상에서 왼쪽 쉬프트 버튼을 누르면 달리기를 하며 속도가 두 배가 되지만, 스태미나를 소모한다.
         // 스태미나 부족 상태에서 달리려하면 속도가 느려진다.
@@ -213,7 +205,7 @@ public class PlayerControl : MonoBehaviour
 
         // Attack 중이라면 움직일 수 없음
         if (Animator.GetInteger("AttackState") == 0 &&
-            (Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") | Animator.GetCurrentAnimatorStateInfo(0).IsName("Airborne") | Animator.GetCurrentAnimatorStateInfo(0).IsName("Damaged")))
+            (Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") | Animator.GetCurrentAnimatorStateInfo(0).IsName("Airborne")))
         {
             Move(MoveVector, IsJump);
         }
@@ -386,10 +378,8 @@ public class PlayerControl : MonoBehaviour
                 Animator.SetBool("IsDamaged", true);
                 DamageIndicator.mInstance.CallFloatingText(playerTr, Player.mInstance.Damaged(coll.gameObject.GetComponentInParent<MonsterAdapter>().monster.DecideAttackValue()));
                 Rigidbody.velocity = Vector3.zero;
-                //playerTr.LookAt(monsterAnimator.transform);
-                IsGracePeriod = true;
-                CancelInvoke();
-                Invoke("OffGracePeriod", gracePeriod);
+                HandleGracePeriod(gracePeriod);
+                BreakRestTime();
             }
         
         }
@@ -404,14 +394,31 @@ public class PlayerControl : MonoBehaviour
             {
                 Animator.SetTrigger("Down");
                 DamageIndicator.mInstance.CallFloatingText(playerTr, Player.mInstance.Damaged(coll.gameObject.GetComponentInParent<MonsterAdapter>().monster.DecideAttackValue()));
-                //playerTr.LookAt(monsterAnimator.transform);
-                IsGracePeriod = true;
-                CancelInvoke();
-                // 일어서는 시간에 공격을 무시하고, gracePeriod는 따로 부여
-                Invoke("OffGracePeriod", gracePeriod + monsterAnimator.GetCurrentAnimatorStateInfo(0).length);
+                HandleGracePeriod(gracePeriod + monsterAnimator.GetCurrentAnimatorStateInfo(0).length);
+                BreakRestTime();
             }
         }
         #endregion
+    }
+
+    private void RandomDecideRestType()
+    {
+        Animator.SetInteger("RestType", UnityEngine.Random.Range(1, 4));
+    }
+
+    private void BreakRestTime()
+    {
+        // 키보드 입력이 들어왔을 때, 데미지를 받았을 때 호출되어 RestType을 0으로 만든다.
+        Animator.SetInteger("RestType", 0);
+        waitingTimeForWaitingMotionTimer = 0;
+    }
+
+    private void HandleGracePeriod(float time)
+    {
+        IsGracePeriod = true;
+        CancelInvoke();
+        // 일어서는 시간에 공격을 무시하고, gracePeriod는 따로 부여
+        Invoke("OffGracePeriod", time);
     }
 
     private void OffGracePeriod()
