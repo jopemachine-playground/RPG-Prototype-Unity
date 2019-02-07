@@ -17,6 +17,9 @@ public class PlayerInfoSystem: MonoBehaviour
     public Slider HPSlider;
     public Slider MPSlider;
     public Slider EXPSlider;
+    public Slider StaminaSlider;
+
+    private Image StaminaSliderFillArea;
 
     private Player player;
 
@@ -32,6 +35,8 @@ public class PlayerInfoSystem: MonoBehaviour
         HPSlider = GameObject.FindGameObjectWithTag("PlayerInfoSystem").transform.Find("PlayerInfo").Find("HP Bar").gameObject.GetComponent<Slider>();
         MPSlider = GameObject.FindGameObjectWithTag("PlayerInfoSystem").transform.Find("PlayerInfo").Find("MP Bar").gameObject.GetComponent<Slider>();
         EXPSlider = GameObject.FindGameObjectWithTag("PlayerInfoSystem").transform.Find("PlayerInfo").Find("Experience Bar").gameObject.GetComponent<Slider>();
+        StaminaSlider = GameObject.FindGameObjectWithTag("PlayerInfoSystem").transform.Find("PlayerInfo").Find("Stamina Bar").gameObject.GetComponent<Slider>();
+        StaminaSliderFillArea = StaminaSlider.transform.Find("Fill Area").GetComponentInChildren<Image>();
 
         SliderMaxValueChange();
     }
@@ -43,6 +48,15 @@ public class PlayerInfoSystem: MonoBehaviour
         MPText.text = (player.currentMP).ToString() + " / " + player.MaxMP;
         MPSlider.value = player.currentMP;
         EXPSlider.value = player.ExperienceValue;
+        StaminaSlider.value = player.currentStamina;
+
+        StaminaSliderFillArea.color = Color.yellow;
+
+        if (StaminaSlider.value < 30)
+        {
+            StaminaSliderFillArea.color = Color.red;
+        }
+
         LevelUP();
     }
 
@@ -66,6 +80,7 @@ public class PlayerInfoSystem: MonoBehaviour
         HPSlider.maxValue = player.MaxHP;
         MPSlider.maxValue = player.MaxMP;
         EXPSlider.maxValue = LevelInfo.getMaxExp(player.Level);
+        StaminaSlider.maxValue = player.StaminaMax;
     }
 
 

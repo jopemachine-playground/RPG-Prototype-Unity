@@ -46,6 +46,8 @@ public class Player : MonoBehaviour
     public int AttackValueIncrement;
     public int DefenceValueIncrement;
 
+    public float currentStamina;
+    public float StaminaMax;
     public float[] skillCoefficient;
 
     #endregion
@@ -61,6 +63,9 @@ public class Player : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
             mInstance = this;
         }
+
+        StaminaMax = 100;
+        currentStamina = StaminaMax;
 
         playerInfoUpdate();
     }

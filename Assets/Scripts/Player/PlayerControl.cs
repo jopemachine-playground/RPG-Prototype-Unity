@@ -43,7 +43,17 @@ public class PlayerControl : MonoBehaviour
     public const float gracePeriod = 0.5f;
     public bool IsGracePeriod;
 
+    // 스태미나 소모, 회복량의 Default 값
+    private float staminaRecoverMultiplier = 12f;
+    private float staminaUseMultiplier = 10f;
+    private bool IsRefresh;
+
+    // 일정 시간 이상 키보드 Input이 들어오지 않으면 랜덤으로 3개의 Waiting motion 중 하나를 재생
+    private const float waitingTimeForWaitingMotion = 10.0f;
+    private float waitingTimeForWaitingMotionTimer;
+
     #region Sound Processing by Animation State
+
     private enum Voice
     {
         attack,
@@ -60,7 +70,7 @@ public class PlayerControl : MonoBehaviour
 
     private enum MoveSound
     {
-
+        walk
     }
 
     private void HandleVoiceSoundByAnimation(Voice voice)
@@ -105,6 +115,9 @@ public class PlayerControl : MonoBehaviour
 
         switch (moveSound)
         {
+            case MoveSound.walk:
+                volume = 35;
+                break;
             default:
                 Debug.Assert(false, "unexpected value");
                 break;
@@ -113,8 +126,17 @@ public class PlayerControl : MonoBehaviour
         moveAudioManager.Play(moveSoundInt, volume);
     }
 
-
     #endregion
+
+    private void TransformReset()
+    {
+        //transform.rotation = Quaternion.Euler(0, transform.rotation.y ,0);
+    }
+
+    private void RandomDecideRestType()
+    {
+        Animator.SetInteger("RestType", UnityEngine.Random.Range(1, 4));
+    }
 
     void Start()
     {
@@ -129,6 +151,7 @@ public class PlayerControl : MonoBehaviour
         CapsuleHeight = Capsule.height;
         CapsuleCenter = Capsule.center;
 
+        waitingTimeForWaitingMotionTimer = 0;
         GroundCheckDistance = 0.1f;
         OrigGroundCheckDistance = GroundCheckDistance;
     }
@@ -136,6 +159,7 @@ public class PlayerControl : MonoBehaviour
     // Fixed update is called in sync with physics
     private void FixedUpdate()
     {
+        waitingTimeForWaitingMotionTimer += Time.deltaTime;
 
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
@@ -146,20 +170,45 @@ public class PlayerControl : MonoBehaviour
         }
 
         if (IsAttacking == false &&
-            Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") &&
+            Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") == true &&
             Input.GetButtonDown("Attack"))
         {
             IsAttacking = true;
+        }
+
+        if ((h != 0 | v != 0))
+        {
+            Animator.SetInteger("RestType", 0);
+            waitingTimeForWaitingMotionTimer = 0;
         }
 
         // 기본동작은 걷기
         CamForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
         MoveVector = (v * CamForward + h * cam.right) / 2;
 
-        // 지상에서 왼쪽 쉬프트 버튼을 누르면 달리기
-        if (Input.GetKey(KeyCode.LeftShift) && IsGrounded)
+        // 지상에서 왼쪽 쉬프트 버튼을 누르면 달리기를 하며 속도가 두 배가 되지만, 스태미나를 소모한다.
+        // 스태미나 부족 상태에서 달리려하면 속도가 느려진다.
+        if (Input.GetKey(KeyCode.LeftShift) && IsGrounded && Player.mInstance.currentStamina > 30)
         {
+            Player.mInstance.currentStamina -= staminaUseMultiplier * Time.deltaTime;
             MoveVector *= 2;
+        }
+        else if (Input.GetKey(KeyCode.LeftShift) && IsGrounded && Player.mInstance.currentStamina < 30)
+        {
+            Player.mInstance.currentStamina -= staminaUseMultiplier * Time.deltaTime;
+            MoveVector *= 0.5f;
+        }
+        else
+        {
+            if (Player.mInstance.currentStamina + staminaRecoverMultiplier * Time.deltaTime < Player.mInstance.StaminaMax)
+            {
+                Player.mInstance.currentStamina += staminaRecoverMultiplier * Time.deltaTime;
+            }
+            else if(Player.mInstance.currentStamina < Player.mInstance.StaminaMax) 
+            {
+                Player.mInstance.currentStamina = Player.mInstance.StaminaMax;
+            }
+
         }
 
         // Attack 중이라면 움직일 수 없음
@@ -167,6 +216,12 @@ public class PlayerControl : MonoBehaviour
             (Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") | Animator.GetCurrentAnimatorStateInfo(0).IsName("Airborne") | Animator.GetCurrentAnimatorStateInfo(0).IsName("Damaged")))
         {
             Move(MoveVector, IsJump);
+        }
+
+        if (waitingTimeForWaitingMotionTimer > waitingTimeForWaitingMotion)
+        {
+            RandomDecideRestType();
+            waitingTimeForWaitingMotionTimer = 0;
         }
 
         IsAttacking = false;
@@ -191,9 +246,15 @@ public class PlayerControl : MonoBehaviour
         ApplyExtraTurnRotation();
 
         // control and velocity handling is different when grounded and airborne:
-        if (IsGrounded == true)
+        if (IsGrounded == true && Player.mInstance.currentStamina > 10)
         {
+            IsRefresh = false;
             HandleGroundedMovement(IsJump);
+        }
+        else if(IsGrounded == true && Player.mInstance.currentStamina < 10)
+        {
+            IsRefresh = true;
+            Rigidbody.velocity = Vector3.zero;
         }
         else
         {
@@ -204,8 +265,6 @@ public class PlayerControl : MonoBehaviour
         UpdateAnimator(move);
     }
 
-
-
     void UpdateAnimator(Vector3 move)
     {
         // update the animator parameters
@@ -214,6 +273,7 @@ public class PlayerControl : MonoBehaviour
         Animator.SetBool("OnGround", IsGrounded);
         Animator.SetBool("IsAirAttack", IsAirAttacking);
         Animator.SetBool("IsJump", IsJump);
+        Animator.SetBool("IsRefresh", IsRefresh);
 
         // 지상에서 대쉬상태에서 공격버튼이 눌러지면 대쉬어택
         if (IsAttacking == true &&
@@ -326,7 +386,7 @@ public class PlayerControl : MonoBehaviour
                 Animator.SetBool("IsDamaged", true);
                 DamageIndicator.mInstance.CallFloatingText(playerTr, Player.mInstance.Damaged(coll.gameObject.GetComponentInParent<MonsterAdapter>().monster.DecideAttackValue()));
                 Rigidbody.velocity = Vector3.zero;
-                playerTr.LookAt(monsterAnimator.transform);
+                //playerTr.LookAt(monsterAnimator.transform);
                 IsGracePeriod = true;
                 CancelInvoke();
                 Invoke("OffGracePeriod", gracePeriod);
@@ -344,7 +404,7 @@ public class PlayerControl : MonoBehaviour
             {
                 Animator.SetTrigger("Down");
                 DamageIndicator.mInstance.CallFloatingText(playerTr, Player.mInstance.Damaged(coll.gameObject.GetComponentInParent<MonsterAdapter>().monster.DecideAttackValue()));
-                playerTr.LookAt(monsterAnimator.transform);
+                //playerTr.LookAt(monsterAnimator.transform);
                 IsGracePeriod = true;
                 CancelInvoke();
                 // 일어서는 시간에 공격을 무시하고, gracePeriod는 따로 부여
