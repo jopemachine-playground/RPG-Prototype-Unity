@@ -308,17 +308,8 @@
     <Reference Include="PackageManagerAssembly">
       <HintPath>C:/Unity-Chan/Assets/Download Asset/EffectExamples/Editor/PackageManagerAssembly/PackageManagerAssembly.dll</HintPath>
     </Reference>
-    <Reference Include="GETween">
-      <HintPath>C:/Unity-Chan/Assets/GUI Animator/Common/Plugins/GETween.dll</HintPath>
-    </Reference>
-    <Reference Include="GUIAnimatorFREE">
-      <HintPath>C:/Unity-Chan/Assets/GUI Animator/GUI Animator FREE/Plugins/GUIAnimatorFREE.dll</HintPath>
-    </Reference>
     <Reference Include="LitJson">
       <HintPath>C:/Unity-Chan/Assets/Plugins/LitJson.dll</HintPath>
-    </Reference>
-    <Reference Include="RichTextPlugin">
-      <HintPath>C:/Unity-Chan/Assets/RichTextPlugin/RichTextPlugin.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>C:/Unity-Chan/Library/PackageCache/com.unity.ads@2.3.1/Editor/UnityEditor.Advertisements.dll</HintPath>

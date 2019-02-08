@@ -61,7 +61,7 @@ public class DamageIndicator : MonoBehaviour
         currentTextValue = floatingTextsObj.Count;
     }
 
-    public void CallFloatingText(Transform targetTr, Damage damage)
+    public void CallFloatingText(Damage damage)
     {
 
         for (int i = 0; i < currentTextValue; i++)
@@ -69,7 +69,6 @@ public class DamageIndicator : MonoBehaviour
             if (floatingTextsObj[i].gameObject.GetComponent<FloatingTextTweener>().isActived == false)
             {
                 FloatingTextTweener floatingText = floatingTextsObj[i].gameObject.GetComponent<FloatingTextTweener>();
-                floatingText.targetTr = targetTr;
                 floatingText.damage = damage;
                 floatingTextsObj[i].active = true;
                 return;
@@ -78,7 +77,7 @@ public class DamageIndicator : MonoBehaviour
 
         floatingTextsObj.Capacity = currentTextValue * 2;
         floatingTextUpdate();
-        CallFloatingText(targetTr, damage);
+        CallFloatingText(damage);
     }
 
 }

@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using System.Collections;
 
 // Inventory Master에서 가져옴
+// https://assetstore.unity.com/packages/tools/gui/inventory-master-ugui-26310
 
 public class DragInventory : MonoBehaviour, IPointerDownHandler, IDragHandler
 {

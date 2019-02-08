@@ -31,20 +31,25 @@ public class FloatingTextTweener: MonoBehaviour
         text = GetComponent<Text>();
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         text.font = gameObject.GetComponentInParent<DamageIndicator>().font;
-        text.fontSize = 42;
+        text.fontSize = 55;
         text.horizontalOverflow = HorizontalWrapMode.Overflow;
-        if (damage.IsFatalBlow)
-        {
-            text.color = Color.red;
-            text.fontSize = 44;
-        }
     }
 
     private void OnEnable()
     {
         isActived = true;
         text.text = damage.value + "";
+        targetTr = damage.attackee.gameObject.transform;
         text.transform.position = cam.WorldToScreenPoint(targetTr.position);
+
+        text.color = Color.white;
+
+        if (damage.IsFatalBlow)
+        {
+            text.color = Color.red;
+            text.fontSize = 55;
+        }
+
         StartCoroutine("textUpdate");
     }
 
@@ -66,6 +71,7 @@ public class FloatingTextTweener: MonoBehaviour
             {
                 updateCounter++;
                 Vector3 swap = cam.WorldToScreenPoint(targetTr.position);
+                text.color = new Color(text.color.r, text.color.g, text.color.b, text.color.a - 0.25f * Time.deltaTime);
                 swap.y += 2f * updateCounter;
                 text.transform.position = swap;
             }

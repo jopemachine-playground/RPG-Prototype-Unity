@@ -6,9 +6,6 @@ using System.Collections;
 
 public class PlayerInfoSystem: MonoBehaviour
 {
-    //public Text Floating_Damage_text;
-    //public Text Floating_Damage_Canvas;
-
     public Text HPText;
     public Text MPText;
     public Text PlayerName;
@@ -43,12 +40,12 @@ public class PlayerInfoSystem: MonoBehaviour
 
     private void Update()
     {
-        HPText.text = (player.currentHP).ToString() + " / " + player.MaxHP;
-        HPSlider.value = player.currentHP;
-        MPText.text = (player.currentMP).ToString() + " / " + player.MaxMP;
-        MPSlider.value = player.currentMP;
+        HPText.text = (player.playerStatus.currentHP).ToString() + " / " + player.MaxHP;
+        HPSlider.value = player.playerStatus.currentHP;
+        MPText.text = (player.playerStatus.currentMP).ToString() + " / " + player.MaxMP;
+        MPSlider.value = player.playerStatus.currentMP;
         EXPSlider.value = player.ExperienceValue;
-        StaminaSlider.value = player.currentStamina;
+        StaminaSlider.value = player.playerStatus.stamina;
 
         StaminaSliderFillArea.color = Color.yellow;
 
@@ -66,8 +63,8 @@ public class PlayerInfoSystem: MonoBehaviour
         {
             player.ExperienceValue -= LevelInfo.getMaxExp(player.Level);
             player.Level++;
-            player.currentHP = player.MaxHP;
-            player.currentMP = player.MaxMP;
+            player.playerStatus.currentHP = player.MaxHP;
+            player.playerStatus.currentMP = player.MaxMP;
             SliderMaxValueChange();
             LevelText.text = "Lv." + (player.Level).ToString();
             player.playerInfoUpdate();
