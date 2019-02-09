@@ -137,6 +137,7 @@ public class PlayerControl : MonoBehaviour
 
     #endregion
 
+    #region Initialize
     void Start()
     {
         player = GetComponent<Player>();
@@ -172,9 +173,16 @@ public class PlayerControl : MonoBehaviour
                 case "Character1_RightHand":
                     RightHand = area[i];
                     break;
+                default:
+                    Debug.Assert(false, "PlayerControl.cs Error - Check UnAssigned AttackArea");
+                    break;
             }
         }
     }
+
+    #endregion
+
+    #region Handle Move Event
 
     private void Update()
     {
@@ -229,7 +237,7 @@ public class PlayerControl : MonoBehaviour
             status.stamina > 30 &&
             (h != 0 | v != 0))
         {
-            player.playerStatus.stamina -= staminaUseMultiplier * Time.deltaTime;
+            status.stamina -= staminaUseMultiplier * Time.deltaTime;
             MoveVector *= 2;
         }
         else if (Input.GetKey(KeyCode.LeftShift) &&
@@ -237,18 +245,18 @@ public class PlayerControl : MonoBehaviour
             status.stamina < 30 &&
             (h != 0 | v != 0))
         {
-            player.playerStatus.stamina -= staminaUseMultiplier * Time.deltaTime;
+            status.stamina -= staminaUseMultiplier * Time.deltaTime;
             MoveVector *= 0.5f;
         }
         else
         {
-            if (status.stamina + staminaRecoverMultiplier * Time.deltaTime < Player.mInstance.StaminaMax)
+            if (status.stamina + staminaRecoverMultiplier * Time.deltaTime < player.StaminaMax)
             {
-                player.playerStatus.stamina += staminaRecoverMultiplier * Time.deltaTime;
+                status.stamina += staminaRecoverMultiplier * Time.deltaTime;
             }
-            else if (status.stamina < Player.mInstance.StaminaMax)
+            else if (status.stamina < player.StaminaMax)
             {
-                player.playerStatus.stamina = Player.mInstance.StaminaMax;
+                status.stamina = player.StaminaMax;
             }
         }
 
@@ -271,7 +279,7 @@ public class PlayerControl : MonoBehaviour
         IsJump = false;
     }
 
-    public void Move(Vector3 move, bool IsJump)
+    private void Move(Vector3 move, bool IsJump)
     {
         if (move.magnitude > 1f) move.Normalize();
         move = transform.InverseTransformDirection(move);
@@ -297,7 +305,7 @@ public class PlayerControl : MonoBehaviour
         UpdateAnimator(move);
     }
 
-    void UpdateAnimator(Vector3 move)
+    private void UpdateAnimator(Vector3 move)
     { 
         Animator.SetFloat("Forward", ForwardAmount, 0.1f, Time.smoothDeltaTime);
         Animator.SetFloat("Turn", TurnAmount, 0.1f, Time.smoothDeltaTime);
@@ -333,7 +341,7 @@ public class PlayerControl : MonoBehaviour
     }
 
 
-    void HandleAirborneMovement()
+    private void HandleAirborneMovement()
     {
         if (Input.GetButtonDown("KickAttack"))
         {
@@ -351,9 +359,8 @@ public class PlayerControl : MonoBehaviour
     }
 
 
-    void HandleGroundedMovement(bool IsJump)
+    private void HandleGroundedMovement(bool IsJump)
     {
-
         Vector3 snapGround = Vector3.down;
 
         // 입력 값에 따라 캐릭터를 조정
@@ -373,11 +380,13 @@ public class PlayerControl : MonoBehaviour
 
     }
     
-    void ApplyExtraTurnRotation()
+    private void ApplyExtraTurnRotation()
     {
         float turnSpeed = Mathf.Lerp(STATIONARY_TURN_SPEED, MOVING_TURN_SPEED, ForwardAmount);
         transform.Rotate(0, TurnAmount * turnSpeed * Time.smoothDeltaTime, 0);
     }
+
+    #endregion
 
     #region Handle Attack Event
 
@@ -478,18 +487,7 @@ public class PlayerControl : MonoBehaviour
     }
     #endregion
 
-    private void RandomDecideRestType()
-    {
-        Animator.SetInteger("RestType", UnityEngine.Random.Range(1, 4));
-    }
-
-    private void BreakRestTime()
-    {
-        // 키보드 입력이 들어왔을 때, 데미지를 받았을 때 호출되어 RestType을 0으로 만든다.
-        Animator.SetInteger("RestType", 0);
-        waitingTimeForWaitingMotionTimer = 0;
-    }
-
+    #region Handle Attacked Event
     private void HandleGracePeriod(float time)
     {
         IsGracePeriod = true;
@@ -527,6 +525,24 @@ public class PlayerControl : MonoBehaviour
             currentVelocity = Vector3.zero;
         }
     }
+
+    #endregion
+
+    #region Handle Other Event
+
+    private void RandomDecideRestType()
+    {
+        Animator.SetInteger("RestType", UnityEngine.Random.Range(1, 4));
+    }
+
+    private void BreakRestTime()
+    {
+        // 키보드 입력이 들어왔을 때, 데미지를 받았을 때 호출되어 RestType을 0으로 만든다.
+        Animator.SetInteger("RestType", 0);
+        waitingTimeForWaitingMotionTimer = 0;
+    }
+
+    #endregion
 
 }
 

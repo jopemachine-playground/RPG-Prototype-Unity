@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+// 아래 스크립트의 작성 중 Character Controller와 NavMeshAgent를 함께 사용하는 법에 대해
+// https://forum.unity.com/threads/using-a-navmeshagent-with-a-charactercontroller.466902/ 를 참고함
+
 public class MonsterControl : MonoBehaviour
 {
     public MonsterAdapter monsterAdpt;
 
-    public Transform monsterTr;
-    public Transform playerTr;
-    public NavMeshAgent nvAgent;
+    private Transform monsterTr;
+    private Transform playerTr;
+    private NavMeshAgent nvAgent;
+    private CharacterController controller;
     public MonsterState AIState;
 
     public MonsterPatrolArea patrolArea;
@@ -24,9 +28,10 @@ public class MonsterControl : MonoBehaviour
 
     private Vector3 movingDirection;
     private Vector3 nextMovingDirection;
+    public Vector3 desireVelocity;
 
-    // 바닥 감지 거리
-    private float GroundCheckDistance;
+    private const float GroundCheckDistance = 0.1f;
+
     // 공격 거리
     public float attackDistance;
     // 플레이어 탐지 거리
@@ -48,16 +53,19 @@ public class MonsterControl : MonoBehaviour
 
     // 죽은 몬스터가 사라지는데 걸리는 시간
     private float monsterDisappearingTime = 3f;
+    private const float gravityValue = 15f;
 
-    public AttackArea OrcWeapon;
+    private AttackArea OrcWeapon;
 
     private void Start()
     {
         monsterAdpt = GetComponent<MonsterAdapter>();
         monsterTr = GetComponent<Transform>();
         animator = GetComponent<Animator>();
-        playerTr = GameObject.FindWithTag("Player").GetComponent<Transform>();
         nvAgent = GetComponent<NavMeshAgent>();
+        controller = GetComponent<CharacterController>();
+
+        playerTr = GameObject.FindWithTag("Player").GetComponent<Transform>();
         AIState = MonsterState.Idle;
         CheckingTime = new WaitForSeconds(0.2f);
 
@@ -70,7 +78,6 @@ public class MonsterControl : MonoBehaviour
         OrcWeapon = GetComponentInChildren<AttackArea>();
 
         StartCoroutine(this.CheckMonsterAI());
-        StartCoroutine(this.MonsterAction());
     }
 
     IEnumerator CheckMonsterAI()
@@ -133,166 +140,184 @@ public class MonsterControl : MonoBehaviour
         }
     }
 
-    IEnumerator MonsterAction()
+    private void Update()
     {
-        while (IsDied == false)
+        CheckGroundStatus();
+
+        HandleAttackEvent();
+
+        animator.SetBool("OnGround", IsGrounded);
+
+        desireVelocity.x = nvAgent.desiredVelocity.x;
+        desireVelocity.z = nvAgent.desiredVelocity.z;
+
+        if (IsGrounded == false)
         {
-            CheckGroundStatus();
-
-            HandleAttackEvent();
-
-            animator.SetBool("OnGround", IsGrounded);
-
-            #region Action Change by AI State
-            switch (AIState)
-            {
-                case MonsterState.Airbone:
-                    {
-                        animator.SetBool("IsAirDamaged", true);
-                        break;
-                    }
-                case MonsterState.Attacking:
-                    {
-                        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack") == true && 
-                            animator.GetCurrentAnimatorStateInfo(0).IsName("Down") != true)
-                        {
-                            monsterTr.LookAt(playerTr);
-                            nvAgent.SetDestination(playerTr.position);
-                        }
-                        nvAgent.ResetPath();
-
-                        if (animator.GetInteger("AttackType") == 0)
-                        {
-                            RandomDecideAttackType();
-                        }
-
-                        animator.SetBool("IsAttacking", true);
-                        break;
-                    }
-                case MonsterState.Chasing:
-                    {
-                        nvAgent.ResetPath();
-                        nvAgent.SetDestination(playerTr.position);
-
-                        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Down") != true)
-                        {
-                            monsterTr.LookAt(playerTr);
-                        }
-
-                        animator.SetBool("IsChasing", true);
-
-                        break;
-                    }
-                case MonsterState.Damaged:
-                    {
-                        nvAgent.ResetPath();
-                        monsterTr.LookAt(playerTr);
-
-                        animator.SetBool("IsDamaged", true);
-
-                        break;
-                    }
-
-                case MonsterState.DashAttacking:
-                    {
-                        monsterTr.LookAt(playerTr);
-                        nvAgent.SetDestination(playerTr.position);
-
-                        animator.SetBool("IsDashAttacking", true);
-
-                        break;
-                    }
-                case MonsterState.Death:
-                    {
-                        IsDied = true;
-                        animator.SetBool("IsDied", true);
-                        Invoke("DeactivateMonster", monsterDisappearingTime);
-                        break;
-                    }
-
-                case MonsterState.Idle:
-                    {
-                        RoamingTimer += Time.deltaTime;
-
-                        animator.SetBool("IsChasing", false);
-                        animator.SetBool("IsIdle", true);
-
-                        if (RoamingTimer > Idletime)
-                        {
-                            movingDirection = RandomDecideRoamingDirection();
-                            nextMovingDirection = RandomDecideRoamingDirection();
-                            RoamingTimer = 0;
-                            AIState = MonsterState.Roaming;
-                        }
-
-                        nvAgent.ResetPath();
-
-                        break;
-                    }
-
-                case MonsterState.Roaming:
-                    {
-                        RoamingTimer += Time.deltaTime;
-
-                        animator.SetBool("IsChasing", false);
-                        animator.SetBool("IsIdle", false);
-
-                        if (RoamingTimer > RoamingTime)
-                        {
-                            RoamingTimer = 0;
-                            AIState = MonsterState.Idle;
-                        }
-
-                        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Roaming"))
-                        {
-                            monsterTr.LookAt(movingDirection);
-                            nvAgent.ResetPath();
-                            nvAgent.SetDestination(movingDirection);
-
-                            if (isAtTargetLocation(nvAgent, movingDirection, nvAgent.stoppingDistance))
-                            {
-                                movingDirection = nextMovingDirection;
-                            }
-                        }
-
-                        animator.SetBool("IsRoaming", true);
-
-                        break;
-                    }
-
-                case MonsterState.Stun:
-                    {
-                        nvAgent.ResetPath();
-
-                        animator.SetBool("IsStunned", true);
-                        break;
-                    }
-            }
-
-            #endregion
-
-            #region Action Change by Animation Play
-
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") |
-                animator.GetCurrentAnimatorStateInfo(0).IsName("Emerge") |
-                animator.GetCurrentAnimatorStateInfo(0).IsName("Down") |
-                animator.GetCurrentAnimatorStateInfo(0).IsName("StandUp") |
-                animator.GetCurrentAnimatorStateInfo(0).IsName("Wait"))
-            {
-                nvAgent.velocity = Vector3.zero;
-            }
-
-            // 대쉬 어택의 velocity를 높이려면, 애니메이션 시간을 줄여야 한다.
-            // 공격 속도를 조절하려면 Idle의 시간을 조절해야 할 듯?
-            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Dash Attack"))
-            {
-                // nvAgent.velocity *= 1.01f;
-            }
-
-            #endregion
-            yield return null;
-
+            desireVelocity.y += Vector3.down.y * gravityValue * Time.smoothDeltaTime;
         }
+
+        else
+        {
+            desireVelocity.y = Vector3.down.y;
+        }
+
+        //nvAgent.updatePosition = false;
+        //nvAgent.updateRotation = false;
+
+        #region Action Change by AI State
+        switch (AIState)
+        {
+            case MonsterState.Airbone:
+                {
+                    animator.SetBool("IsAirDamaged", true);
+                    break;
+                }
+            case MonsterState.Attacking:
+                {
+                    if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack") == true &&
+                        animator.GetCurrentAnimatorStateInfo(0).IsName("Down") != true)
+                    {
+                        monsterTr.LookAt(playerTr);
+                        nvAgent.SetDestination(playerTr.position);
+                    }
+                    nvAgent.ResetPath();
+
+                    if (animator.GetInteger("AttackType") == 0)
+                    {
+                        RandomDecideAttackType();
+                    }
+
+                    animator.SetBool("IsAttacking", true);
+                    break;
+                }
+            case MonsterState.Chasing:
+                {
+                    nvAgent.ResetPath();
+                    nvAgent.SetDestination(playerTr.position);
+
+                    if (animator.GetCurrentAnimatorStateInfo(0).IsName("Down") != true)
+                    {
+                        monsterTr.LookAt(playerTr);
+                        controller.Move(desireVelocity.normalized * Time.deltaTime * monsterAdpt.monster.Speed * 2f );
+                        nvAgent.velocity = controller.velocity;
+                    }
+                    animator.SetBool("IsChasing", true);
+
+                    break;
+                }
+            case MonsterState.Damaged:
+                {
+                    nvAgent.ResetPath();
+                    monsterTr.LookAt(playerTr);
+
+                    animator.SetBool("IsDamaged", true);
+
+                    break;
+                }
+
+            case MonsterState.DashAttacking:
+                {
+                    monsterTr.LookAt(playerTr);
+                    nvAgent.SetDestination(playerTr.position);
+
+                    controller.Move(desireVelocity.normalized * Time.deltaTime * monsterAdpt.monster.Speed * 2f);
+                    nvAgent.velocity = controller.velocity;
+
+                    animator.SetBool("IsDashAttacking", true);
+
+                    break;
+                }
+            case MonsterState.Death:
+                {
+                    IsDied = true;
+                    animator.SetBool("IsDied", true);
+                    Invoke("DeactivateMonster", monsterDisappearingTime);
+                    break;
+                }
+
+            case MonsterState.Idle:
+                {
+                    RoamingTimer += Time.deltaTime;
+
+                    animator.SetBool("IsChasing", false);
+                    animator.SetBool("IsIdle", true);
+
+                    if (RoamingTimer > Idletime)
+                    {
+                        movingDirection = RandomDecideRoamingDirection();
+                        nextMovingDirection = RandomDecideRoamingDirection();
+                        RoamingTimer = 0;
+                        AIState = MonsterState.Roaming;
+                    }
+
+                    nvAgent.ResetPath();
+
+                    break;
+                }
+
+            case MonsterState.Roaming:
+                {
+                    RoamingTimer += Time.deltaTime;
+
+                    animator.SetBool("IsChasing", false);
+                    animator.SetBool("IsIdle", false);
+
+                    if (RoamingTimer > RoamingTime)
+                    {
+                        RoamingTimer = 0;
+                        AIState = MonsterState.Idle;
+                    }
+
+                    if (animator.GetCurrentAnimatorStateInfo(0).IsName("Roaming"))
+                    {
+                        monsterTr.LookAt(movingDirection);
+                        nvAgent.ResetPath();
+                        nvAgent.SetDestination(movingDirection);
+
+                        controller.Move(desireVelocity.normalized * Time.deltaTime * monsterAdpt.monster.Speed * 2f);
+                        nvAgent.velocity = controller.velocity;
+
+                        if (isAtTargetLocation(nvAgent, movingDirection, nvAgent.stoppingDistance))
+                        {
+                            movingDirection = nextMovingDirection;
+                        }
+                    }
+
+                    animator.SetBool("IsRoaming", true);
+
+                    break;
+                }
+
+            case MonsterState.Stun:
+                {
+                    nvAgent.ResetPath();
+
+                    animator.SetBool("IsStunned", true);
+                    break;
+                }
+        }
+
+        #endregion
+
+        #region Action Change by Animation Play
+
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") |
+            animator.GetCurrentAnimatorStateInfo(0).IsName("Emerge") |
+            animator.GetCurrentAnimatorStateInfo(0).IsName("Down") |
+            animator.GetCurrentAnimatorStateInfo(0).IsName("StandUp") |
+            animator.GetCurrentAnimatorStateInfo(0).IsName("Wait"))
+        {
+            nvAgent.velocity = Vector3.zero;
+        }
+
+        // 대쉬 어택의 velocity를 높이려면, 애니메이션 시간을 줄여야 한다.
+        // 공격 속도를 조절하려면 Idle의 시간을 조절해야 할 듯?
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Dash Attack"))
+        {
+            // nvAgent.velocity *= 1.01f;
+        }
+
+        #endregion
     }
 
     // 지상의 몬스터가 Roaming할 방향을 난수 생성으로 결정
@@ -314,20 +339,6 @@ public class MonsterControl : MonoBehaviour
     private void DeactivateMonster()
     {
         gameObject.active = false;
-    }
-
-    private void CheckGroundStatus()
-    {
-        RaycastHit hitInfo;
-
-        if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo))
-        {
-            IsGrounded = true;
-        }
-        else
-        {
-            IsGrounded = false;
-        }
     }
 
     // remaining Distance가 0이 아닐 상황에서도, 왜 계속 0인지 이해가 안 되서, 구글에 검색하다 찾음
@@ -364,8 +375,7 @@ public class MonsterControl : MonoBehaviour
 
     private void Damaged(Damage damage)
     {
-        // 죽은 경우 모든 공격을 무시함
-        if (IsDied == true)
+        if (IsDied == true | IsGracePeriod)
         {
             return;
         }
@@ -397,5 +407,19 @@ public class MonsterControl : MonoBehaviour
         IsGracePeriod = false;
     }
 
+    private void CheckGroundStatus()
+    {
+        // 왜인지 모르겠지만, MonsterControl 클래스의 CharacterController.isGrounded 가 제대로 작동하지 않아 
+        // 새 함수를 사용함
+        RaycastHit hitInfo;
 
+        if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo))
+        {
+            IsGrounded = true;
+        }
+        else
+        {
+            IsGrounded = false;
+        }
+    }
 }
