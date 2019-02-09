@@ -47,8 +47,8 @@ public class Status: MonoBehaviour
     {
         bool isFatalBlow;
 
-        float minDamage = AttackValue - 50;
-        float maxDamage = AttackValue + 50;
+        float minDamage = AttackValue;
+        float maxDamage = 1.5f * AttackValue;
 
         float damage = UnityEngine.Random.Range(minDamage, maxDamage);
 

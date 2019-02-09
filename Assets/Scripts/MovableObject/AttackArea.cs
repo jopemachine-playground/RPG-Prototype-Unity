@@ -12,7 +12,7 @@ public class AttackArea : MonoBehaviour
     private new Collider collider;
     private Animator attacker;
 
-    private void Start()
+    private void Awake()
     {
         thisStatus = gameObject.GetComponentInParent<Status>();
         gameObject.GetComponentInParent<Animator>();
