@@ -29,7 +29,7 @@ public class PlayerCamera : MonoBehaviour
         CameraRotateValueX = 175.0f;
         CameraRotateValueY = 10.0f;
         DistanceFromCharacter = new Vector3(0, 0.0f, -4f);
-        transform.position = target.position;
+        transform.position = target.position + new Vector3(0, 10.0f, 10f); ;
     }
 
     private void Update()

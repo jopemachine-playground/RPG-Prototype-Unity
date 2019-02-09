@@ -33,12 +33,12 @@ public class MonsterControl : MonoBehaviour
     private const float GroundCheckDistance = 0.1f;
 
     // 공격 거리
-    public float attackDistance;
+    public const float attackDistance = 2.0f;
     // 플레이어 탐지 거리
-    public float detectionDistance;
+    public const float detectionDistance = 10.0f;
     // 대쉬 어택 판정 거리
-    public float dashAttackMinDistance;
-    public float dashAttackMaxDistance;
+    public const float dashAttackMinDistance = 12.0f;
+    public const float dashAttackMaxDistance = 14.5f;
 
     // Roaming , Idle을 반복하는 시간을 재기 위한 타이머
     private const float RoamingTime = 6.0f;
@@ -55,6 +55,11 @@ public class MonsterControl : MonoBehaviour
     private float monsterDisappearingTime = 3f;
     private const float gravityValue = 15f;
 
+    // 애니메이션에 따른, 이동 속도변화에 필요한 상수들
+    private const float RoamingSpeedMultiplier = 2.0f;
+    private const float DashAttackSpeedMultiplier = 4.5f;
+    private const float ChasingSpeedMultiplier = 2.5f;
+
     private AttackArea OrcWeapon;
 
     private void Start()
@@ -69,11 +74,6 @@ public class MonsterControl : MonoBehaviour
         AIState = MonsterState.Idle;
         CheckingTime = new WaitForSeconds(0.2f);
 
-        attackDistance = 2.0f;
-        dashAttackMinDistance = 10.0f;
-        dashAttackMaxDistance = 12.0f;
-        detectionDistance = 14.5f;
-
         RoamingTimer = 0;
         OrcWeapon = GetComponentInChildren<AttackArea>();
 
@@ -84,6 +84,7 @@ public class MonsterControl : MonoBehaviour
     {
         while (IsDied == false)
         {
+            // 몬스터의 AI 상태는 일정 시간 (CheckingTime) 을 두고 변화함.
             yield return CheckingTime;
 
             // 데미지를 받는 State는 OnTriggerEvent로 따로 처리한다
@@ -95,7 +96,6 @@ public class MonsterControl : MonoBehaviour
             // 데미지를 받고 있는 상태가 아닐 때
             else
             {
-
                 float DistanceFromPlayer = Vector3.Distance(playerTr.position, monsterTr.position);
 
                 // 플레이어가 탐지 거리 내로 들어오면 추적 시작
@@ -153,6 +153,7 @@ public class MonsterControl : MonoBehaviour
 
         if (IsGrounded == false)
         {
+            // 중력 처리 (불완전할 수 있음에 주의)
             desireVelocity.y += Vector3.down.y * gravityValue * Time.smoothDeltaTime;
         }
 
@@ -161,8 +162,20 @@ public class MonsterControl : MonoBehaviour
             desireVelocity.y = Vector3.down.y;
         }
 
-        //nvAgent.updatePosition = false;
-        //nvAgent.updateRotation = false;
+        #region Action Change by Animation Play
+
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") |
+            animator.GetCurrentAnimatorStateInfo(0).IsName("Emerge") |
+            animator.GetCurrentAnimatorStateInfo(0).IsName("Down") |
+            animator.GetCurrentAnimatorStateInfo(0).IsName("StandUp") |
+            animator.GetCurrentAnimatorStateInfo(0).IsName("Wait") |
+            animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+        {
+            desireVelocity.x = 0;
+            desireVelocity.z = 0;
+        }
+
+        #endregion
 
         #region Action Change by AI State
         switch (AIState)
@@ -198,7 +211,7 @@ public class MonsterControl : MonoBehaviour
                     if (animator.GetCurrentAnimatorStateInfo(0).IsName("Down") != true)
                     {
                         monsterTr.LookAt(playerTr);
-                        controller.Move(desireVelocity.normalized * Time.deltaTime * monsterAdpt.monster.Speed * 2f );
+                        controller.Move(desireVelocity.normalized * Time.deltaTime * monsterAdpt.monster.Speed * ChasingSpeedMultiplier);
                         nvAgent.velocity = controller.velocity;
                     }
                     animator.SetBool("IsChasing", true);
@@ -220,7 +233,7 @@ public class MonsterControl : MonoBehaviour
                     monsterTr.LookAt(playerTr);
                     nvAgent.SetDestination(playerTr.position);
 
-                    controller.Move(desireVelocity.normalized * Time.deltaTime * monsterAdpt.monster.Speed * 2f);
+                    controller.Move(desireVelocity.normalized * Time.deltaTime * monsterAdpt.monster.Speed * DashAttackSpeedMultiplier);
                     nvAgent.velocity = controller.velocity;
 
                     animator.SetBool("IsDashAttacking", true);
@@ -274,7 +287,7 @@ public class MonsterControl : MonoBehaviour
                         nvAgent.ResetPath();
                         nvAgent.SetDestination(movingDirection);
 
-                        controller.Move(desireVelocity.normalized * Time.deltaTime * monsterAdpt.monster.Speed * 2f);
+                        controller.Move(desireVelocity.normalized * Time.deltaTime * monsterAdpt.monster.Speed * ChasingSpeedMultiplier);
                         nvAgent.velocity = controller.velocity;
 
                         if (isAtTargetLocation(nvAgent, movingDirection, nvAgent.stoppingDistance))
@@ -299,25 +312,6 @@ public class MonsterControl : MonoBehaviour
 
         #endregion
 
-        #region Action Change by Animation Play
-
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Idle") |
-            animator.GetCurrentAnimatorStateInfo(0).IsName("Emerge") |
-            animator.GetCurrentAnimatorStateInfo(0).IsName("Down") |
-            animator.GetCurrentAnimatorStateInfo(0).IsName("StandUp") |
-            animator.GetCurrentAnimatorStateInfo(0).IsName("Wait"))
-        {
-            nvAgent.velocity = Vector3.zero;
-        }
-
-        // 대쉬 어택의 velocity를 높이려면, 애니메이션 시간을 줄여야 한다.
-        // 공격 속도를 조절하려면 Idle의 시간을 조절해야 할 듯?
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Dash Attack"))
-        {
-            // nvAgent.velocity *= 1.01f;
-        }
-
-        #endregion
     }
 
     // 지상의 몬스터가 Roaming할 방향을 난수 생성으로 결정
@@ -374,7 +368,8 @@ public class MonsterControl : MonoBehaviour
     }
 
     private void Damaged(Damage damage)
-    {
+    { 
+
         if (IsDied == true | IsGracePeriod)
         {
             return;
@@ -398,7 +393,6 @@ public class MonsterControl : MonoBehaviour
     {
         IsGracePeriod = true;
         CancelInvoke();
-        // 일어서는 시간에 공격을 무시하고, gracePeriod는 따로 부여
         Invoke("OffGracePeriod", time);
     }
 

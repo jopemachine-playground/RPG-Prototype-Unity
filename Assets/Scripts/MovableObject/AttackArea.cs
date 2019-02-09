@@ -21,7 +21,7 @@ public class AttackArea : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    { 
+    {
         HitArea hit = other.gameObject.GetComponent<HitArea>();
 
         if (hit == null) return;

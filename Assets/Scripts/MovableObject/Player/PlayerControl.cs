@@ -42,9 +42,9 @@ public class PlayerControl : MonoBehaviour
     public const float gracePeriod = 0.5f;
     public bool IsGracePeriod;
 
-    // 스태미나 소모, 회복량의 Default 값
-    private float staminaRecoverMultiplier = 15f;
-    private float staminaUseMultiplier = 10f;
+    // 스태미나 소모, 회복량의 Default 값 (후에 아이템 사용등으로 변경 가능하므로 const가 아님)
+    public float staminaRecoverMultiplier = 15f;
+    public float staminaUseMultiplier = 10f;
 
     // 일정 시간 이상 키보드 Input이 들어오지 않으면 랜덤으로 3개의 Waiting motion 중 하나를 재생
     private const float waitingTimeForWaitingMotion = 15.0f;
@@ -261,7 +261,8 @@ public class PlayerControl : MonoBehaviour
         }
 
         // Attack 중이라면 움직일 수 없음
-        if (Animator.GetInteger("AttackState") == 0)
+        if (Animator.GetInteger("AttackState") == 0 &&
+            (Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") | Animator.GetCurrentAnimatorStateInfo(0).IsName("Airborne")))
         {
             Move(MoveVector, IsJump);
         }
