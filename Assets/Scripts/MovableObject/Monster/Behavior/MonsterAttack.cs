@@ -17,6 +17,7 @@ public class MonsterAttack : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        animator.SetBool("DamagedProcessed", false);
         animator.SetInteger("AttackType", 0);
         animator.SetBool("IsAttacking", false);
     }

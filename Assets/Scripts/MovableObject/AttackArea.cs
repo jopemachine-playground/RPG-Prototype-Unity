@@ -22,6 +22,10 @@ public class AttackArea : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // 어떤 경우에도, 한 공격 모션에 데미지가 한 번만 들어가게 한다.
+        // 그렇게 하기 위해 DamagedProcessed 를 사용함
+        if (attacker.GetBool("DamagedProcessed") == true) return;
+
         HitArea hit = other.gameObject.GetComponent<HitArea>();
 
         if (hit == null) return;

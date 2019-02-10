@@ -47,10 +47,6 @@ public class MonsterControl : MonoBehaviour
 
     private Animator animator;
 
-    // 피격 당한 경우 잠시의 무적 시간
-    public const float gracePeriod = 0.5f;
-    public bool IsGracePeriod;
-
     // 죽은 몬스터가 사라지는데 걸리는 시간
     private float monsterDisappearingTime = 3f;
     private const float gravityValue = 15f;
@@ -369,36 +365,21 @@ public class MonsterControl : MonoBehaviour
 
     private void Damaged(Damage damage)
     { 
-
-        if (IsDied == true | IsGracePeriod)
+        if (IsDied == true)
         {
             return;
         }
 
         if (damage.attacker.GetCurrentAnimatorStateInfo(0).IsTag("DamageAttack"))
         {
-            animator.Play("Damaged");
-            HandleGracePeriod(gracePeriod);
+            animator.SetTrigger("Damaged");
         }
 
         else if (damage.attacker.GetCurrentAnimatorStateInfo(0).IsTag("DownAttack"))
         {
             animator.Play("Down");
-            HandleGracePeriod(gracePeriod);
         }
 
-    }
-
-    private void HandleGracePeriod(float time)
-    {
-        IsGracePeriod = true;
-        CancelInvoke();
-        Invoke("OffGracePeriod", time);
-    }
-
-    private void OffGracePeriod()
-    {
-        IsGracePeriod = false;
     }
 
     private void CheckGroundStatus()

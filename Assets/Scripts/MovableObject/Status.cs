@@ -16,17 +16,17 @@ public class Status: MonoBehaviour
     public int DefenceValue;
 
     // 방어력 속성들을 이용해 최종적인 데미지를 계산
-    public void CalculateDamage(Damage playerAtk)
+    public void CalculateDamage(Damage AtkValue)
     {
         int resultDamage;
 
-        if (DefenceValue >= playerAtk.value)
+        if (DefenceValue >= AtkValue.value)
         {
             resultDamage = 1;
         }
         else
         {
-            resultDamage = playerAtk.value - DefenceValue;
+            resultDamage = AtkValue.value - DefenceValue;
         }
 
         if (currentHP - resultDamage >= 0)
@@ -38,7 +38,9 @@ public class Status: MonoBehaviour
             currentHP = 0;
         }
 
-        DamageIndicator.mInstance.CallFloatingText(playerAtk);
+        DamageIndicator.mInstance.CallFloatingText(AtkValue);
+
+        AtkValue.attacker.SetBool("DamagedProcessed", true);
 
     }
 

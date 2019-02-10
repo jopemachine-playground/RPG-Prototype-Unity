@@ -18,6 +18,7 @@ public class PlayerPunchAttack1 : StateMachineBehaviour
     
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        animator.SetBool("DamagedProcessed", false);
         animator.SetInteger("AttackState", 0);
         Player.mInstance.state = PlayerState.Grounded;
     }

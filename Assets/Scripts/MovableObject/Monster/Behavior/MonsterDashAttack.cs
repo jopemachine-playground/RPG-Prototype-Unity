@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class MonsterDashAttack : StateMachineBehaviour
 {
-    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-
-    }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -16,7 +12,7 @@ public class MonsterDashAttack : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        animator.SetBool("DamagedProcessed", false);
         animator.SetBool("IsDashAttacking", false);
     }
 }
