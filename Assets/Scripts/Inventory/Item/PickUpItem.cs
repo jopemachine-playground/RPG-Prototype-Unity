@@ -26,9 +26,9 @@ public class PickUpItem : MonoBehaviour
 
     // 땅에 떨어진 Pickupitem 객체와 플레이어가 충돌하면 플레이어의 아이템이 되고
     // Pickupitem 객체 비활성화 한다.
-    void OnCollisionEnter(Collision col)
-    {
-        if (col.collider.tag == "Player")
+    private void OnCollisionEnter(Collision other)
+    {   
+        if (other.collider.tag == "Player")
         {
             // ItemIndexInList는 InventorySystem에서 아이템 순서를 드래깅으로 변경할 때,
             // PickUpItem과 충돌했을 때 변경, 초기화 된다.

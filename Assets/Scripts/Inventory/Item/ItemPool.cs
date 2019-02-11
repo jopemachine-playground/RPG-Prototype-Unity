@@ -91,6 +91,8 @@ public class ItemPool : MonoBehaviour
     {
         GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         sphere.name = "" + _ID;
+        // 12는 픽업 아이템의 레이어
+        sphere.layer = 12; 
         sphere.SetActive(false);
         sphere.AddComponent<PickUpItem>();
         sphere.AddComponent<Rigidbody>();

@@ -9,16 +9,15 @@ using UnityEngine.AI;
 public class MonsterControl : MonoBehaviour
 {
     public MonsterAdapter monsterAdpt;
+    public MonsterState AIState;
+    public MonsterPatrolArea patrolArea;
 
     private Transform monsterTr;
     private Transform playerTr;
     private NavMeshAgent nvAgent;
     private CharacterController controller;
-    public MonsterState AIState;
-
-    public MonsterPatrolArea patrolArea;
-
-    private static WaitForSeconds CheckingTime;
+    private Animator animator;
+    private AttackArea OrcWeapon;
 
     private bool IsGrounded;
     private bool IsAttacking;
@@ -29,6 +28,8 @@ public class MonsterControl : MonoBehaviour
     private Vector3 movingDirection;
     private Vector3 nextMovingDirection;
     public Vector3 desireVelocity;
+
+    private static WaitForSeconds CheckingTime;
 
     private const float GroundCheckDistance = 0.1f;
 
@@ -45,18 +46,14 @@ public class MonsterControl : MonoBehaviour
     private const float Idletime = 3.0f;
     private float RoamingTimer;
 
-    private Animator animator;
-
     // 죽은 몬스터가 사라지는데 걸리는 시간
     private float monsterDisappearingTime = 3f;
     private const float gravityValue = 15f;
 
     // 애니메이션에 따른, 이동 속도변화에 필요한 상수들
     private const float RoamingSpeedMultiplier = 2.0f;
-    private const float DashAttackSpeedMultiplier = 4.5f;
+    private const float DashAttackSpeedMultiplier = 6.0f;
     private const float ChasingSpeedMultiplier = 2.5f;
-
-    private AttackArea OrcWeapon;
 
     private void Start()
     {
@@ -212,6 +209,12 @@ public class MonsterControl : MonoBehaviour
                     }
                     animator.SetBool("IsChasing", true);
 
+                    // 공격 대기 상태에서 Chasing으로 상태 전환 되었다면, Wait을 해제하고 Chasing으로 돌아감
+                    if (animator.GetCurrentAnimatorStateInfo(0).IsName("Wait") == true)
+                    { 
+                        animator.SetInteger("AttackType", 0);
+                    }
+
                     break;
                 }
             case MonsterState.Damaged:
@@ -351,7 +354,8 @@ public class MonsterControl : MonoBehaviour
 
     private void HandleAttackEvent()
     {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack") |
+            animator.GetCurrentAnimatorStateInfo(0).IsName("Dash Attack"))
         {
             OrcWeapon.OnAttack();
         }
@@ -382,11 +386,12 @@ public class MonsterControl : MonoBehaviour
 
     }
 
+
     private void CheckGroundStatus()
     {
-        // 왜인지 모르겠지만, MonsterControl 클래스의 CharacterController.isGrounded 가 제대로 작동하지 않아 
-        // 새 함수를 사용함
         RaycastHit hitInfo;
+        // 왜인지 모르겠지만, MonsterControl 클래스의 CharacterController.isGrounded 가 제대로 작동하지 않아 
+        // 레이캐스팅 방식을 이용한 지면 체크 함수를 따로 사용함. 
 
         if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo))
         {

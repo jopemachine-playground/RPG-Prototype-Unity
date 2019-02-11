@@ -272,8 +272,10 @@
     <Compile Include="Assets\Scripts\MovableObject\Monster\MonsterSpawnManager.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Monster\MonsterState.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Monster\MonsterType.cs" />
+    <Compile Include="Assets\Scripts\MovableObject\Player\ApplyPhysics.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerAirAttack.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerDamaged.cs" />
+    <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerDashAttack.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerDown.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerKickAttack1.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerKickAttack2.cs" />
