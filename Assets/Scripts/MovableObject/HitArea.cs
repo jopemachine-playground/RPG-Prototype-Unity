@@ -7,7 +7,14 @@ using UnityEngine;
 // 아래 스크립트의 작성은 http://www.yes24.com/24/goods/27894042 도서를 참고함
 
 public class HitArea : MonoBehaviour
-{ 
+{
+    private Status status;
+
+    private void Awake()
+    {
+        status = GetComponent<Status>();
+    }
+
     public void Damaged(Damage damage)
     {
         // attacker와 attackee가 같은 태그라면, 예를 들어 몬스터가 같은 몬스터를 공격하는 경우
@@ -17,8 +24,12 @@ public class HitArea : MonoBehaviour
         // (여기서 따로 처리할 필요 없음)
         if (damage.attacker.gameObject.tag == damage.attackee.gameObject.tag) return;
 
-        Status st = gameObject.GetComponent<Status>();
-        st.SendMessage("CalculateDamage", damage);
+        status.CalculateDamage(damage);
+
+        if (damage.EmittingParticleID != 0)
+        {
+            ParticlePool.mInstance.CallAttackParticle(damage.EmittingParticleID, transform.position);
+        }
     }
 
 

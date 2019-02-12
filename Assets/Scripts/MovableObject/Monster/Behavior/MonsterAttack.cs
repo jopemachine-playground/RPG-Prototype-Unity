@@ -21,5 +21,6 @@ public class MonsterAttack : StateMachineBehaviour
         animator.SetInteger("AttackType", 0);
         animator.SetBool("IsAttacking", false);
     }
+
 }
 

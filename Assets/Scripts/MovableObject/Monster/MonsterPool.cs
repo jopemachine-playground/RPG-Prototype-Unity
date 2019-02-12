@@ -6,7 +6,6 @@ using System.IO;
 
 class MonsterPool : MonoBehaviour
 {
-
     public static MonsterPool mInstance;
 
     public List<Monster> entireMonsterList = new List<Monster>();

@@ -11,6 +11,7 @@ public class AttackArea : MonoBehaviour
     private Status thisStatus;
     private new Collider collider;
     private Animator attacker;
+    private IInteractAble attackerObj;
 
     private void Awake()
     {
@@ -18,12 +19,20 @@ public class AttackArea : MonoBehaviour
         gameObject.GetComponentInParent<Animator>();
         collider = GetComponent<Collider>();
         attacker = GetComponentInParent<Animator>();
+
+        attackerObj = GetComponentInParent<MonsterControl>();
+
+        if (attackerObj == null)
+        {
+            attackerObj = GetComponentInParent<PlayerControl>();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
         // 어떤 경우에도, 한 공격 모션에 데미지가 한 번만 들어가게 한다.
-        // 그렇게 하기 위해 DamagedProcessed 를 사용함
+        // 그렇게 하기 위해 Animator 파라미터로 'DamagedProcessed' 를 만들어 사용함
+
         if (attacker.GetBool("DamagedProcessed") == true) return;
 
         HitArea hit = other.gameObject.GetComponent<HitArea>();
@@ -36,7 +45,9 @@ public class AttackArea : MonoBehaviour
 
         damage.attacker = attacker;
 
-        // PlayerControl의 Damaged, HitArea의 Damaged를 호출한다
+        attackerObj.HandleAttackParticle(ref damage);
+
+        // PlayerControl이나 MonsterControl 둘 중 하나의 Damaged와, HitArea의 Damaged를 호출한다
         other.SendMessage("Damaged", damage);
     }
 

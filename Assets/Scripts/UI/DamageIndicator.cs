@@ -54,8 +54,7 @@ public class DamageIndicator : MonoBehaviour
             quad.AddComponent<Text>();
             quad.AddComponent<FloatingTextTweener>();
             floatingTextsObj.Add(quad);
-            quad.transform.parent = GameObject.FindGameObjectWithTag("PlayerInfoSystem").transform.Find("Damage Indicator Pool").transform;
-
+            quad.transform.parent = gameObject.transform;
         }
 
         currentTextValue = floatingTextsObj.Count;

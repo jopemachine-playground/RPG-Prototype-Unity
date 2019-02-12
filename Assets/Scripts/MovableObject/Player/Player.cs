@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
     static public Player mInstance;
 
-    public PlayerState state;
+    public PlayerSkillState state;
 
     #region Variables irrelevant level (including level)
 
@@ -32,8 +32,6 @@ public class Player : MonoBehaviour
     public int FatalBlowProbIncrement;
     public int AttackValueIncrement;
     public int DefenceValueIncrement;
-
-    public float[] skillCoefficient;
 
     #endregion
 

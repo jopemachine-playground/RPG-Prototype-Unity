@@ -8,6 +8,9 @@ public class Damage
     public Animator attacker;
     public Animator attackee;
 
+    public int EmittingParticleID = 0;
+    public float skillCoefficient = 100f;
+
     public Damage(int _value, bool _IsFatalBlow)
     {
         value = _value;

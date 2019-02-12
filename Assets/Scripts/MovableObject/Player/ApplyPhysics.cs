@@ -10,17 +10,20 @@ using UnityEngine;
  * 
  * 특정 이유로 Character Control이 아닌 Rigidbody를 통한 물리 효과로 캐릭터를 움직여야 할 때 사용
  */
-public class ApplyPhysics: MonoBehaviour
-{
-    private Player player;
-    private Collider ApplyPhysicsArea;
-    private Rigidbody playerRigidbody;
 
-    private void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player").gameObject.GetComponent<Player>();
-        playerRigidbody = player.gameObject.GetComponent<Rigidbody>();
-        ApplyPhysicsArea = GetComponent<Collider>();
-    }
+#region UNUSED CODE
+//public class ApplyPhysics: MonoBehaviour
+//{
+//    private Player player;
+//    private Collider ApplyPhysicsArea;
+//    private Rigidbody playerRigidbody;
 
-}
+//    private void Start()
+//    {
+//        player = GameObject.FindGameObjectWithTag("Player").gameObject.GetComponent<Player>();
+//        playerRigidbody = player.gameObject.GetComponent<Rigidbody>();
+//        ApplyPhysicsArea = GetComponent<Collider>();
+//    }
+
+//}
+#endregion

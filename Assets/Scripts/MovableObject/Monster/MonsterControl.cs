@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-// 아래 스크립트의 작성 중 Character Controller와 NavMeshAgent를 함께 사용하는 법에 대해
-// https://forum.unity.com/threads/using-a-navmeshagent-with-a-charactercontroller.466902/ 를 참고함
+/// <summary>
+/// 아래 스크립트의 작성 중 Character Controller와 NavMeshAgent를 함께 사용하는 법에 대해
+/// https://forum.unity.com/threads/using-a-navmeshagent-with-a-charactercontroller.466902/ 를 참고함
+/// </summary>
 
-public class MonsterControl : MonoBehaviour
+public class MonsterControl : MonoBehaviour, IInteractAble
 {
     public MonsterAdapter monsterAdpt;
     public MonsterState AIState;
@@ -323,12 +325,6 @@ public class MonsterControl : MonoBehaviour
 
     }
 
-    // 공격할 스킬을 결정
-    private void RandomDecideAttackType()
-    {
-        animator.SetInteger("AttackType", UnityEngine.Random.Range(1, 5));
-    }
-
     private void DeactivateMonster()
     {
         gameObject.active = false;
@@ -352,22 +348,42 @@ public class MonsterControl : MonoBehaviour
         return dist <= minDistance;
     }
 
-    private void HandleAttackEvent()
+
+    #region Handle Attack Event
+
+    public bool HandleAttackEvent()
     {
         if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack") |
             animator.GetCurrentAnimatorStateInfo(0).IsName("Dash Attack"))
         {
             OrcWeapon.OnAttack();
+            return true;
         }
-
         else
         {
             OrcWeapon.OffAttack();
         }
 
+        return false;
     }
 
-    private void Damaged(Damage damage)
+    public void HandleAttackParticle(ref Damage damage)
+    {
+
+    }
+
+    // 공격할 스킬을 결정
+    private void RandomDecideAttackType()
+    {
+        animator.SetInteger("AttackType", 1);
+    }
+
+    #endregion
+
+
+    #region Handle Attacked Evnet
+
+    public void Damaged(Damage damage)
     { 
         if (IsDied == true)
         {
@@ -383,9 +399,9 @@ public class MonsterControl : MonoBehaviour
         {
             animator.Play("Down");
         }
-
     }
 
+    #endregion
 
     private void CheckGroundStatus()
     {

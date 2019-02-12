@@ -1,0 +1,8 @@
+[{"ID":10001,"Name":"사이드킥","Desc":"(스킬설명..)","Coefficient":150,"Animation":"Kick Attack1","EmittingParticleID":10001},
+{"ID":10002,"Name":"라이트 하이킥","Desc":"(스킬설명..)","Coefficient":125,"Animation":"Kick Attack2","EmittingParticleID":10001},
+{"ID":10003,"Name":"웅크려 차기","Desc":"(스킬설명..)","Coefficient":100,"Animation":"Kick Attack3","EmittingParticleID":10001},
+{"ID":10004,"Name":"레프트 잽","Desc":"(스킬설명..)","Coefficient":100,"Animation":"Punch Attack1","EmittingParticleID":10001},
+{"ID":10005,"Name":"라이트 스트레이트","Desc":"(스킬설명..)","Coefficient":100,"Animation":"Punch Attack2","EmittingParticleID":10001},
+{"ID":10006,"Name":"옆날치기","Desc":"(스킬설명..)","Coefficient":150,"Animation":"Punch Attack3","EmittingParticleID":10001},
+{"ID":10007,"Name":"어퍼컷","Desc":"(스킬설명..)","Coefficient":170,"Animation":"Punch Attack4","EmittingParticleID":10001},
+{"ID":10008,"Name":"대쉬어택","Desc":"(스킬설명..)","Coefficient":175,"Animation":"Dash Attack","EmittingParticleID":10001}]

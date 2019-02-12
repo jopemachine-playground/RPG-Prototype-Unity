@@ -15,23 +15,24 @@ public class Status: MonoBehaviour
     public int AttackValue;
     public int DefenceValue;
 
-    // 방어력 속성들을 이용해 최종적인 데미지를 계산
+    // 방어력 속성들을 이용해 최종적인 데미지를 계산하고, 
+    // UI에 입힌 데미지를 표시하며, 공격 이펙트를 불러와 재생한다 
     public void CalculateDamage(Damage damage)
     {
-        int resultDamage;
+        float resultDamage = damage.value * (damage.skillCoefficient / 100);
 
-        if (DefenceValue >= damage.value)
+        if (DefenceValue >= resultDamage)
         {
             resultDamage = 1;
         }
         else
         {
-            resultDamage = damage.value - DefenceValue;
+            resultDamage -= DefenceValue;
         }
 
         if (currentHP - resultDamage >= 0)
         {
-            currentHP -= resultDamage;
+            currentHP -= (int)(Mathf.Floor(resultDamage));
         }
         else
         {

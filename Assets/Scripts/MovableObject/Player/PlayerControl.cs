@@ -5,7 +5,7 @@ using UnityEngine;
 // 아래 스크립트의 작성은 Stardard Asset의 ThirdPersonControl와
 // http://www.yes24.com/24/goods/27894042 도서를 참고함
 
-public class PlayerControl : MonoBehaviour
+public class PlayerControl : MonoBehaviour, IInteractAble
 {
     #region Variables
     private Player player;
@@ -61,6 +61,8 @@ public class PlayerControl : MonoBehaviour
     private CharacterController controller;
     private const float gravityValue = 15f;
     public Vector3 currentVelocity;
+
+    public string AnimationNameString;
 
     #endregion
 
@@ -225,6 +227,8 @@ public class PlayerControl : MonoBehaviour
             IsJump = Input.GetButtonDown("Jump");
         }
 
+        HandleAttackEvent();
+
         if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") == true)
         {
             if (Input.GetButtonDown("KickAttack"))
@@ -247,8 +251,6 @@ public class PlayerControl : MonoBehaviour
 
             // Animator.Play("Death");
         }
-
-        HandleAttackEvent();
 
         if ((h != 0 | v != 0))
         {
@@ -496,8 +498,6 @@ public class PlayerControl : MonoBehaviour
 
         Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, 1 << 13);
 
-        // Debug.Log(hitInfo.distance);
-
         return hitInfo.distance;
     }
 
@@ -505,7 +505,7 @@ public class PlayerControl : MonoBehaviour
 
     #region Handle Attack Event
 
-    private bool HandleAttackEvent()
+    public bool HandleAttackEvent()
     {
         if (Animator.GetCurrentAnimatorStateInfo(0).IsTag("DamageAttack") |
             Animator.GetCurrentAnimatorStateInfo(0).IsTag("DownAttack"))
@@ -516,6 +516,8 @@ public class PlayerControl : MonoBehaviour
                 LeftHand.OffAttack();
                 RightFoot.OffAttack();
                 RightHand.OffAttack();
+
+                AnimationNameString = "Kick Attack1";
                 return true;
             }
 
@@ -525,6 +527,8 @@ public class PlayerControl : MonoBehaviour
                 LeftHand.OffAttack();
                 RightFoot.OnAttack();
                 RightHand.OffAttack();
+
+                AnimationNameString = "Kick Attack2";
                 return true;
             }
 
@@ -534,6 +538,8 @@ public class PlayerControl : MonoBehaviour
                 LeftHand.OffAttack();
                 RightFoot.OffAttack();
                 RightHand.OffAttack();
+
+                AnimationNameString = "Kick Attack3";
                 return true;
             }
 
@@ -543,6 +549,8 @@ public class PlayerControl : MonoBehaviour
                 LeftHand.OnAttack();
                 RightFoot.OffAttack();
                 RightHand.OffAttack();
+
+                AnimationNameString = "Punch Attack1";
                 return true;
             }
 
@@ -552,6 +560,8 @@ public class PlayerControl : MonoBehaviour
                 LeftHand.OffAttack();
                 RightFoot.OffAttack();
                 RightHand.OnAttack();
+
+                AnimationNameString = "Punch Attack2";
                 return true;
             }
 
@@ -561,6 +571,8 @@ public class PlayerControl : MonoBehaviour
                 LeftHand.OffAttack();
                 RightFoot.OffAttack();
                 RightHand.OnAttack();
+
+                AnimationNameString = "Punch Attack3";
                 return true;
             }
 
@@ -570,6 +582,8 @@ public class PlayerControl : MonoBehaviour
                 LeftHand.OffAttack();
                 RightFoot.OffAttack();
                 RightHand.OnAttack();
+
+                AnimationNameString = "Punch Attack4";
                 return true;
             }
 
@@ -579,6 +593,8 @@ public class PlayerControl : MonoBehaviour
                 LeftHand.OffAttack();
                 RightFoot.OnAttack();
                 RightHand.OffAttack();
+
+                AnimationNameString = "Dash Attack";
                 return true;
             }
 
@@ -595,11 +611,22 @@ public class PlayerControl : MonoBehaviour
             LeftHand.OffAttack();
             RightFoot.OffAttack();
             RightHand.OffAttack();
-            return false;
+
+            AnimationNameString = "";
         }
 
         return false;
     }
+
+    public void HandleAttackParticle(ref Damage damage)
+    {
+        // Animator의 실행 중인 애니메이션 이름을 구하는 함수가 없어, 직접 AnimationNameString을 선언해 사용했음
+        PlayerSkill skill = PlayerSkillManager.GetSkill(AnimationNameString);
+
+        damage.skillCoefficient = skill.AttackValueCoefficient;
+        damage.EmittingParticleID = skill.EmittingParticleID;
+    }
+
     #endregion
 
     #region Handle Attacked Event
@@ -610,7 +637,7 @@ public class PlayerControl : MonoBehaviour
 
         if (damage.attacker.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
         {
-            Animator.Play("Damaged");
+            Animator.SetBool("IsDamaged", true);
             currentVelocity = Vector3.zero;
         }
 

@@ -9,7 +9,7 @@ public class PlayerDashAttack : StateMachineBehaviour
     {
         animator.SetBool("DamagedProcessed", false);
         animator.SetInteger("AttackState", 0);
-        Player.mInstance.state = PlayerState.Grounded;
+        Player.mInstance.state = PlayerSkillState.None;
     }
 
 }

@@ -256,6 +256,7 @@
     <Compile Include="Assets\Scripts\MovableObject\AttackArea.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Damage.cs" />
     <Compile Include="Assets\Scripts\MovableObject\HitArea.cs" />
+    <Compile Include="Assets\Scripts\MovableObject\IInteractable.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Monster\Behavior\MonsterAttack.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Monster\Behavior\MonsterChasing.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Monster\Behavior\MonsterDamaged.cs" />
@@ -289,7 +290,9 @@
     <Compile Include="Assets\Scripts\MovableObject\Player\PlayerCamera.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\PlayerControl.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\PlayerInfo.cs" />
-    <Compile Include="Assets\Scripts\MovableObject\Player\PlayerState.cs" />
+    <Compile Include="Assets\Scripts\MovableObject\Player\PlayerSkill.cs" />
+    <Compile Include="Assets\Scripts\MovableObject\Player\PlayerSkillManager.cs" />
+    <Compile Include="Assets\Scripts\MovableObject\Player\PlayerSkillState.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Status.cs" />
     <Compile Include="Assets\Scripts\UI\DamageIndicator.cs" />
     <Compile Include="Assets\Scripts\UI\FloatingTextTweener.cs" />
@@ -302,6 +305,9 @@
     <Compile Include="Assets\Scripts\UI\Menu.cs" />
     <Compile Include="Assets\Scripts\UI\Panel\ICheckPanel.cs" />
     <Compile Include="Assets\Scripts\UI\Panel\ItemDeletePanel.cs" />
+    <Compile Include="Assets\Scripts\UI\Particle\AttackParticle.cs" />
+    <Compile Include="Assets\Scripts\UI\Particle\AttackParticleList.cs" />
+    <Compile Include="Assets\Scripts\UI\Particle\ParticlePool.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerInfoSystem.cs" />
     <Compile Include="Assets\Scripts\UI\TitleMenu.cs" />
     <None Include="Assets\Download Asset\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
