@@ -5,6 +5,11 @@ using UnityEngine;
 // 아래 스크립트의 작성은 Stardard Asset의 ThirdPersonControl와
 // http://www.yes24.com/24/goods/27894042 도서를 참고함
 
+/// <summary>
+/// 
+/// 
+/// </summary>
+
 public class PlayerControl : MonoBehaviour, IInteractAble
 {
     #region Variables
@@ -41,7 +46,7 @@ public class PlayerControl : MonoBehaviour, IInteractAble
     private Transform cam;
     private new Rigidbody rigidbody;
 
-    // 스태미나 소모, 회복량의 Default 값 (후에 아이템 사용등으로 변경 가능하므로 const가 아님)
+    // 스태미나 소모, 회복량의 Default 값 (후에 아이템 사용등으로 변경 가능하게 하기 위해 const로 놓지 않음)
     public float staminaRecoverMultiplier = 15f;
     public float staminaUseMultiplier = 10f;
 
@@ -50,9 +55,10 @@ public class PlayerControl : MonoBehaviour, IInteractAble
     private float waitingTimeForWaitingMotionTimer;
 
     // 레이 캐스팅을 통해 측정된 거리가 GroundCheckDistance 보다 작다면 지면에 있는 것으로 처리
-    private const float GroundCheckDistance = 0.2f;
+    private float GroundCheckDistance;
     private float DistanceFromGround;
 
+    // AttackArea의 컬라이더들을 Attack 애니메이션에 따라 활성화, 비활성화 함
     private AttackArea LeftHand;
     private AttackArea RightHand;
     private AttackArea LeftFoot;
@@ -60,9 +66,19 @@ public class PlayerControl : MonoBehaviour, IInteractAble
 
     private CharacterController controller;
     private const float gravityValue = 15f;
+    // 캐릭터 컴포넌트를 움직이기 위한 속도 변수
     public Vector3 currentVelocity;
 
+    // 공격 애니메이션 String을 담는 변수
     public string AnimationNameString;
+
+    // TerrainSlope가 CharacterController의 Slope Limit보다 높을 때, 즉 허가되지 않은 높이의 지형에 점프했을 땐,
+    // Rigidbody로 움직이게 하고, 미끄러져 Slope가 Limit보다 작아질 때 까지 입력을 받지 않는다.
+    public float TerrainSlope;
+    public bool IsSliding;
+    private const float SlideTime = 1.0f;
+
+    private int TerrainLayer;
 
     #endregion
 
@@ -152,6 +168,8 @@ public class PlayerControl : MonoBehaviour, IInteractAble
         controller = GetComponent<CharacterController>();
         rigidbody = GetComponent<Rigidbody>();
 
+        TerrainLayer = LayerMask.NameToLayer("Terrain");
+
         cam = GameObject.FindGameObjectWithTag("MainCamera").gameObject.GetComponent<Transform>();
         voiceAudioManager = transform.Find("Sound").Find("Voice").gameObject.GetComponent<AudioManager>();
         moveAudioManager = transform.Find("Sound").Find("Move").gameObject.GetComponent<AudioManager>();
@@ -192,32 +210,57 @@ public class PlayerControl : MonoBehaviour, IInteractAble
 
     private void Update()
     {
-        DistanceFromGround = CalcHeight();
+        CheckTerrainStatus();
 
-        if (DistanceFromGround <= GroundCheckDistance && rigidbody.velocity.y <= 0.001f)
+        if (IsSliding == true)
+        {
+            return;
+        }
+
+        #region DEBUGGING
+        Debug.Log("DistanceFromGround : " + (DistanceFromGround));
+
+        //Debug.Log("rigidbody.velocity.y <= 0.001f: " + (rigidbody.velocity.y <= 0.001f));
+
+        //Debug.Log("rigidbody.velocity.y: " + rigidbody.velocity.y);
+
+        //Debug.Log("TerrainSlope < controller.slopeLimit: " + (TerrainSlope < controller.slopeLimit));
+        #endregion
+
+        // 랜딩, 땅에서 걸어 다닐 때
+        if (DistanceFromGround <= GroundCheckDistance && rigidbody.velocity.y <= 0.001f && (TerrainSlope < controller.slopeLimit))
         {
             // 점프 중엔 DistanceFromGround <= GroundCheckDistance 라도 IsOnGrounded를 false로 체크해줘야 한다.
-            // 따라서, currentVelocity.y가 음의 방향일 때만 IsOnGrounded를 true로 체크함
+            // 따라서, currentVelocity.y가 음의 방향일 때만 IsOnGrounded를 true로 체크함 (0.001f으로 놓은 이유는 0보다 미세하게 큰 값이 나올 수 있기 때문)
             IsOnGrounded = true;
             IsFalling = false;
             rigidbody.velocity = Vector3.zero;
             rigidbody.useGravity = false;
-            rigidbody.Sleep();
             controller.enabled = true;
+            IsSliding = false;
         }
+        // 미끄러짐 처리. 
+        else if (DistanceFromGround <= GroundCheckDistance && (TerrainSlope > controller.slopeLimit))
+        {
+            IsOnGrounded = false;
+            rigidbody.useGravity = true;
+            controller.enabled = false;
+            IsSliding = true;
+            // 미끄러진 다음 일정 시간 동안 update, fixedupdate에서 입력을 받지 않고, TerrainSlope가 controller.slopeLimit와 충분한 간격을 두도록 강제함
+            Invoke("SlideOff", SlideTime);
+        }
+        // 공중에 있을 때
         else
         {
             IsOnGrounded = false;
             rigidbody.useGravity = true;
             controller.enabled = false;
+            IsSliding = false;
+            // 공중에 떠 있다면 Update는 그대로 return
+            return;
         }
 
         waitingTimeForWaitingMotionTimer += Time.deltaTime;
-
-        if (IsOnGrounded == false)
-        {
-            return;
-        }
 
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
@@ -244,13 +287,7 @@ public class PlayerControl : MonoBehaviour, IInteractAble
             }
         }
 
-        if (status.currentHP <= 0)
-        {
-            // 플레이어 사망에 관한 이벤트 처리는 여기서.
-            // 지금은 원활한 디버깅을 위해 주석 처리
-
-            // Animator.Play("Death");
-        }
+        HandleDeathEvent();
 
         if ((h != 0 | v != 0))
         {
@@ -323,13 +360,15 @@ public class PlayerControl : MonoBehaviour, IInteractAble
     }
 
     // 공중에서의 움직임 처리는 FixedUpdate로, 지상에서의 움직임 처리는 Update로 해야 끊기지 않는다.
+    // 하지만, TerrainSlope < controller.slopeLimit으로, 미끄러져야 할 땐 FixedUpdate로 미끄러지게 했음
     private void FixedUpdate()
     {
-        if (IsOnGrounded == true)
+        if (IsOnGrounded == true && IsSliding == false)
         {
             return;
         }
 
+        // IsOnGrounded에, 아래로 향하는 속도까지 붙어 있을 때 IsFalling이 true라고 한다. 
         if (rigidbody.velocity.y < -1)
         {
             IsFalling = true;
@@ -340,13 +379,7 @@ public class PlayerControl : MonoBehaviour, IInteractAble
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
 
-        if (status.currentHP <= 0)
-        {
-            // 플레이어 사망에 관한 이벤트 처리는 여기서.
-            // 지금은 원활한 디버깅을 위해 주석 처리
-
-            // Animator.Play("Death");
-        }
+        HandleDeathEvent();
 
         HandleAttackEvent();
 
@@ -455,7 +488,6 @@ public class PlayerControl : MonoBehaviour, IInteractAble
         }
     }
 
-
     private void HandleAirborneMovement(Vector3 moveVector)
     {
         if (moveVector.magnitude > 1f) moveVector.Normalize();
@@ -471,15 +503,16 @@ public class PlayerControl : MonoBehaviour, IInteractAble
             IsAirAttacking = true;
         }
 
-        // 추가적인 중력 부여 
-        // (높은 곳에서 낙하해도 발이 Terrain에 묻히지 않게 하기 위해, Mass를 일정 값 이상으로 잡아야 하는데 이 때 움직임이 느려지는 것을 방지)
+        // 추가적인 중력 부여 해, 높은 곳에서 낙하해도 발이 Terrain에 묻히지 않게 하기 위해, Mass를 일정 값 이상으로 잡아야 하는데 이 때 움직임이 느려지는 것을 방지하려 했음
         rigidbody.AddForce(rigidbody.mass * Physics.gravity);
 
-        // 공중에서의 키 입력에 따른 캐릭터 조정
-        rigidbody.velocity =
-           new Vector3(0.65f * MoveSpeed * MoveVector.x,
-           rigidbody.velocity.y,
-           0.65f * MoveSpeed * MoveVector.z);
+        if (TerrainSlope < controller.slopeLimit)
+        {
+            rigidbody.velocity =
+               new Vector3(0.65f * MoveSpeed * MoveVector.x,
+               rigidbody.velocity.y,
+               0.65f * MoveSpeed * MoveVector.z);
+        }
     }
 
     private void ApplyExtraTurnRotation()
@@ -488,17 +521,42 @@ public class PlayerControl : MonoBehaviour, IInteractAble
         transform.Rotate(0, TurnAmount * turnSpeed * Time.smoothDeltaTime, 0);
     }
 
-    private float CalcHeight()
+    private void SlideOff()
+    {
+        // Character Controller가 활성화 될 때 이전의 ForwardAmount, TurnAmount 값이 들어가 있으면 그 쪽 방향으로 위치가 갱신되어 순간이동하는 것 처럼 보이게 된다.
+        // 이걸 방지 하기 위해 0을 대입해줘야 함.
+        ForwardAmount = 0;
+        TurnAmount = 0;
+        currentVelocity = Vector3.zero;
+        IsSliding = false;
+    }
+
+    private void CheckTerrainStatus()
     {
         // 레이 캐스팅 방식을 이용해 지면까지 남은 거리를 계산
         RaycastHit hitInfo;
 
-        // 아래의 마지막 인자에서 13은 Terrain Layer이다. 따라서, Ray는 Terrain Layer만을 감지한다.
+        // 아래의 Ray는 Terrain Layer만을 감지한다.
         // https://docs.unity3d.com/kr/530/Manual/Layers.html 참고
 
-        Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, 1 << 13);
+        if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, 1 << TerrainLayer))
+        {
+            GroundNormal = hitInfo.normal;
 
-        return hitInfo.distance;
+            // Terrain 버텍스의 GroundNormal과 Vector3.up (y축)이 이루는 각이 구하는 'Terrain의 경사도' 이다.
+            TerrainSlope = Vector3.Angle(GroundNormal, Vector3.up);
+        }
+        else
+        {
+            GroundNormal = Vector3.up;
+        }
+
+        DistanceFromGround = hitInfo.distance;
+
+        // 지상에서 GroundCheckDistance 가 DistanceFromGround보다 작으면 버그가 생김.
+        // GroundCheckDistance를 0.5 정도로 맞추면 버그가 없어지지만, 점프할 때 공중에 착지하는 버그가 있어 아래처럼 씀 
+
+        GroundCheckDistance = (TerrainSlope / 100f) + 0.1f;
     }
 
     #endregion
@@ -638,12 +696,14 @@ public class PlayerControl : MonoBehaviour, IInteractAble
         if (damage.attacker.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
         {
             Animator.SetBool("IsDamaged", true);
+            LookAtAndInitAngle(damage.attacker.transform);
             currentVelocity = Vector3.zero;
         }
 
         else if (damage.attacker.GetCurrentAnimatorStateInfo(0).IsName("Dash Attack"))
         {
             Animator.Play("Down");
+            LookAtAndInitAngle(damage.attacker.transform);
             currentVelocity = Vector3.zero;
         }
     }
@@ -651,6 +711,18 @@ public class PlayerControl : MonoBehaviour, IInteractAble
     #endregion
 
     #region Handle Other Event
+
+    private void HandleDeathEvent()
+    {
+        if (status.currentHP <= 0)
+        {
+            // 플레이어 사망에 관한 이벤트 처리는 여기서.
+            // 지금은 원활한 디버깅을 위해 주석 처리
+
+            // Animator.Play("Death");
+        }
+
+    }
 
     private void RandomDecideRestType()
     {
@@ -664,6 +736,19 @@ public class PlayerControl : MonoBehaviour, IInteractAble
     }
 
     #endregion
+
+    private void LookAtAndInitAngle(Transform target)
+    {
+        transform.LookAt(target);
+        Vector3 swap = new Vector3(0, transform.localEulerAngles.y, 0);
+        transform.localEulerAngles = swap;
+    }
+    private void LookAtAndInitAngle(Vector3 target)
+    {
+        transform.LookAt(target);
+        Vector3 swap = new Vector3(0, transform.localEulerAngles.y, 0);
+        transform.localEulerAngles = swap;
+    }
 
 }
 

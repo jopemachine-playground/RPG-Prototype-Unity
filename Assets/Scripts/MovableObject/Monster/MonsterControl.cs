@@ -393,11 +393,17 @@ public class MonsterControl : MonoBehaviour, IInteractAble
         if (damage.attacker.GetCurrentAnimatorStateInfo(0).IsTag("DamageAttack"))
         {
             animator.SetTrigger("Damaged");
+            transform.LookAt(damage.attacker.transform);
+            Vector3 swap = new Vector3(0, transform.localEulerAngles.y, 0);
+            transform.localEulerAngles = swap;
         }
 
         else if (damage.attacker.GetCurrentAnimatorStateInfo(0).IsTag("DownAttack"))
         {
             animator.Play("Down");
+            transform.LookAt(damage.attacker.transform);
+            Vector3 swap = new Vector3(0, transform.localEulerAngles.y, 0);
+            transform.localEulerAngles = swap;
         }
     }
 

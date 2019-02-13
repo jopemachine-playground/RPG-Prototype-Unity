@@ -373,6 +373,7 @@
     <None Include="Assets\Download Asset\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Fonts\OpenSans\License!.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
+    <None Include="Assets\Mega Fantasy Props Pack\README.txt" />
     <None Include="Assets\Download Asset\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
     <None Include="Assets\Download Asset\SlimUI\Modern Menu 1\READ ME.txt" />
