@@ -2,25 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// 싱글톤으로 전역에서 접근 가능하며, 장소에 따라 배경음악을 바꿈
+// AudioClip은 장소에 해당하는 컴포넌트들에서 갖고 있음
+
+[RequireComponent(typeof(AudioSource))]
 public class MusicManager : MonoBehaviour
 {
-
     static public MusicManager mInstance;
 
-    public AudioClip[] mClips; // 배경음악 파일들
+    private AudioSource mSource;
 
-    public AudioSource mSource;
-
-    // 미리 만들어 둬 성능에 영향을 안 끼치게 하자
     private WaitForSeconds FADEINOUT_WAITTIME = new WaitForSeconds(0.01f);
-
-    void Start()
-    {
-        mSource = GetComponent<AudioSource>();
-
-        if (mSource == null) Debug.Log("Error - mSource not initated");
-
-    }
 
     private void Awake()
     {
@@ -30,51 +22,21 @@ public class MusicManager : MonoBehaviour
         }
         else
         {
-            DontDestroyOnLoad(this.gameObject);
             mInstance = this;
+            mSource = GetComponent<AudioSource>();
         }
     }
 
-    public void Play(int musicNumber)
+    public void Play(AudioClip selectedMusic)
     {
         mSource.volume = 1f;
-        mSource.clip = mClips[musicNumber];
+        mSource.clip = selectedMusic;
         mSource.Play();
     }
 
     public void Stop()
     {
         mSource.Stop();
-    }
-
-    public void FadeOutMusic()
-    {
-        StopAllCoroutines();
-        StartCoroutine(FadeOutMusicCoroutine());
-    }
-
-    IEnumerator FadeOutMusicCoroutine()
-    {
-        for (float i = 1.0f; i >= 0f; i -= 0.01f)
-        {
-            mSource.volume = i;
-            yield return FADEINOUT_WAITTIME;
-        }
-    }
-
-    public void FadeInMusic()
-    {
-        StopAllCoroutines();
-        StartCoroutine(FadeInMusicCoroutine());
-    }
-
-    IEnumerator FadeInMusicCoroutine()
-    {
-        for (float i = 0.0f; i <= 1.0f; i += 0.01f)
-        {
-            mSource.volume = i;
-            yield return FADEINOUT_WAITTIME;
-        }
     }
 
     public void SetVolumn(float volumn)
@@ -85,5 +47,35 @@ public class MusicManager : MonoBehaviour
     public void Pause()
     {
         mSource.Pause();
+    }
+
+    public void FadeInMusic()
+    {
+        StopAllCoroutines();
+        StartCoroutine(FadeInMusicCoroutine());
+    }
+
+    public void FadeOutMusic()
+    {
+        StopAllCoroutines();
+        StartCoroutine(FadeOutMusicCoroutine());
+    }
+
+    private IEnumerator FadeInMusicCoroutine()
+    {
+        for (float i = 0.0f; i <= 1.0f; i += 0.01f)
+        {
+            mSource.volume = i;
+            yield return FADEINOUT_WAITTIME;
+        }
+    }
+
+    private IEnumerator FadeOutMusicCoroutine()
+    {
+        for (float i = 1.0f; i >= 0f; i -= 0.01f)
+        {
+            mSource.volume = i;
+            yield return FADEINOUT_WAITTIME;
+        }
     }
 }

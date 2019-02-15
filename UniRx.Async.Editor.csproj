@@ -301,6 +301,15 @@
     <Reference Include="PackageManagerAssembly">
       <HintPath>C:/Unity-Chan/Assets/Download Asset/EffectExamples/Editor/PackageManagerAssembly/PackageManagerAssembly.dll</HintPath>
     </Reference>
+    <Reference Include="UnityFbxPrefab">
+      <HintPath>C:/Unity-Chan/Assets/FbxExporters/UnityFbxPrefab.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityFbxExporterEditor">
+      <HintPath>C:/Unity-Chan/Assets/FbxExporters/Editor/UnityFbxExporterEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityFbxSdk">
+      <HintPath>C:/Unity-Chan/Assets/FbxExporters/Editor/FbxSdk/Plugins/UnityFbxSdk.dll</HintPath>
+    </Reference>
     <Reference Include="LitJson">
       <HintPath>C:/Unity-Chan/Assets/Plugins/LitJson.dll</HintPath>
     </Reference>

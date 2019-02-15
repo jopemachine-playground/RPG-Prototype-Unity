@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// 플레이어, 몬스터, 총알 등 소리를 내는 컴포넌트의 자식에 부착해 사용
+
 public class AudioManager : MonoBehaviour
 {
     public List<AudioClip> Clips; 

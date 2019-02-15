@@ -78,7 +78,6 @@ public class FloatingTextTweener: MonoBehaviour
 
             yield return null;
         }
-
     }
 
 }

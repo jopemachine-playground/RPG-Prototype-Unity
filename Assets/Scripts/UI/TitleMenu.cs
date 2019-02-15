@@ -4,16 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class TitleMenu : MonoBehaviour
+public class TitleMenu : Scene
 {
-    private const int MENU_NUMBER = 3;
+    private const int MENU_NUMBER = 4;
 
     public Button[] mButton;
     public Text[] mText;
     private int mSelected = 0;
 
-    private void Awake()
+    private void Start()
     {
+        base.ScreenCoverInit();
         ChangeTextColor(MENU_NUMBER);
     }
 
@@ -24,18 +25,23 @@ public class TitleMenu : MonoBehaviour
         {
             switch(mSelected)
             {
-                // 게임 시작
+                // 새로 시작
                 case 0:
-                    SceneManager.LoadScene("Main");
+                    SceneManager.LoadSceneAsync("Playing", LoadSceneMode.Additive);
+                    MoveScene("MyHouse");
                     break;
 
-                // 옵션
+                // 이어 하기
                 case 1:
                     Debug.Log("옵션");
                     break;
 
-                // 게임 종료
+                // 옵션
                 case 2:
+                    break;
+
+                // 나가기
+                case 3:
                     Application.Quit();
                     break;
 

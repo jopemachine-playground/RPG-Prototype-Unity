@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Mega Fantasy Props Pack/Example Scenes/House on night.unity
+- path: Assets/Scenes/Naming.unity
   isLoaded: 1
   isActive: 1

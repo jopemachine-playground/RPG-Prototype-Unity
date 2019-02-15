@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-// 공중도 함께 Patrol 하려면 y좌표도 넣으면 된다.
+// 몬스터가 공중도 함께 Patrol 할 수 있게 하려면 y좌표도 넣으면 된다.
+// 그 경우 NavMesh의 높이를 충분히 늘려야 함에 주의
 
 public class MonsterPatrolArea: MonoBehaviour
 {
