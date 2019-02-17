@@ -24,7 +24,6 @@ namespace UnityChanRPG
 
             ControlChange(new Vector3(1.5f, 1.5f, 1.5f), cam.transform, 0, 10);
             MoveCharacter();
-            Debug.Log(placeName);
             MapNameIndicator.Instance.IndicateMapName(placeName);
 
         }

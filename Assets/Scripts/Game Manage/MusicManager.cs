@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// 싱글톤으로 전역에서 접근 가능하며, 장소에 따라 배경음악을 바꿈
-// AudioClip은 장소에 해당하는 컴포넌트들에서 갖고 있음
+/// <summary>
+/// 싱글톤으로 전역에서 접근 가능하며, 장소에 따라 배경음악을 바꿈
+/// 음악 파일에 해당하는 AudioClip은 장소에 해당하는 컴포넌트들에서 갖고 있음
+/// </summary>
 
 namespace UnityChanRPG
 {

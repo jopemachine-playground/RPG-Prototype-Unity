@@ -4,6 +4,10 @@ using UnityEngine.UI;
 
 // 인벤토리 관련 클래스들은 https://assetstore.unity.com/packages/tools/gui/inventory-master-ugui-26310 를 많이 참고해 작성함
 
+/// <summary>
+/// 필드 위에 표시되는 아이템들을 다루는 클래스
+/// </summary>
+
 namespace UnityChanRPG
 {
     public class PickUpItem : MonoBehaviour

@@ -1,21 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 using UniRx;
 
-// 페이지 방식으로 구현해 아이템을 슬롯 갯수 (25개) 초과해
-// 획득한 경우 슬롯 내용을 바꾸는 형식으로 구현할 것.
+// 나중에 페이지 방식으로 구현해 아이템을 슬롯 갯수 (25개) 초과해
+// 획득한 경우 슬롯 내용을 바꾸는 형식으로 확장할 생각임.
+
+/// <summary>
+/// ItemSlot은 인벤토리 창에서 하나 하나의 슬롯에 대응함. 슬롯을 더블클릭하거나, 우클릭 했을 때의 이벤트 처리 역시 ItemSlot에서 함.
+/// </summary>
 
 namespace UnityChanRPG
 {
     public class ItemSlot : MonoBehaviour, IPointerExitHandler, IPointerClickHandler, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler
     {
+        [SerializeField]
         public Item Item;
 
+        // 슬롯에 아이템이 존재하는가.
         public bool ItemExist;
 
         public int IndexItemInList;
@@ -30,12 +35,17 @@ namespace UnityChanRPG
         public static Tooltip tooltip;
         public static DraggingItem draggingItem;
 
-        private static Vector3 TooltipDistanceFromMouse;
+        // 툴팁이 마우스 바로 옆에 뜨면 어색해, 마우스와 약간 거리를 두게 했음.
+        private static Vector3 TooltipDistanceFromMouse = new Vector3(20, -40);
+
 
         #region Pointer Event
         // ToolTip을 활성화
         public void OnPointerEnter(PointerEventData data)
         {
+            // true
+            Debug.Log(Item.ItemConsume == null);
+
             if (!ItemExist) return;
 
             tooltip.CopyItemInfoToTooltip(this.Item);
@@ -52,7 +62,7 @@ namespace UnityChanRPG
         // 오른쪽 클릭을 처리. 오른쪽 클릭 시 아이템을 삭제할 것이냐고 묻는 창을 띄움.
         public void OnPointerClick(PointerEventData data)
         {
-            if (data.button == PointerEventData.InputButton.Right && panel.gameObject.active == false)
+            if (data.button == PointerEventData.InputButton.Right && panel.gameObject.activeSelf == false)
             {
                 ShowDeletePanel();
             }
@@ -96,7 +106,6 @@ namespace UnityChanRPG
         {
             rect = GetComponent<RectTransform>();
             button = GetComponent<Button>();
-            TooltipDistanceFromMouse = new Vector3(20, -40);
             var doubleLeftClickStream = Observable.EveryUpdate().Where(_ => Input.GetMouseButtonDown(0));
             var rightClickStream = Observable.EveryUpdate().Where(_ => Input.GetMouseButtonDown(1));
 
@@ -126,10 +135,8 @@ namespace UnityChanRPG
                 .Where(xs => xs.Count >= 2)
                 .Subscribe(_ =>
                 {
-                    UseItem();
+                    this.UseItem();
                 });
-
-
         }
 
         private void Update()
@@ -153,7 +160,18 @@ namespace UnityChanRPG
 
         public void UseItem()
         {
-            Item.use();
+            // true
+            Debug.Log(Item.ItemConsume == null);
+
+            if (Item.ItemType == ItemType.UseAble)
+            {
+                Item.Consume();
+            }
+
+            else if (Item.ItemType == ItemType.EquipAble)
+            {
+                Item.Equip();
+            }
 
             if (Item.ItemValue == 0) this.ItemExist = false;
         }

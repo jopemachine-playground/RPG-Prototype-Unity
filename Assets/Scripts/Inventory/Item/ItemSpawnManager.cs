@@ -2,9 +2,11 @@
 using System;
 using System.Collections;
 
+/// <summary>
+/// 랜덤으로 스폰 위치와 아이템 종류를 결정해 스폰함. (일정 확률로 스폰하지 않음.)
+/// 스폰 위치와, 스폰되는 아이템들은 유니티 에디터에서 넣을 것
+/// </summary>
 
-// 랜덤으로 스폰 위치와 아이템 종류를 결정해 스폰함.
-// 그리고 일정 확률로 스폰하지 않음.
 namespace UnityChanRPG
 {
     public class ItemSpawnManager : MonoBehaviour
@@ -47,7 +49,7 @@ namespace UnityChanRPG
 
                     int ID = ReturnID(probability, index, 0.0001f);
 
-                    ItemPool.mInstance.GeneratePickUpItem(SpawnPoint[index].transform.position, Quaternion.identity, ID);
+                    ItemParser.mInstance.GeneratePickUpItem(SpawnPoint[index].transform.position, Quaternion.identity, ID);
                 }
                 else
                 {

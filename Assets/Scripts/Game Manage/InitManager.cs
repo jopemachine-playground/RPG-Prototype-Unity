@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-// 비활성화된 상태로 시작해, Awake()로 초기화하면, 게임 시작시 초기화되지 않는 객체들 을 대신 초기화 함
-// 활성화된 상태로 시작하는 컴포넌트들의 경우 컴포넌트의 Awake에서 스스로 초기화 하도록 했음.
+/// <summary>
+/// 비활성화된 상태로 시작하는 등의 이유로, 자동으로 초기화되지 않는 객체들을 대신 초기화 함
+/// </summary>
 
 namespace UnityChanRPG
 {

@@ -69,6 +69,14 @@
     <Compile Include="Assets\Download Asset\Standard Assets\Editor\Water\Water4\SpecularLightingEditor.cs" />
     <Compile Include="Assets\Download Asset\Standard Assets\Editor\Water\Water4\WaterBaseEditor.cs" />
     <Compile Include="Assets\Download Asset\Standard Assets\Editor\Water\Water4\WaterEditorUtility.cs" />
+    <Compile Include="Assets\InventoryMaster\Editor\CraftSystemEditor.cs" />
+    <Compile Include="Assets\InventoryMaster\Editor\EquipmentSystemEditor.cs" />
+    <Compile Include="Assets\InventoryMaster\Editor\HotbarEditor.cs" />
+    <Compile Include="Assets\InventoryMaster\Editor\IM_Manager.cs" />
+    <Compile Include="Assets\InventoryMaster\Editor\InventoryDesignEditor.cs" />
+    <Compile Include="Assets\InventoryMaster\Editor\InventoryEditor.cs" />
+    <Compile Include="Assets\InventoryMaster\Editor\StorageInventoryEditor.cs" />
+    <Compile Include="Assets\InventoryMaster\Editor\TooltipEditor.cs" />
     <Compile Include="Assets\Particlecollection_Free samples\Plugins\Effect\Editor\EffectControllerInspector.cs" />
     <Compile Include="Assets\Particlecollection_Free samples\Plugins\Effect\Editor\EffectToolBar.cs" />
     <Compile Include="Assets\Particlecollection_Free samples\Plugins\Effect\Editor\RenderEffectInspector.cs" />

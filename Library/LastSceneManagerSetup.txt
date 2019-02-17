@@ -1,4 +1,7 @@
 sceneSetups:
-- path: Assets/Scenes/Dungeon1.unity
+- path: Assets/Scenes/Playing.unity
+  isLoaded: 1
+  isActive: 0
+- path: Assets/Scenes/Village.unity
   isLoaded: 1
   isActive: 1

@@ -3,8 +3,12 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
 
-// Inventory Master에서 가져옴
+// Inventory Master에서 가져와 사용
 // https://assetstore.unity.com/packages/tools/gui/inventory-master-ugui-26310
+
+/// <summary>
+/// 창에 스크립트를 추가하면, 창을 드래그해 움직일 수 있게 함.
+/// </summary>
 
 namespace UnityChanRPG
 {

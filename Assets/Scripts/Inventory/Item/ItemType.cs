@@ -1,4 +1,8 @@
-﻿namespace UnityChanRPG
+﻿/// <summary>
+/// 아이템들의 타입을 나타내는 Enum. 후에 종류를 추가해 볼 생각.
+/// </summary>
+
+namespace UnityChanRPG
 {
     public enum ItemType
     {

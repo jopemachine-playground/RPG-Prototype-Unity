@@ -1,12 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Item 클래스는 Item에 대한 정보를 모두 담당. 실제로 필드 위에 표시되는 아이템은 더 많은 정보를 포함하는 PickUpItem 스크립트를
+/// 사용하고, Item 클래스엔 json 파일에서 값을 파싱해 담아야 하기 때문에, MonoBehavior를 상속하지 않음. (monster 클래스도 마찬가지)
+/// </summary>
+
 namespace UnityChanRPG
 {
-    [System.Serializable]
+    [Serializable]
     public class Item
     {
+        #region Item Property
+
         // 아이템 고유번호. (중복되지 않음)
         public int ID;
 
@@ -38,9 +46,25 @@ namespace UnityChanRPG
         [SerializeField]
         public List<ItemAttribute> ItemAttributes = new List<ItemAttribute>();
 
+        #endregion
+
+        #region Item Method
         public Item getCopy()
         {
-            return (Item)this.MemberwiseClone();
+            Debug.Log("getCopy 실행");
+            Item ret = (Item)this.MemberwiseClone();
+            ret.ItemConsume = this.ItemConsume;
+            ret.ItemEquip = this.ItemEquip;
+
+            if (this.ItemConsume == null)
+            {
+                Debug.Log("this.ItemConsume == null");
+            }
+            if (ret.ItemConsume == null)
+            {
+                Debug.Log("ret.ItemConsume == null");
+            }
+            return ret;
         }
 
         public void clean()
@@ -54,105 +78,52 @@ namespace UnityChanRPG
             ItemType = 0;
         }
 
+        #endregion
+
         #region Item Use
-        public void use()
+
+        // 아이템 사용을 위한 Delegate와 이벤트. 사용 가능하다면 true를 리턴
+        public delegate bool ItemUsing();
+        public ItemUsing ItemConsume;
+        public ItemUsing ItemEquip;
+
+        public void test(ItemUsing a)
         {
-            if (ItemType == ItemType.UseAble)
+            Debug.Log("실행");
+
+            ItemConsume += new ItemUsing(a);
+
+            if (ItemConsume == null)
             {
-                bool used = false;
+                Debug.Log("ItemConsume == null: " + ItemConsume == null);
+            }
+        }
 
-                for (int i = 0; i < ItemAttributes.Count; i++)
-                {
-                    switch (ItemAttributes[i].AttributeName)
-                    {
-                        #region heal_hp
-                        case "heal_hp":
-                            {
-                                if (PlayerInfo.mInstance.player.playerStatus.currentHP == LevelInfo.getMaxHP(PlayerInfo.mInstance.player.Level))
-                                {
-                                    continue;
-                                }
-                                else if (PlayerInfo.mInstance.player.playerStatus.currentHP + ItemAttributes[i].AttributeValue >= LevelInfo.getMaxHP(PlayerInfo.mInstance.player.Level))
-                                {
-                                    Debug.Log(ItemAttributes[i].AttributeValue);
-                                    PlayerInfo.mInstance.player.playerStatus.currentHP = LevelInfo.getMaxHP(PlayerInfo.mInstance.player.Level);
-                                    used = true;
-                                }
-                                else if (PlayerInfo.mInstance.player.playerStatus.currentHP + ItemAttributes[i].AttributeValue < LevelInfo.getMaxHP(PlayerInfo.mInstance.player.Level))
-                                {
-                                    PlayerInfo.mInstance.player.playerStatus.currentHP += ItemAttributes[i].AttributeValue;
-                                    used = true;
-                                }
-                                break;
-                            }
-                        #endregion
-
-                        #region heal_mp
-                        case "heal_mp":
-                            {
-                                if (PlayerInfo.mInstance.player.playerStatus.currentMP == LevelInfo.getMaxMP(PlayerInfo.mInstance.player.Level))
-                                {
-                                    continue;
-                                }
-                                else if (PlayerInfo.mInstance.player.playerStatus.currentMP + ItemAttributes[i].AttributeValue >= LevelInfo.getMaxMP(PlayerInfo.mInstance.player.Level))
-                                {
-                                    PlayerInfo.mInstance.player.playerStatus.currentMP = LevelInfo.getMaxMP(PlayerInfo.mInstance.player.Level);
-                                    used = true;
-                                }
-                                else if (PlayerInfo.mInstance.player.playerStatus.currentMP + ItemAttributes[i].AttributeValue < LevelInfo.getMaxMP(PlayerInfo.mInstance.player.Level))
-                                {
-                                    PlayerInfo.mInstance.player.playerStatus.currentMP += ItemAttributes[i].AttributeValue;
-                                    used = true;
-                                }
-
-                                break;
-                            }
-                        #endregion
-
-                        #region get_item
-                        case "get_item":
-                            {
-                                break;
-                            }
-                        #endregion
-
-                        default: Debug.Assert(false, "Attribute does not exist!"); break;
-
-                    }
-                }
-
-                if (used == true)
-                {
-                    if (ItemValue == 1)
-                    {
-                        clean();
-                    }
-                    else
-                    {
-                        ItemValue--;
-                    }
-
-                }
-
-
+        public void Consume()
+        {
+            if (ItemConsume == null)
+            {
+                Debug.Log("ItemConsume == null");
+                return;
             }
 
-            if (ItemType == ItemType.EquipAble)
+            bool used = ItemConsume();
+
+            if (used == true)
             {
-                for (int i = 0; i < ItemAttributes.Count; i++)
+                if (ItemValue == 1)
                 {
-                    switch (ItemAttributes[i].AttributeName)
-                    {
-
-                        case "adj_atk": PlayerInfo.mInstance.player.playerStatus.currentHP += ItemAttributes[i].AttributeValue; break;
-
-                        case "adj_def": PlayerInfo.mInstance.player.playerStatus.currentMP += ItemAttributes[i].AttributeValue; break;
-
-                        default: Debug.Assert(false, "Attribute does not exist!"); break;
-
-                    }
+                    clean();
+                }
+                else
+                {
+                    ItemValue--;
                 }
             }
+        }
+
+        public void Equip()
+        {
 
         }
         #endregion

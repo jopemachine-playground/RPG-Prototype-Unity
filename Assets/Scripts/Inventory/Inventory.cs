@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// 인벤토리 관련 클래스들은 https://assetstore.unity.com/packages/tools/gui/inventory-master-ugui-26310 를 많이 참고해 작성함
-
 namespace UnityChanRPG
 {
     public class Inventory : MonoBehaviour
@@ -70,7 +68,16 @@ namespace UnityChanRPG
                 }
             }
             // 슬롯을 모두 뒤졌는데, 같은 물품이 없다면 체크해둔 슬롯에 아이템을 넣음
+
+            // true
+            Debug.Log(playerItems[checkIndex].Item.ItemConsume == null);
+
+            // true
+            Debug.Log(item.ItemConsume == null);
             playerItems[checkIndex].Item = item;
+
+            // true
+            Debug.Log(playerItems[checkIndex].Item.ItemConsume == null);
             playerItems[checkIndex].ItemExist = true;
 
         }

@@ -31,7 +31,7 @@ namespace UnityChanRPG
 
         public void UseItem()
         {
-            item.use();
+            item.Consume();
             if (item.ItemValue == 0) this.ItemExist = false;
         }
 
