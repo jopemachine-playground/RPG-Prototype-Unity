@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAirAttack : StateMachineBehaviour
+namespace UnityChanRPG
 {
-
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class PlayerAirAttack : StateMachineBehaviour
     {
-        animator.SetBool("DamagedProcessed", false);
-        animator.SetInteger("AttackState", 0);
+        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            animator.SetBool("DamagedProcessed", false);
+            animator.SetInteger("AttackState", 0);
+        }
     }
-
 }

@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterDie : StateMachineBehaviour
+namespace UnityChanRPG
 {
-
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class MonsterDie : StateMachineBehaviour
     {
-        animator.SetBool("IsDied", true);
+
+        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            animator.SetBool("IsDied", true);
+        }
+
+        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            // 몬스터 die에 대한 이벤트 처리 (비활성화 등)
+            animator.SetBool("IsDied", false);
+        }
     }
 
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        // 몬스터 die에 대한 이벤트 처리 (비활성화 등)
-        animator.SetBool("IsDied", false);
-    }
 }
-

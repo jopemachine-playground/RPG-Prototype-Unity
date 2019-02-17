@@ -1,7 +1,11 @@
-﻿public enum MonsterType{
+﻿namespace UnityChanRPG
+{
+    public enum MonsterType
+    {
 
-    Normal = 0,
-    Elite = 1,
-    Boss = 2,
+        Normal = 0,
+        Elite = 1,
+        Boss = 2,
 
+    }
 }

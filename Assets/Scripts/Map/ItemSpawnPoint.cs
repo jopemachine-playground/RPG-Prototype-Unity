@@ -2,25 +2,26 @@
 using System.Collections;
 using System.Collections.Generic;
 
-[System.Serializable]
-public class ItemSpawnPoint: MonoBehaviour
+namespace UnityChanRPG
 {
-    private Transform point;
-
-    public List<SpawnItem> SpawnItemList = new List<SpawnItem>();
-
-    private void Awake()
-    {
-        point = this.GetComponent<Transform>();
-    }
-
     [System.Serializable]
-    public class SpawnItem
+    public class ItemSpawnPoint : MonoBehaviour
     {
-        public int ID;
-        public float SpawnProbablity;
+        private Transform point;
 
+        public List<SpawnItem> SpawnItemList = new List<SpawnItem>();
+
+        private void Awake()
+        {
+            point = this.GetComponent<Transform>();
+        }
+
+        [System.Serializable]
+        public class SpawnItem
+        {
+            public int ID;
+            public float SpawnProbablity;
+
+        }
     }
-
 }
-

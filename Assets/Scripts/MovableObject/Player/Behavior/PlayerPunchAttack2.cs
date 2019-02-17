@@ -2,27 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPunchAttack2 : StateMachineBehaviour
+namespace UnityChanRPG
 {
-
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class PlayerPunchAttack2 : StateMachineBehaviour
     {
-        Player.mInstance.state = PlayerSkillState.PunchAttack2;
-
-        // 다음 콤보 공격을 이을 경우
-        if (Input.GetButtonDown("PunchAttack"))
+        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            animator.SetInteger("AttackState", 6);
+            Player.mInstance.state = PlayerSkillState.PunchAttack2;
+
+            // 다음 콤보 공격을 이을 경우
+            if (Input.GetButtonDown("PunchAttack"))
+            {
+                animator.SetInteger("AttackState", 6);
+            }
         }
-    }
-    
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        animator.SetBool("DamagedProcessed", false);
-        animator.SetInteger("AttackState", 0);
-        Player.mInstance.state = PlayerSkillState.None;
-    }
 
+        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            animator.SetBool("DamagedProcessed", false);
+            animator.SetInteger("AttackState", 0);
+            Player.mInstance.state = PlayerSkillState.None;
+        }
 
+    }
 }

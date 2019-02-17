@@ -5,31 +5,39 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadingScene: Scene
+namespace UnityChanRPG
 {
-    public Camera cam;
-
-    private void Start()
+    public class LoadingScene : Scene
     {
-        base.PlayerInit();
-        base.ScreenCoverInit();
-        screenCover.gameObject.SetActive(false);
-        playerControl.CameraChange(cam.transform);
-        StartCoroutine(LoadScene());
+        public Camera cam;
+
+        private void Start()
+        {
+            base.PlayerInit();
+            base.ScreenCoverInit();
+            screenCover.gameObject.SetActive(false);
+            playerControl.CameraChange(cam.transform);
+            StartCoroutine(LoadScene());
+        }
+
+        IEnumerator LoadScene()
+        {
+            yield return null;
+
+            Cursor.visible = false;
+
+            AsyncOperation load = SceneManager.LoadSceneAsync(destinationScene, LoadSceneMode.Single);
+
+            FadeIn();
+
+            playerControl.NoInputMode = false;
+
+            Cursor.visible = true;
+        }
+
+        public override void MoveCharacter()
+        {
+
+        }
     }
-
-    IEnumerator LoadScene()
-    {
-        yield return null;
-
-        Cursor.visible = false;
-
-        AsyncOperation load = SceneManager.LoadSceneAsync(destinationScene, LoadSceneMode.Single);
-
-        FadeIn();
-
-        Cursor.visible = true;
-    }
-
 }
-

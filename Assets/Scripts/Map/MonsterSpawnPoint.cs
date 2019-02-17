@@ -2,24 +2,26 @@
 using System.Collections;
 using System.Collections.Generic;
 
-[System.Serializable]
-public class MonsterSpawnPoint : MonoBehaviour
+namespace UnityChanRPG
 {
-    private Transform point;
-
-    public List<MonsterSpawnPoint> SpawnItemList = new List<MonsterSpawnPoint>();
-
-    private void Awake()
-    {
-        point = this.GetComponent<Transform>();
-    }
-
     [System.Serializable]
-    public class SpawnMonster
+    public class MonsterSpawnPoint : MonoBehaviour
     {
-        public int ID;
-        public float SpawnProbablity;
+        private Transform point;
+
+        public List<MonsterSpawnPoint> SpawnItemList = new List<MonsterSpawnPoint>();
+
+        private void Awake()
+        {
+            point = this.GetComponent<Transform>();
+        }
+
+        [System.Serializable]
+        public class SpawnMonster
+        {
+            public int ID;
+            public float SpawnProbablity;
+        }
+
     }
-
 }
-

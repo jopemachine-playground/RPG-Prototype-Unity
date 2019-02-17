@@ -1,20 +1,22 @@
 ﻿using UnityEngine;
-
-public class Damage
+namespace UnityChanRPG
 {
-    public int value;
-    public bool IsFatalBlow;
-
-    public Animator attacker;
-    public Animator attackee;
-
-    public int EmittingParticleID = 0;
-    public float skillCoefficient = 100f;
-
-    public Damage(int _value, bool _IsFatalBlow)
+    public class Damage
     {
-        value = _value;
-        IsFatalBlow = _IsFatalBlow;
-    }
-}
+        public int value;
+        public bool IsFatalBlow;
 
+        public Animator attacker;
+        public Animator attackee;
+
+        public int EmittingParticleID = 0;
+        public float skillCoefficient = 100f;
+
+        public Damage(int _value, bool _IsFatalBlow)
+        {
+            value = _value;
+            IsFatalBlow = _IsFatalBlow;
+        }
+    }
+
+}

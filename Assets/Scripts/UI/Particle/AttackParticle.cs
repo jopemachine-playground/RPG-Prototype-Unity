@@ -4,21 +4,22 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-[System.Serializable]
-public class AttackParticle
+namespace UnityChanRPG
 {
-    // AttackParticles 내 AttackParticle의 ID들은 모두 다르다고 가정한다
-    // Particle ID가 0 이면 파티클이 없는 공격이라 가정하고 처리.
-    [SerializeField]
-    public int ID;
-    [SerializeField]
-    public ParticleSystem particle;
+    [System.Serializable]
+    public class AttackParticle
+    {
+        // AttackParticles 내 AttackParticle의 ID들은 모두 다르다고 가정한다
+        // Particle ID가 0 이면 파티클이 없는 공격이라 가정하고 처리.
+        [SerializeField]
+        public int ID;
+        [SerializeField]
+        public ParticleSystem particle;
 
-    // 기본적으로 생성해놓을 플로팅 텍스트의 갯수
-    [NonSerialized]
-    public int defaultParticlesNumber = 5;
-    [NonSerialized]
-    public int currentParticlesNumber = 0;
+        // 기본적으로 생성해놓을 플로팅 텍스트의 갯수
+        [NonSerialized]
+        public int defaultParticlesNumber = 5;
+        [NonSerialized]
+        public int currentParticlesNumber = 0;
+    }
 }
-
-

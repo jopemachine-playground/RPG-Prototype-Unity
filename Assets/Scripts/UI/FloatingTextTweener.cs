@@ -7,78 +7,80 @@ using UnityEngine.UI;
 데미지 값을 나타내는 플로팅 텍스트 컴포넌트를 컨트롤. 
 */
 
-public class FloatingTextTweener: MonoBehaviour
+namespace UnityChanRPG
 {
-    public Text text;
-
-    public const float DisableTime = 2.0f;
-    private float DisableTimer;
-
-    public bool isActived;
-
-    public Transform targetTr;
-    public Damage damage;
-    // 플로팅 텍스트를 world 좌표계에서 UI (2D)로 가져오려면 플레이어의 Camera가 필요하다.
-    public Camera cam;
-
-    private int updateCounter; 
-
-    private void Awake()
+    public class FloatingTextTweener : MonoBehaviour
     {
-        isActived = false;
-        DisableTimer = 0;
-        updateCounter = 0;
-        text = GetComponent<Text>();
-        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        text.font = gameObject.GetComponentInParent<DamageIndicator>().font;
-        text.fontSize = 55;
-        text.horizontalOverflow = HorizontalWrapMode.Overflow;
-    }
+        public Text text;
 
-    private void OnEnable()
-    {
-        isActived = true;
-        text.text = damage.value + "";
-        targetTr = damage.attackee.gameObject.transform;
-        text.transform.position = cam.WorldToScreenPoint(targetTr.position);
+        public const float DisableTime = 2.0f;
+        private float DisableTimer;
 
-        text.color = Color.white;
+        public bool isActived;
 
-        if (damage.IsFatalBlow)
+        public Transform targetTr;
+        public Damage damage;
+        // 플로팅 텍스트를 world 좌표계에서 UI (2D)로 가져오려면 플레이어의 Camera가 필요하다.
+        public Camera cam;
+
+        private int updateCounter;
+
+        private void Awake()
         {
-            text.color = Color.red;
+            isActived = false;
+            DisableTimer = 0;
+            updateCounter = 0;
+            text = GetComponent<Text>();
+            cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+            text.font = gameObject.GetComponentInParent<DamageIndicator>().font;
             text.fontSize = 55;
+            text.horizontalOverflow = HorizontalWrapMode.Overflow;
         }
 
-        StartCoroutine("textUpdate");
-    }
-
-    private IEnumerator textUpdate()
-    {
-        while (true)
+        private void OnEnable()
         {
-            DisableTimer += Time.deltaTime;
+            isActived = true;
+            text.text = damage.value + "";
+            targetTr = damage.attackee.gameObject.transform;
+            text.transform.position = cam.WorldToScreenPoint(targetTr.position);
 
-            if (DisableTimer > DisableTime)
+            text.color = Color.white;
+
+            if (damage.IsFatalBlow)
             {
-                DisableTimer = 0;
-                updateCounter = 0;
-                isActived = false;
-                gameObject.active = false;
+                text.color = Color.red;
+                text.fontSize = 55;
             }
 
-            else
-            {
-                updateCounter++;
-                Vector3 swap = cam.WorldToScreenPoint(targetTr.position);
-                text.color = new Color(text.color.r, text.color.g, text.color.b, text.color.a - 0.25f * Time.deltaTime);
-                swap.y += 2f * updateCounter;
-                text.transform.position = swap;
-            }
-
-            yield return null;
+            StartCoroutine("textUpdate");
         }
+
+        private IEnumerator textUpdate()
+        {
+            while (true)
+            {
+                DisableTimer += Time.deltaTime;
+
+                if (DisableTimer > DisableTime)
+                {
+                    DisableTimer = 0;
+                    updateCounter = 0;
+                    isActived = false;
+                    gameObject.active = false;
+                }
+
+                else
+                {
+                    updateCounter++;
+                    Vector3 swap = cam.WorldToScreenPoint(targetTr.position);
+                    text.color = new Color(text.color.r, text.color.g, text.color.b, text.color.a - 0.25f * Time.deltaTime);
+                    swap.y += 2f * updateCounter;
+                    text.transform.position = swap;
+                }
+
+                yield return null;
+            }
+        }
+
     }
-
 }
-

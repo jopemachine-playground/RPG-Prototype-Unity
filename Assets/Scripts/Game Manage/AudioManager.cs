@@ -4,38 +4,41 @@ using UnityEngine;
 
 // 플레이어, 몬스터, 총알 등 소리를 내는 컴포넌트의 자식에 부착해 사용
 
-public class AudioManager : MonoBehaviour
+namespace UnityChanRPG
 {
-    public List<AudioClip> Clips; 
-
-    public AudioSource Source;
-
-    void Start()
+    public class AudioManager : MonoBehaviour
     {
-        Source = GetComponent<AudioSource>();
-    }
+        public List<AudioClip> Clips;
 
-    public void Play(int audioNumber, float volume = 1f)
-    {
-        Source.Stop();
-        Source.volume = volume;
-        Source.clip = Clips[audioNumber];
-        Source.Play();
-    }
+        public AudioSource Source;
 
-    public void Stop()
-    {
-        Source.Stop();
-    }
+        void Start()
+        {
+            Source = GetComponent<AudioSource>();
+        }
 
-    public void Pause()
-    {
-        Source.Pause();
-    }
+        public void Play(int audioNumber, float volume = 1f)
+        {
+            Source.Stop();
+            Source.volume = volume;
+            Source.clip = Clips[audioNumber];
+            Source.Play();
+        }
 
-    public void Mute()
-    {
-        Source.volume = 0;
-    }
+        public void Stop()
+        {
+            Source.Stop();
+        }
 
+        public void Pause()
+        {
+            Source.Pause();
+        }
+
+        public void Mute()
+        {
+            Source.volume = 0;
+        }
+
+    }
 }

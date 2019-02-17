@@ -3,46 +3,74 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MapNameIndicator : MonoBehaviour
+namespace UnityChanRPG
 {
-    private Text mapName;
-    private Image mapNamePanel;
-
-    public const float DisableTime = 3.0f;
-    private float DisableTimer;
-
-    private void Awake()
+    public class MapNameIndicator : MonoBehaviour
     {
-        mapName = transform.Find("Text").gameObject.GetComponent<Text>();
-        mapNamePanel = gameObject.GetComponent<Image>();
-    }
+        public static MapNameIndicator Instance;
 
-    private void OnEnable()
-    {
-        DisableTimer = 0;
-        StartCoroutine("MapNameIndicate");
-    }
-
-    private IEnumerator MapNameIndicate()
-    {
-        while (true)
+        public Text mapName
         {
-            DisableTimer += Time.deltaTime;
+            get;
+            private set;
+        }
 
-            if (DisableTimer > DisableTime)
+        private Image mapNamePanel;
+
+        private const float DisableTime = 3.0f;
+        private float DisableTimer;
+
+        private Color InitialColor;
+
+
+        private void Awake()
+        {
+            if (Instance != null)
             {
-                DisableTimer = 0;
-                gameObject.active = false;
+                Destroy(this.gameObject);
             }
-
             else
             {
-                mapName.color = new Color(mapName.color.r, mapName.color.g, mapName.color.b, mapName.color.a - 0.25f * Time.deltaTime);
-                mapNamePanel.color = new Color(mapName.color.r, mapName.color.g, mapName.color.b, mapName.color.a - 0.25f * Time.deltaTime);
+                Instance = this;
+                InitialColor = new Color(1f, 1f, 1f, 1f);
+                mapName = transform.Find("Text").gameObject.GetComponent<Text>();
+                mapNamePanel = gameObject.GetComponent<Image>();
             }
-            yield return null;
         }
+        
+        public void IndicateMapName(string _mapName)
+        {
+            DisableTimer = 0;
+            mapName.color = InitialColor;
+            mapNamePanel.color = InitialColor;
+            mapName.text = _mapName;
+            MiniMapText.Instance.NameUpdate();
+            gameObject.SetActive(true);
+            StartCoroutine("FadeOut");
+        }
+
+        private IEnumerator FadeOut()
+        {
+            while (true)
+            {
+                DisableTimer += Time.deltaTime;
+
+                if (DisableTimer > DisableTime)
+                {
+                    DisableTimer = 0;
+                    gameObject.SetActive(false);
+                }
+
+                else
+                {
+                    mapName.color = new Color(mapName.color.r, mapName.color.g, mapName.color.b, mapName.color.a - 0.25f * Time.deltaTime);
+                    mapNamePanel.color = new Color(mapName.color.r, mapName.color.g, mapName.color.b, mapName.color.a - 0.25f * Time.deltaTime);
+                }
+                yield return null;
+            }
+        }
+
+
     }
 
 }
-

@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class AttackParticleList: MonoBehaviour
+namespace UnityChanRPG
 {
-    [SerializeField]
-    public List<AttackParticle> attackParticleList;
+    public class AttackParticleList : MonoBehaviour
+    {
+        [SerializeField]
+        public List<AttackParticle> attackParticleList;
+    }
 }
-

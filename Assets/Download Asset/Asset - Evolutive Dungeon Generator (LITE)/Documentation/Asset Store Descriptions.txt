@@ -1,0 +1,17 @@
+Procedural Dungeon Generator by Difficulty (LITE)
+
+
+
+<strong>Based on size and difficulty</strong><br>
+This asset generates a dungeon based on the size and difficulty you specify and can be recreated by using the same seed.<br>
+Is realy easy to use the asset, just define the max and min size of you dungeon, the max and min difficulties your dungeon can have, and than define the actual difficulty, click in create and your dungeon is ready.<br>
+<br>
+<strong>Use your own modules</strong><br>
+The generator creates only an array of data indicating where and how many modules should be placed, the instatiation of the modules is based on the modules you provide.<br>
+You need to provide at the least one of each the five diferent modules required to fill the dungeon, if you provide more than one for each type this gonna be sorted and placed in the dungeon proceduraly.<br>
+<br>
+<strong>Accesses</strong><br>
+You can select how many accesses your dungeon will have.<br>
+<br>
+<strong>Traps, Itens and Monsters</strong><br>
+This features are avaliable in the full version.<br>

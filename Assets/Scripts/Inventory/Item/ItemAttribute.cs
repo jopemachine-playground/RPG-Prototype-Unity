@@ -6,20 +6,20 @@ using System.Collections;
  attribute로 관리함
  https://assetstore.unity.com/packages/tools/gui/inventory-master-ugui-26310 를 참고해 작성
 */
-
-[System.Serializable]
-public class ItemAttribute
+namespace UnityChanRPG
 {
-
-    public string AttributeName;
-    public int AttributeValue;
-
-    public ItemAttribute(string _AttributeName, int _AttributeValue)
+    [System.Serializable]
+    public class ItemAttribute
     {
-        AttributeName = _AttributeName;
-        AttributeValue = _AttributeValue;
+
+        public string AttributeName;
+        public int AttributeValue;
+
+        public ItemAttribute(string _AttributeName, int _AttributeValue)
+        {
+            AttributeName = _AttributeName;
+            AttributeValue = _AttributeValue;
+        }
+
     }
-
-
 }
-

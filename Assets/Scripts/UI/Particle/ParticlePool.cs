@@ -5,104 +5,106 @@ using System.IO;
 
 // 파티클을 미리 생성하고 활성화 해 놓기 때문에, 모든 공격 파티클은 PlayOnAwake가 false여야 한다.
 
-public class ParticlePool : MonoBehaviour
+namespace UnityChanRPG
 {
-    public static ParticlePool mInstance;
-
-    private const int PARTICLE_LAYER = 14;
-
-    private void Awake()
+    public class ParticlePool : MonoBehaviour
     {
-        if (mInstance != null)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            DontDestroyOnLoad(this.gameObject);
-            mInstance = this;
-        }
+        public static ParticlePool mInstance;
 
-        AttackParticleList[] particleLists = FindObjectsOfType<AttackParticleList>();
+        private const int PARTICLE_LAYER = 14;
 
-        for (int i = 0; i < particleLists.Length; i++)
+        private void Awake()
         {
-            for (int j = 0; j < particleLists[i].attackParticleList.Count; j++)
+            if (mInstance != null)
             {
-                GameObject ID_Tag = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                Destroy(ID_Tag.gameObject.GetComponent<Collider>());
-                Destroy(ID_Tag.gameObject.GetComponent<MeshRenderer>());
-                ID_Tag.name = particleLists[i].attackParticleList[j].ID + "";
-                ID_Tag.transform.parent = gameObject.transform;
-                ID_Tag.layer = PARTICLE_LAYER;
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                DontDestroyOnLoad(this.gameObject);
+                mInstance = this;
+            }
 
-                for (int k = 0; k < particleLists[i].attackParticleList[j].defaultParticlesNumber; k++)
+            AttackParticleList[] particleLists = FindObjectsOfType<AttackParticleList>();
+
+            for (int i = 0; i < particleLists.Length; i++)
+            {
+                for (int j = 0; j < particleLists[i].attackParticleList.Count; j++)
                 {
-                    GameObject particleObj = Instantiate(particleLists[i].attackParticleList[j].particle.gameObject, Vector3.zero, Quaternion.identity);
-                    particleObj.name = ID_Tag.name + " (" + k + ")";
-                    particleObj.transform.parent = ID_Tag.transform;
-                    particleObj.layer = PARTICLE_LAYER;
+                    GameObject ID_Tag = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    Destroy(ID_Tag.gameObject.GetComponent<Collider>());
+                    Destroy(ID_Tag.gameObject.GetComponent<MeshRenderer>());
+                    ID_Tag.name = particleLists[i].attackParticleList[j].ID + "";
+                    ID_Tag.transform.parent = gameObject.transform;
+                    ID_Tag.layer = PARTICLE_LAYER;
+
+                    for (int k = 0; k < particleLists[i].attackParticleList[j].defaultParticlesNumber; k++)
+                    {
+                        GameObject particleObj = Instantiate(particleLists[i].attackParticleList[j].particle.gameObject, Vector3.zero, Quaternion.identity);
+                        particleObj.name = ID_Tag.name + " (" + k + ")";
+                        particleObj.transform.parent = ID_Tag.transform;
+                        particleObj.layer = PARTICLE_LAYER;
+                    }
+
+                    particleLists[i].attackParticleList[j].currentParticlesNumber = particleLists[i].attackParticleList[j].defaultParticlesNumber;
                 }
-
-                particleLists[i].attackParticleList[j].currentParticlesNumber = particleLists[i].attackParticleList[j].defaultParticlesNumber;
             }
         }
-    }
 
-    public void CallAttackParticle(int particleID, Vector3 emitPosition)
-    {
-        ParticleSystem particle = getParticleObject(getParticlePoolByID(particleID));
-        particle.transform.position = emitPosition;
-        particle.gameObject.SetActive(true);
-        particle.Play();
-    }
-    
-
-    private GameObject getParticlePoolByID(int particleID)
-    {
-        for (int i = 0; i < gameObject.transform.childCount; i++)
+        public void CallAttackParticle(int particleID, Vector3 emitPosition)
         {
-            if (gameObject.transform.GetChild(i).name == particleID + "")
+            ParticleSystem particle = getParticleObject(getParticlePoolByID(particleID));
+            particle.transform.position = emitPosition;
+            particle.gameObject.SetActive(true);
+            particle.Play();
+        }
+
+
+        private GameObject getParticlePoolByID(int particleID)
+        {
+            for (int i = 0; i < gameObject.transform.childCount; i++)
             {
-                return gameObject.transform.GetChild(i).gameObject;
+                if (gameObject.transform.GetChild(i).name == particleID + "")
+                {
+                    return gameObject.transform.GetChild(i).gameObject;
+                }
             }
+            Debug.Assert(false, "Wrong Particle ID");
+            return null;
         }
-        Debug.Assert(false, "Wrong Particle ID");
-        return null;
-    }
 
 
-    private ParticleSystem getParticleObject(GameObject ID_Tag)
-    {
-        for (int i = 0; i < ID_Tag.transform.childCount; i++)
+        private ParticleSystem getParticleObject(GameObject ID_Tag)
         {
-            GameObject childObj = ID_Tag.transform.GetChild(i).gameObject;
-            ParticleSystem particle = childObj.GetComponent<ParticleSystem>();
-
-            if (particle.IsAlive(true) == false)
+            for (int i = 0; i < ID_Tag.transform.childCount; i++)
             {
-                return particle;
+                GameObject childObj = ID_Tag.transform.GetChild(i).gameObject;
+                ParticleSystem particle = childObj.GetComponent<ParticleSystem>();
+
+                if (particle.IsAlive(true) == false)
+                {
+                    return particle;
+                }
             }
+
+            extendList(ID_Tag, 5);
+            return getParticleObject(ID_Tag);
         }
-        
-        extendList(ID_Tag, 5);
-        return getParticleObject(ID_Tag);
-    }
 
-    // List 내 생성된 파티클을 늘림
-    private void extendList(GameObject ID_Tag, int extendSize)
-    {
-        int index = ID_Tag.transform.childCount;
-
-        for (int i = index; i < index + extendSize; i++)
+        // List 내 생성된 파티클을 늘림
+        private void extendList(GameObject ID_Tag, int extendSize)
         {
-            GameObject particleObj = Instantiate(ID_Tag.transform.GetChild(0).gameObject, Vector3.zero, Quaternion.identity);
-            particleObj.name = ID_Tag.name + " (" + i + ")";
-            particleObj.transform.parent = ID_Tag.transform;
-            particleObj.SetActive(false);
-            particleObj.layer = PARTICLE_LAYER;
-        }
+            int index = ID_Tag.transform.childCount;
 
+            for (int i = index; i < index + extendSize; i++)
+            {
+                GameObject particleObj = Instantiate(ID_Tag.transform.GetChild(0).gameObject, Vector3.zero, Quaternion.identity);
+                particleObj.name = ID_Tag.name + " (" + i + ")";
+                particleObj.transform.parent = ID_Tag.transform;
+                particleObj.SetActive(false);
+                particleObj.layer = PARTICLE_LAYER;
+            }
+
+        }
     }
 }
-

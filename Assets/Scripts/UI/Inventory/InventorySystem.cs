@@ -5,81 +5,84 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventorySystem : MonoBehaviour
+namespace UnityChanRPG
 {
-
-    public Image[] itemImage;
-    public Text[] itemText;
-
-    public Text moneyText;
-
-    // GameManager에서 초기화
-    public void Initialize()
+    public class InventorySystem : MonoBehaviour
     {
-        int SlotValue = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").Find("Item Grid Slot").childCount;
 
-        itemImage = new Image[SlotValue];
-        itemText = new Text[SlotValue];
+        public Image[] itemImage;
+        public Text[] itemText;
 
-        for (int i = 0; i < SlotValue; i++)
+        public Text moneyText;
+
+        // GameManager에서 초기화
+        public void Initialize()
         {
-            Image itemIcon = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").Find("Item Grid Slot").GetChild(i).Find("Image").gameObject.GetComponent<Image>();
-            Text itemIconText = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").Find("Item Grid Slot").GetChild(i).Find("Text").gameObject.GetComponent<Text>();
-            itemImage[i] = itemIcon.GetComponent<Image>();
-            itemText[i] = itemIconText.GetComponent<Text>();
-        }
+            int SlotValue = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").Find("Item Grid Slot").childCount;
 
-        moneyText = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").Find("Money Text").Find("Text").gameObject.GetComponent<Text>();
+            itemImage = new Image[SlotValue];
+            itemText = new Text[SlotValue];
 
-    }
-
-    private void Start()
-    {
-        ItemIconUpdate();
-    }
-
-    public void ItemIconUpdate()
-    {
-        for (int i = 0; i < Inventory.mInstance.playerItems.Count; i++)
-        {
-            // 아이템이 해당 슬롯에 존재하지 않는다면 슬롯의 이미지를 비활성화
-            if (Inventory.mInstance.playerItems[i].ItemExist == false)
+            for (int i = 0; i < SlotValue; i++)
             {
-                itemImage[i].enabled = false;
-                itemText[i].enabled = false;
+                Image itemIcon = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").Find("Item Grid Slot").GetChild(i).Find("Image").gameObject.GetComponent<Image>();
+                Text itemIconText = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").Find("Item Grid Slot").GetChild(i).Find("Text").gameObject.GetComponent<Text>();
+                itemImage[i] = itemIcon.GetComponent<Image>();
+                itemText[i] = itemIconText.GetComponent<Text>();
             }
 
-            // 아이템이 해당 슬롯에 존재한다면 존재하는 아이템의 ID로 ItemPool에서 Sprite를 가져온다.
-            else
-            {
-                itemImage[i].sprite = ItemPool.mInstance.getItemIcon(Inventory.mInstance.playerItems[i].Item.ID);
-                itemImage[i].enabled = true;
+            moneyText = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").Find("Money Text").Find("Text").gameObject.GetComponent<Text>();
 
-                if(Inventory.mInstance.playerItems[i].Item.ItemValue == 1)
+        }
+
+        private void Start()
+        {
+            ItemIconUpdate();
+        }
+
+        public void ItemIconUpdate()
+        {
+            for (int i = 0; i < Inventory.mInstance.playerItems.Count; i++)
+            {
+                // 아이템이 해당 슬롯에 존재하지 않는다면 슬롯의 이미지를 비활성화
+                if (Inventory.mInstance.playerItems[i].ItemExist == false)
                 {
+                    itemImage[i].enabled = false;
                     itemText[i].enabled = false;
                 }
+
+                // 아이템이 해당 슬롯에 존재한다면 존재하는 아이템의 ID로 ItemPool에서 Sprite를 가져온다.
                 else
                 {
-                    itemText[i].enabled = true;
-                    itemText[i].text = "" + Inventory.mInstance.playerItems[i].Item.ItemValue;
+                    itemImage[i].sprite = ItemPool.mInstance.getItemIcon(Inventory.mInstance.playerItems[i].Item.ID);
+                    itemImage[i].enabled = true;
+
+                    if (Inventory.mInstance.playerItems[i].Item.ItemValue == 1)
+                    {
+                        itemText[i].enabled = false;
+                    }
+                    else
+                    {
+                        itemText[i].enabled = true;
+                        itemText[i].text = "" + Inventory.mInstance.playerItems[i].Item.ItemValue;
+                    }
+
                 }
-                
             }
+
+        }
+
+        public void moneyUpdate()
+        {
+            moneyText.text = PlayerInfo.mInstance.player.Money.ToString();
+        }
+
+        private void Update()
+        {
+            ItemIconUpdate();
+            moneyUpdate();
         }
 
     }
-
-    public void moneyUpdate()
-    {
-        moneyText.text = PlayerInfo.mInstance.player.Money.ToString();
-    }
-
-    private void Update()
-    {
-        ItemIconUpdate();
-        moneyUpdate();
-    }
-
 }
 

@@ -107,9 +107,7 @@
     <Compile Include="Assets\Sun_Temple\PostProcessing\Editor\Utils\EditorResources.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Editor\Utils\FxStyles.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Editor\Utils\ReflectionUtils.cs" />
-    <None Include="Assets\FbxExporters\Editor\FbxSdk\LICENSE.txt" />
     <None Include="Assets\Download Asset\EffectExamples\Editor\PackageManagerAssembly\PackageImportList.txt" />
-    <None Include="Assets\FbxExporters\Editor\FbxSdk\README.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Unity-Chan/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
@@ -361,15 +359,6 @@
     </Reference>
     <Reference Include="PackageManagerAssembly">
       <HintPath>C:/Unity-Chan/Assets/Download Asset/EffectExamples/Editor/PackageManagerAssembly/PackageManagerAssembly.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityFbxPrefab">
-      <HintPath>C:/Unity-Chan/Assets/FbxExporters/UnityFbxPrefab.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityFbxExporterEditor">
-      <HintPath>C:/Unity-Chan/Assets/FbxExporters/Editor/UnityFbxExporterEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityFbxSdk">
-      <HintPath>C:/Unity-Chan/Assets/FbxExporters/Editor/FbxSdk/Plugins/UnityFbxSdk.dll</HintPath>
     </Reference>
     <Reference Include="LitJson">
       <HintPath>C:/Unity-Chan/Assets/Plugins/LitJson.dll</HintPath>

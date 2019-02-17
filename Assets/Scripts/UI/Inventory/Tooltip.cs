@@ -3,45 +3,48 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Tooltip : MonoBehaviour
+namespace UnityChanRPG
 {
-    public Item item;
-    public Text itemNameText;
-    public Text itemDescText;
-    public Text itemRarityText;
-    public Image itemIcon;
- 
-    public GameObject tooltipGameobj;
-
-    public WaitForSeconds showingTime;
-    public float showingTimeForInit;
-
-    public void Initialize()
+    public class Tooltip : MonoBehaviour
     {
-        showingTime = new WaitForSeconds(showingTimeForInit);
-        tooltipGameobj = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Tooltip").gameObject;
-        itemNameText = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Tooltip").Find("ItemName").gameObject.GetComponent<Text>();
-        itemDescText = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Tooltip").Find("ItemDesc").gameObject.GetComponent<Text>();
-        itemRarityText = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Tooltip").Find("ItemDetail").gameObject.GetComponent<Text>();
-        itemIcon = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Tooltip").Find("ItemIcon").gameObject.GetComponent<Image>();
-    }
+        public Item item;
+        public Text itemNameText;
+        public Text itemDescText;
+        public Text itemRarityText;
+        public Image itemIcon;
 
-    public void CopyItemInfoToTooltip(Item _item)
-    {
-        itemNameText.text = _item.Name;
-        itemDescText.text = _item.Description;
-        itemRarityText.text = "레어도 : " + _item.Rarity;
-        itemIcon.sprite = _item.ItemIcon;
-    }
+        public GameObject tooltipGameobj;
 
-    public void ActivateTooltip()
-    {
-        tooltipGameobj.SetActive(true);
-    }
+        public WaitForSeconds showingTime;
+        public float showingTimeForInit;
 
-    public void DeactivateTooltip()
-    {
-        tooltipGameobj.SetActive(false);
-    }
+        public void Initialize()
+        {
+            showingTime = new WaitForSeconds(showingTimeForInit);
+            tooltipGameobj = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Tooltip").gameObject;
+            itemNameText = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Tooltip").Find("ItemName").gameObject.GetComponent<Text>();
+            itemDescText = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Tooltip").Find("ItemDesc").gameObject.GetComponent<Text>();
+            itemRarityText = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Tooltip").Find("ItemDetail").gameObject.GetComponent<Text>();
+            itemIcon = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Tooltip").Find("ItemIcon").gameObject.GetComponent<Image>();
+        }
 
+        public void CopyItemInfoToTooltip(Item _item)
+        {
+            itemNameText.text = _item.Name;
+            itemDescText.text = _item.Description;
+            itemRarityText.text = "레어도 : " + _item.Rarity;
+            itemIcon.sprite = _item.ItemIcon;
+        }
+
+        public void ActivateTooltip()
+        {
+            tooltipGameobj.SetActive(true);
+        }
+
+        public void DeactivateTooltip()
+        {
+            tooltipGameobj.SetActive(false);
+        }
+
+    }
 }

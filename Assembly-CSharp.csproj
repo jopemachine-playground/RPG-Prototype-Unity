@@ -62,6 +62,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Custom\Fabs\Map\DungeonModules\Scripts\DoorAOpen.cs" />
+    <Compile Include="Assets\Download Asset\Asset - Evolutive Dungeon Generator (LITE)\Asset\DGModuleInstance.cs" />
+    <Compile Include="Assets\Download Asset\Asset - Evolutive Dungeon Generator (LITE)\Asset\DungeonGenerator.cs" />
+    <Compile Include="Assets\Download Asset\Asset - Evolutive Dungeon Generator (LITE)\Asset\Internals\DGModuleDefinition.cs" />
+    <Compile Include="Assets\Download Asset\Asset - Evolutive Dungeon Generator (LITE)\Asset\Internals\DGMPathsController.cs" />
+    <Compile Include="Assets\Download Asset\Asset - Evolutive Dungeon Generator (LITE)\Asset\Internals\DGUtils.cs" />
+    <Compile Include="Assets\Download Asset\Asset - Evolutive Dungeon Generator (LITE)\Asset\Internals\DungeonGeneratorEditor.cs" />
+    <Compile Include="Assets\Download Asset\Asset - Evolutive Dungeon Generator (LITE)\Demo\Demo.cs" />
+    <Compile Include="Assets\Download Asset\Asset - Evolutive Dungeon Generator (LITE)\Demo\World.cs" />
     <Compile Include="Assets\Download Asset\EffectExamples\Shared\Scripts\DecalDestroyer.cs" />
     <Compile Include="Assets\Download Asset\EffectExamples\Shared\Scripts\ExtinguishableFire.cs" />
     <Compile Include="Assets\Download Asset\EffectExamples\Shared\Scripts\GunAim.cs" />
@@ -70,6 +78,9 @@
     <Compile Include="Assets\Download Asset\EffectExamples\Shared\Scripts\ParticleExamples.cs" />
     <Compile Include="Assets\Download Asset\EffectExamples\Shared\Scripts\ParticleMenu.cs" />
     <Compile Include="Assets\Download Asset\EffectExamples\TutorialInfo\Scripts\Readme.cs" />
+    <Compile Include="Assets\Download Asset\Fantasy Lands\Demo\Scripts\CameraMouseDrag.cs" />
+    <Compile Include="Assets\Download Asset\Fantasy Lands\Demo\Scripts\CameraMouseRotate.cs" />
+    <Compile Include="Assets\Download Asset\Fantasy Lands\Demo\Scripts\MoveMe.cs" />
     <Compile Include="Assets\Download Asset\Item\Scripts\BowString.cs" />
     <Compile Include="Assets\Download Asset\Item\Scripts\OpenChest.cs" />
     <Compile Include="Assets\Download Asset\RainMaker\Demo\DemoScript.cs" />
@@ -230,6 +241,10 @@
     <Compile Include="Assets\Download Asset\UnityChan\Scripts\SceneLoader.cs" />
     <Compile Include="Assets\Download Asset\UnityChan\Scripts\ThirdPersonCamera.cs" />
     <Compile Include="Assets\Download Asset\UnityChan\Scripts\UnityChanControlScriptWithRgidBody.cs" />
+    <Compile Include="Assets\miniMap-TurzoStudio\Scripts\FollowCharacter.cs" />
+    <Compile Include="Assets\miniMap-TurzoStudio\Scripts\GUIManager.cs" />
+    <Compile Include="Assets\miniMap-TurzoStudio\Scripts\miniCameraScript.cs" />
+    <Compile Include="Assets\miniMap-TurzoStudio\Scripts\Player.cs" />
     <Compile Include="Assets\Particlecollection_Free samples\Plugins\Effect\Script\CameraTarget.cs" />
     <Compile Include="Assets\Particlecollection_Free samples\Plugins\Effect\Script\EffectController.cs" />
     <Compile Include="Assets\Particlecollection_Free samples\Plugins\Effect\Script\EffectDemo.cs" />
@@ -249,6 +264,8 @@
     <Compile Include="Assets\Scripts\Inventory\Item\ItemSpawnManager.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\ItemType.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\PickUpItem.cs" />
+    <Compile Include="Assets\Scripts\Map\Dungeon\Dungeon.cs" />
+    <Compile Include="Assets\Scripts\Map\Dungeon\EntryPoint.cs" />
     <Compile Include="Assets\Scripts\Map\ItemSpawnPoint.cs" />
     <Compile Include="Assets\Scripts\Map\MonsterPatrolArea.cs" />
     <Compile Include="Assets\Scripts\Map\MonsterSpawnPoint.cs" />
@@ -287,6 +304,7 @@
     <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerPunchAttack2.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerPunchAttack3.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerPunchAttack4.cs" />
+    <Compile Include="Assets\Scripts\MovableObject\Player\Camera\MiniMapCamera.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Camera\PlayerCamera.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Camera\PlayerCamera2.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\LevelInfo.cs" />
@@ -309,8 +327,8 @@
     <Compile Include="Assets\Scripts\UI\LoadingScene.cs" />
     <Compile Include="Assets\Scripts\UI\MapUI\AboveUI.cs" />
     <Compile Include="Assets\Scripts\UI\MapUI\MapNameIndicator.cs" />
+    <Compile Include="Assets\Scripts\UI\MapUI\MiniMapText.cs" />
     <Compile Include="Assets\Scripts\UI\MapUI\UIEmergingPoint.cs" />
-    <Compile Include="Assets\Scripts\UI\Menu.cs" />
     <Compile Include="Assets\Scripts\UI\Panel\ICheckPanel.cs" />
     <Compile Include="Assets\Scripts\UI\Panel\ItemDeletePanel.cs" />
     <Compile Include="Assets\Scripts\UI\Particle\AttackParticle.cs" />
@@ -318,6 +336,8 @@
     <Compile Include="Assets\Scripts\UI\Particle\ParticlePool.cs" />
     <Compile Include="Assets\Scripts\UI\PlayerInfoSystem.cs" />
     <Compile Include="Assets\Scripts\UI\TitleMenu.cs" />
+    <Compile Include="Assets\Scripts\UI\Window.cs" />
+    <Compile Include="Assets\Scripts\UI\WindowObject.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
     <Compile Include="Assets\Sun_Temple\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />
@@ -387,9 +407,8 @@
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
     <None Include="Assets\Sun_Temple\Readme.txt" />
     <None Include="Assets\Custom\Resources\Effect Sound\girl voice\mai_free_voices\mai_free_voices.txt" />
+    <None Include="Assets\Download Asset\Fantasy Lands\readme.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\ShowAlphaChannel.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
     <None Include="Assets\Sun_Temple\Content\Shaders\Decal.shader" />
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\MotionBlur.cginc" />
@@ -419,7 +438,6 @@
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\MinMaxReduction.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\SSAA.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\RadialBlur.shader" />
     <None Include="Assets\Sun_Temple\Content\Shaders\Mountains.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldDX11.shader" />
@@ -427,13 +445,12 @@
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Readme.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\ContrastComposite.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset3.shader" />
-    <None Include="Assets\FbxExporters\RELEASE_NOTES.txt" />
     <None Include="Assets\Sun_Temple\PostProcessing\Editor Resources\Monitors\HistogramCompute.compute" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\FisheyeShader.shader" />
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\Uber.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Vehicles\Car\Shaders\DiffuseReflectiveShader.shader" />
+    <None Include="Assets\miniMap-TurzoStudio\Read Me First.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Apply.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\Blit.shader" />
     <None Include="Assets\Download Asset\UnityChan\license.txt" />
@@ -448,6 +465,7 @@
     <None Include="Assets\Particlecollection_Free samples\Plugins\Effect\Shader\effect_distortion_mask.shader" />
     <None Include="Assets\Sun_Temple\Content\Shaders\VertexBlend.shader" />
     <None Include="Assets\Download Asset\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_fuku_ds.shader" />
+    <None Include="Assets\Download Asset\Fantasy Lands\Materials and Textures\Materials\Scrolling Layer.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
     <None Include="Assets\Download Asset\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye_blend.shader" />
     <None Include="Assets\Download Asset\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
@@ -459,7 +477,7 @@
     <None Include="Assets\Download Asset\Standard Assets\Environment\Water\DO_NOT_WORK_IN_VR.txt" />
     <None Include="Assets\Download Asset\Necromancer GUI\Kingthings.txt" />
     <None Include="Assets\Download Asset\RainMaker\Prefab\RainShader.shader" />
-    <None Include="Assets\MedievalTownExteriors\Readme.txt" />
+    <None Include="Assets\Download Asset\MedievalTownExteriors\Readme.txt" />
     <None Include="Assets\Download Asset\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hair_ds.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MobileBlur.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\SSAOShader.shader" />
@@ -473,14 +491,11 @@
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Bluenoise64\COPYING.txt" />
     <None Include="Assets\Sun_Temple\Content\Shaders\Decal_Puddle.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Fonts\OpenSans\License!.txt" />
     <None Include="Assets\Sun_Temple\PostProcessing\Editor Resources\UI\Trackball.shader" />
-    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
     <None Include="Assets\Mega Fantasy Props Pack\README.txt" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\Download Asset\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
     <None Include="Assets\Download Asset\SlimUI\Modern Menu 1\READ ME.txt" />
@@ -489,7 +504,6 @@
     <None Include="Assets\Download Asset\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hair.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Luminance.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ToonShading\Shaders\ToonLit.shader" />
-    <None Include="Assets\FbxExporters\README.txt" />
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\Bloom.cginc" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionSelective.shader" />
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\TAA.shader" />
@@ -502,9 +516,7 @@
     <None Include="Assets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticlePremultiplyBlend.shader" />
     <None Include="Assets\Sun_Temple\Content\Shaders\Skybox_Rotating.shader" />
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\TAA.cginc" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlurDX11.shader" />
-    <None Include="Assets\Materials\UI-Default-No-Alpha.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\SeparableBlurPlus.shader" />
     <None Include="Assets\Sun_Temple\Content\Shaders\Clouds.shader" />
     <None Include="Assets\Particlecollection_Free samples\READ ME.txt" />
@@ -517,29 +529,29 @@
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\GrainGen.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\DLAA.shader" />
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\FXAA.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrainDX11.shader" />
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\DiskKernels.cginc" />
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\DepthOfField.cginc" />
     <None Include="Assets\Download Asset\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hada.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BrightPassFilter2.shader" />
+    <None Include="Assets\Download Asset\Asset - Evolutive Dungeon Generator (LITE)\Documentation\Asset Store Descriptions.txt" />
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\ScreenSpaceRaytrace.cginc" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableBlur.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\MotionBlurClear.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Sun_Temple\Resources\TerrainShaders\Details\WavingGrass.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionEffect.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\GrayscaleEffect.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\SepiaToneEffect.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\TwirlEffect.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\VortexEffect.shader" />
+    <None Include="Assets\miniMap-TurzoStudio\Shader,Texture,Mask\MaskShader.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Adaptation.shader" />
     <None Include="Assets\Sun_Temple\Content\Shaders\VertexWind.cginc" />
     <None Include="Assets\Download Asset\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hada_blend.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrain.shader" />
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\Bloom.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Vehicles\Car\CarGuidelines.txt" />
+    <None Include="Assets\Download Asset\Fantasy Lands\Materials and Textures\Materials\Scrolling Layer2.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\Projectors\Shaders\ProjectorMultiply.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\VignettingShader.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
@@ -549,8 +561,6 @@
     <None Include="Assets\Download Asset\RainMaker\Readme.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Cameras\CameraGuidelines.txt" />
     <None Include="Assets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleAddEffect.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrection3DLut.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\LensFlareCreate.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\EdgeDetectNormals.shader" />
@@ -559,12 +569,10 @@
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\EyeAdaptation.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\PrepareSunShaftsBlur.shader" />
     <None Include="Assets\Sun_Temple\Content\Shaders\Cloth.shader" />
-    <None Include="Assets\FbxExporters\LICENSE.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\Blend.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Environment\Water\Water4\Shaders\WaterInclude.cginc" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\ColorGrading.cginc" />
     <None Include="Assets\Download Asset\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Advanced.shader" />
     <None Include="Assets\Download Asset\Orc Monster\FantasyMonster2\Orc Sword\readMe.txt" />
@@ -572,18 +580,17 @@
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\SimpleClear.shader" />
     <None Include="Assets\Download Asset\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
     <None Include="Assets\Particlecollection_Free samples\Plugins\Effect\Shader\Toon Additive.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularDisplacement.shader" />
     <None Include="Assets\Sun_Temple\PostProcessing\Resources\Shaders\AmbientOcclusion.cginc" />
+    <None Include="Assets\Download Asset\Asset - Evolutive Dungeon Generator (LITE)\Documentation\Documentation.txt" />
     <None Include="Assets\Sun_Temple\Content\Shaders\WindowGlass.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA3Console.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
     <None Include="Assets\Sun_Temple\PostProcessing\Editor Resources\Monitors\WaveformCompute.compute" />
     <None Include="Assets\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleBlendEffect.shader" />
-    <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\Download Asset\Standard Assets\SampleScenes\Shaders\Skybox-Procedural.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset2.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
+    <None Include="Assets\Mushroom house\StandardDoubleSided.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Unity-Chan/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -800,9 +807,6 @@
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityFbxPrefab">
-      <HintPath>C:/Unity-Chan/Assets/FbxExporters/UnityFbxPrefab.dll</HintPath>
     </Reference>
     <Reference Include="LitJson">
       <HintPath>C:/Unity-Chan/Assets/Plugins/LitJson.dll</HintPath>

@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterSpawnManager: MonoBehaviour
+namespace UnityChanRPG
 {
-    public GameObject SpawnArea;
-
-    public MonsterList InhabitMonster = new MonsterList();
-
-    private void Start()
+    public class MonsterSpawnManager : MonoBehaviour
     {
-        
+        public GameObject SpawnArea;
+
+        public MonsterList InhabitMonster = new MonsterList();
+
+        private void Start()
+        {
+
+        }
+
+
     }
-
-
-
 }
 

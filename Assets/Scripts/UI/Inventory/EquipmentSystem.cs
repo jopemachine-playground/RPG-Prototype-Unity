@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-class EquipmentSystem : MonoBehaviour
+namespace UnityChanRPG
 {
+    class EquipmentSystem : MonoBehaviour
+    {
+    }
 }

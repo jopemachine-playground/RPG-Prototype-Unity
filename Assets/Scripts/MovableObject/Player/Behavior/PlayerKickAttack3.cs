@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerKickAttack3 : StateMachineBehaviour
+namespace UnityChanRPG
 {
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class PlayerKickAttack3 : StateMachineBehaviour
     {
-        Player.mInstance.state = PlayerSkillState.KickAttack3;
-    }
+        // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            Player.mInstance.state = PlayerSkillState.KickAttack3;
+        }
 
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        animator.SetBool("DamagedProcessed", false);
-        animator.SetInteger("AttackState", 0);
-        Player.mInstance.state = PlayerSkillState.None;
+        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            animator.SetBool("DamagedProcessed", false);
+            animator.SetInteger("AttackState", 0);
+            Player.mInstance.state = PlayerSkillState.None;
+        }
     }
 }

@@ -3,26 +3,29 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ItemDeletePanel : ICheckPanel
+namespace UnityChanRPG
 {
-
-    private InventorySystem invSystem;
-
-    public ItemSlot DeleteSlot;
-
-    public void Start()
+    public class ItemDeletePanel : ICheckPanel
     {
-        invSystem = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").gameObject.GetComponent<InventorySystem>();
-    }
 
-    public override void yesButtonClicked()
-    {
-        DeleteSlot.ItemExist = false;
-        DeleteSlot.Item.ID = 0;
-        gameObject.SetActive(false);
-        invSystem.ItemIconUpdate();
-    }
+        private InventorySystem invSystem;
 
+        public ItemSlot DeleteSlot;
+
+        public void Start()
+        {
+            invSystem = GameObject.FindGameObjectWithTag("InventorySystem").transform.Find("Inventory").gameObject.GetComponent<InventorySystem>();
+        }
+
+        public override void yesButtonClicked()
+        {
+            DeleteSlot.ItemExist = false;
+            DeleteSlot.Item.ID = 0;
+            gameObject.SetActive(false);
+            invSystem.ItemIconUpdate();
+        }
+
+
+    }
 
 }
-

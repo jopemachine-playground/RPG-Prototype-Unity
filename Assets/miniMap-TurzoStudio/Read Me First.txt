@@ -1,0 +1,7 @@
+Instruction :
+Follow the instruction described in the pdf file named "Documentation.pdf" to
+implement MiniMap camera perfectly.
+
+For further help : 
+Contact with me :
+Email : turzoxpress@gmail.com

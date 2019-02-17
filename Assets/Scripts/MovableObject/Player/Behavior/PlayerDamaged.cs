@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDamaged : StateMachineBehaviour
+namespace UnityChanRPG
 {
-
-    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class PlayerDamaged : StateMachineBehaviour
     {
-        animator.SetBool("IsDamaged", false);
+        // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            animator.SetBool("IsDamaged", false);
+        }
     }
-
 }

@@ -4,94 +4,100 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class TitleMenu : Scene
+namespace UnityChanRPG
 {
-    private const int MENU_NUMBER = 4;
-
-    public Button[] mButton;
-    public Text[] mText;
-    private int mSelected = 0;
-
-    private void Start()
+    public class TitleMenu : Scene
     {
-        base.ScreenCoverInit();
-        ChangeTextColor(MENU_NUMBER);
-    }
+        private const int MENU_NUMBER = 4;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Return))
+        public Button[] mButton;
+        public Text[] mText;
+        private int mSelected = 0;
+
+        private void Start()
         {
-            switch(mSelected)
-            {
-                // 새로 시작
-                case 0:
-                    SceneManager.LoadSceneAsync("Playing", LoadSceneMode.Additive);
-                    MoveScene("MyHouse");
-                    break;
-
-                // 이어 하기
-                case 1:
-                    Debug.Log("옵션");
-                    break;
-
-                // 옵션
-                case 2:
-                    break;
-
-                // 나가기
-                case 3:
-                    Application.Quit();
-                    break;
-
-                default:
-                    Debug.Assert(false,"Error - Wrong selected value");
-                    break;
-            }
-
+            base.ScreenCoverInit();
             ChangeTextColor(MENU_NUMBER);
         }
 
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        // Update is called once per frame
+        void Update()
         {
-            if (mSelected <= 0)
+            if (Input.GetKeyDown(KeyCode.Return))
             {
-                mSelected = MENU_NUMBER - 1;
-            }
-            else
-            {
-                mSelected--;
+                switch (mSelected)
+                {
+                    // 새로 시작
+                    case 0:
+                        SceneManager.LoadSceneAsync("Playing", LoadSceneMode.Additive);
+                        MoveScene("MyHouse");
+                        break;
+
+                    // 이어 하기
+                    case 1:
+                        Debug.Log("옵션");
+                        break;
+
+                    // 옵션
+                    case 2:
+                        break;
+
+                    // 나가기
+                    case 3:
+                        Application.Quit();
+                        break;
+
+                    default:
+                        Debug.Assert(false, "Error - Wrong selected value");
+                        break;
+                }
+
+                ChangeTextColor(MENU_NUMBER);
             }
 
-            ChangeTextColor(MENU_NUMBER);
+            else if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                if (mSelected <= 0)
+                {
+                    mSelected = MENU_NUMBER - 1;
+                }
+                else
+                {
+                    mSelected--;
+                }
+
+                ChangeTextColor(MENU_NUMBER);
+            }
+
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                if (mSelected >= MENU_NUMBER - 1)
+                {
+                    mSelected = 0;
+                }
+                else
+                {
+                    mSelected++;
+                }
+
+                ChangeTextColor(MENU_NUMBER);
+            }
+
         }
 
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        private void ChangeTextColor(int menuNumber)
         {
-            if (mSelected >= MENU_NUMBER - 1)
+            for (int i = 0; i < menuNumber; i++)
             {
-                mSelected = 0;
-            }
-            else
-            {
-                mSelected++;
+                mText[i].color = Color.black;
             }
 
-            ChangeTextColor(MENU_NUMBER);
+            mText[mSelected].color = Color.cyan;
         }
 
+        public override void MoveCharacter()
+        {
+
+        }
     }
-
-    private void ChangeTextColor(int menuNumber)
-    {
-        for (int i = 0; i < menuNumber; i++)
-        {
-            mText[i].color = Color.black;
-        }
-
-        mText[mSelected].color = Color.cyan;
-    }
-
-
 }

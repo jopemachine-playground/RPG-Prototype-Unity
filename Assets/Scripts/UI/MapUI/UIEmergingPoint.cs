@@ -4,48 +4,51 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class UIEmergingPoint : MonoBehaviour
+namespace UnityChanRPG
 {
-    private BoxCollider UIIndicatingArea;
-
-    public AboveUI UI;
-
-    private void Start()
+    public class UIEmergingPoint : MonoBehaviour
     {
-        UI = GameObject.FindGameObjectWithTag("AboveUI").transform.Find(gameObject.name).gameObject.GetComponent<AboveUI>();
+        private BoxCollider UIIndicatingArea;
 
-        UIIndicatingArea = GetComponent<BoxCollider>();
+        public AboveUI UI;
 
-        UI.OffUI();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
+        private void Start()
         {
-            UI.OnUI();
-        }
-    }
+            UI = GameObject.FindGameObjectWithTag("AboveUI").transform.Find(gameObject.name).gameObject.GetComponent<AboveUI>();
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Player")
-        {
+            UIIndicatingArea = GetComponent<BoxCollider>();
+
             UI.OffUI();
         }
-    }
 
-    private void Update()
-    {
-        if (UI.gameObject.activeSelf == true)
+        private void OnTriggerEnter(Collider other)
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            if (other.tag == "Player")
             {
-                UI.ButtonClicked();
+                UI.OnUI();
             }
         }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.tag == "Player")
+            {
+                UI.OffUI();
+            }
+        }
+
+        private void Update()
+        {
+            if (UI.gameObject.activeSelf == true)
+            {
+                if (Input.GetKeyDown(KeyCode.A))
+                {
+                    UI.ButtonClicked();
+                }
+            }
+        }
+
+
     }
 
-
 }
-

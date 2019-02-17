@@ -4,35 +4,38 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class AboveUI: MonoBehaviour
+namespace UnityChanRPG
 {
-    // 게임오브젝트의 이름을 메서드 이름과 같게 함
-    private string MethodName;
-
-    // place는 씬의 장소를 가리킴. 현재 MyHouse 씬이라면 place는 MyHouse 
-    public GameObject place;
-
-    private void Start()
+    public class AboveUI : MonoBehaviour
     {
-        MethodName = gameObject.name;
-    }
+        // 게임오브젝트의 이름을 메서드 이름과 같게 함
+        private string MethodName;
 
-    public void ButtonClicked()
-    {
-        place.SendMessage(MethodName);
-    }
+        // place는 씬의 장소를 가리킴. 현재 MyHouse 씬이라면 place는 MyHouse 
+        public GameObject place;
 
-    public void OnUI()
-    {
-        gameObject.SetActive(true);
-    }
+        private void Start()
+        {
+            MethodName = gameObject.name;
+        }
 
-    public void OffUI()
-    {
-        gameObject.SetActive(false);
-    }
+        public void ButtonClicked()
+        {
+            place.SendMessage(MethodName);
+        }
 
- 
+        public void OnUI()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void OffUI()
+        {
+            gameObject.SetActive(false);
+        }
+
+
+
+    }
 
 }
-

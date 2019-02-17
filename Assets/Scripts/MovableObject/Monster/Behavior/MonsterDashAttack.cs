@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonsterDashAttack : StateMachineBehaviour
+namespace UnityChanRPG
 {
-
-    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class MonsterDashAttack : StateMachineBehaviour
     {
-        animator.SetBool("IsDashAttacking", true);
+
+        override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            animator.SetBool("IsDashAttacking", true);
+        }
+
+        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            animator.SetBool("DamagedProcessed", false);
+            animator.SetBool("IsDashAttacking", false);
+        }
     }
 
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        animator.SetBool("DamagedProcessed", false);
-        animator.SetBool("IsDashAttacking", false);
-    }
 }
-

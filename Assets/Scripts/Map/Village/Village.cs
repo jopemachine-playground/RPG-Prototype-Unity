@@ -5,56 +5,65 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Village : Scene
+namespace UnityChanRPG
 {
-    // 유니티에서 셋팅
-    public GameObject EntryPointFromDungeon;
-    public GameObject EntryPointFromHouse;
-    public Camera cam;
-
-    private void Start()
+    public class Village : Scene
     {
-        base.PlayerInit();
-        base.ScreenCoverInit();
-        playerControl.MoveSpeed = 10;
-        playerControl.JumpPower = 0;
-        playerControl.CameraChange(cam.transform);
+        // 유니티에서 셋팅
+        public GameObject EntryPointFromDungeon;
+        public GameObject EntryPointFromHouse;
+        public Camera cam;
 
-        switch (previousScene)
+        private void Start()
         {
-            case "MyHouse":
-                Goto(EntryPointFromHouse.transform.position);
-                break;
-            case "Dungeon":
-                Goto(EntryPointFromDungeon.transform.position);
-                break;
-            default:
-                player.transform.position = EntryPointFromDungeon.transform.position;
-                break;
+            base.PlayerInit();
+            base.ScreenCoverInit();
+
+            ControlChange(new Vector3(1.5f, 1.5f, 1.5f), cam.transform, 0, 10);
+            MoveCharacter();
+            Debug.Log(placeName);
+            MapNameIndicator.Instance.IndicateMapName(placeName);
+
         }
+
+        public override void MoveCharacter()
+        {
+            switch (previousScene)
+            {
+                case "MyHouse":
+                    Goto(EntryPointFromHouse.transform.position);
+                    break;
+                case "Dungeon1":
+                    Goto(EntryPointFromDungeon.transform.position);
+                    break;
+                default:
+                    player.transform.position = EntryPointFromDungeon.transform.position;
+                    break;
+            }
+        }
+
+        #region Handle A Button Clicked Events At UI Emerging Points
+        // 아래의 메서드 네임은 UI Emerging Points 내 자식 컴포넌트들의 이름과 동일해야 함
+
+        public void GotoDungeon()
+        {
+            MoveScene("Dungeon1");
+        }
+
+        public void GotoMyHouse()
+        {
+            MoveScene("MyHouse");
+        }
+
+        public void Shop()
+        {
+            SceneManager.LoadSceneAsync("Shop", LoadSceneMode.Additive);
+        }
+
+        #endregion
+
+
+
     }
-
-    #region Handle A Button Clicked Events At UI Emerging Points
-    // 아래의 메서드 네임은 UI Emerging Points 내 자식 컴포넌트들의 이름과 동일해야 함
-
-    public void GotoDungeon()
-    {
-
-    }
-
-    public void GotoMyHouse()
-    {
-        MoveScene("MyHouse");
-    }
-
-    public void Shop()
-    {
-
-    }
-
-    #endregion
-
-
 
 }
-

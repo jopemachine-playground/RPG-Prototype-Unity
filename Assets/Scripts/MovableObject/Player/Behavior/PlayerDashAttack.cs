@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerDashAttack : StateMachineBehaviour
+namespace UnityChanRPG
 {
-
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class PlayerDashAttack : StateMachineBehaviour
     {
-        animator.SetBool("DamagedProcessed", false);
-        animator.SetInteger("AttackState", 0);
-        Player.mInstance.state = PlayerSkillState.None;
+        override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            animator.SetBool("DamagedProcessed", false);
+            animator.SetInteger("AttackState", 0);
+            Player.mInstance.state = PlayerSkillState.None;
+        }
     }
-
 }

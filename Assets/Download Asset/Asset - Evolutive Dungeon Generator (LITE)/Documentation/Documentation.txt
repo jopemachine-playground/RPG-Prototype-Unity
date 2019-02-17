@@ -1,0 +1,108 @@
+General Overview:
+	This generator is intend to create a dungeon that evolves from level X to Y, where you define how many levels it will have and the size this dungeons gonna have in a evolutive way.
+	
+	In a general overview, first you define the caracteristcs your dungeons will have, and than you create the first one of then. And after you player finishs the current dungeon you create the next dungeon in the range, that will be more challenging.
+	
+	You provide the modules that forms the dungeon. The script only generates a logical array of module definitions that must be in that positions, and then get your modules and place it in the scene.
+	
+Detailed overview:
+	
+	The script generates a map based on a size and a difficulty that you can specify, this properties have a min and a max value.
+	
+	The size is divided in rows and cols, both with min and max values to.
+	
+	This three properties (rows, cols and difficulty) are a helper class of the type "RangedValue" that have three properties: "min", "max" and "value". The "min" and "max" properties represents the valid range for that class instance, and the "value" property represent the current value that instance have in this moment.
+	
+	The final size (rows x cols) of the map created is based on a balance between min and max size, and min and max difficulty, if you create a map with the min difficulty the size will be the min size, if you create a map with the max difficulty the size of the map will be the max size, and if you create a map with any difficulty inside the difficulty range the size of the map will be calculated according the min and max sizes defined.
+	
+	There are other details you can modify to influence how the creation of the map will behave, those gonna be explained in details below.
+	
+Instalation:
+	Create a folder named "Resources" in the root of the project, if you haven't already one;
+	Inside the "Resources" folder, create a folder named "DGMPaths";
+	
+Usage:
+	The Dungeon Generator is a static class and a monobehavior to, so you can use it only by calling the static class inside your script or using the Unity Inspector;
+	
+	For use it in the Unity Inspector:
+		Add the script called "DungeonGenerator" to a GameObject in the scene;
+		Click in the GameObject you add the script and the inspector will show the atributes you can configure;
+		After all set just click in "Create Dungeon", last button in the inspector, and the dungeon will be created inside a GameObject called "Dungeon".
+		
+	For use it in you scripts:
+		The DungeonGenerator is a static class, so you just need to call it in you script writing "DungeonGenerator";
+		You can set the atributes you want the dungeon to have by setting it in the static class, like "DungeonGenerator.accesses.setValue(3);";
+		After all set just call the "create" method "DungeonGenerator.create();".
+	
+Modules:
+	A module is a prefab with a mesh and a "DGModuleInstance" script attacked to it, and any other thing you want your module to have.
+	The script define where are the accesses of that module, they can be: "top", "right", "bottom" and "left".
+	For the creation of the dungeon the script need 5 diferent types of modules, this 5 types are based on the access it have.
+	The list of modules with his accesses are:
+		- top, right, bottom, left;
+		- top, right;
+		- top, right, bottom;
+		- top, bottom;
+		- top;
+	When the Dungeon Generator is rendering the scene they will try to rotate the modules to fit it in the position it is needed, so a module with an access only in the top can be rotated to fill the need of a module with an access only in the left.
+	The modules also has a field difficulty, so you can have a variety of modules for different dungeon difficulties. When the script is tring to render the modules in the scene he will try to find a module with the same difficulty that the dungeon being generated, but if it not find one he will lower the difficulty of that module and keep searching until reaches level one. If none module is find it will throw a Debug.LogError;
+	The script assumes that every module has the same width and height (X and Z axis in the scene). You must keep that dimensions right to the script render the scene in the right way.
+	
+Providing your modules:
+	To provide your own modules, create a prefab the way you want you module to be, just remenber that the module must have the same width and height (X and Z axis in the scene), and add the "DGModuleInstance" script to it, after that define what accesses your module has, the difficulty if you want, and to finalize it, put the prefab inside the "Resource\DGMPaths" folder.
+	
+	
+	
+	
+	
+RangedValue (Helper Class):
+	int min:
+		The min value that instance can accept.
+	
+	int max:
+		The max value that instance can accept.
+	
+	int value:
+		The current value of that instance.
+	
+	void setRange(int min, int max):
+		Sets the min and max value that instance can accept.
+	
+	void setValue(int value):
+		Set the current value for that instance.
+	
+DungeonGenerator:
+	RangedValue rows:
+		The rows property is the number of rows you want the dungeon range have, it has a min and a max that indicates the min and max rows and a value that indicates the number os rows of the current dungeon.
+		
+	RangedValue cols:
+		The cols property is the number of cols you want the dungeon range have, it has a min and a max that indicates the min and max cols and a value that indicates the number os cols of the current dungeon.
+	
+	RangedValue difficulty:
+		The difficulty property is the number of difficulties you want the dungeon range have, it has a min and a max that indicates the min and max difficulty and a value that indicates the difficulty of the current dungeon.
+	
+	RangedValue accesses:
+		The accesses min and max are defined by the DungeonGenerator script based on the size of the dungeon you specified.
+		Accesses cannot be created in the middle of the dungeon, only in its borders, so when you modify the size of the dungeon the min and max values of access are modified.
+		Inside that range you can chose any number of accesses you want.
+		
+	RangedValue pointsDensity (1~10%):
+		The creation of the dungeon is based in the number of accesses it have an the number of points it have.
+		In the creation process the code create the accesses and than create aleatory points inside the array and later connect the access with those points.
+		So changing the points density inflits direct in the dungeon form it will generate.
+		
+	List<Vector2> accessesList:
+		A list with the localization of all the accesses in the dungeon array.
+		
+	List<Vector2> pointsList:
+		A list with the localization of all the points in the dungeon array.
+		
+	float moduleWidth:
+		After the creation of the array of the dungeon the script will render the dungeon getting the modules you provided and placing it in the scene using the value provided in moduleWidth to position them.
+		This value must be exact the size of you module, so modules don't overlap each other, or stay away from each other.
+		
+	float moduleDepth:
+		This value is used to position the modules in the Y axis in the scene.
+		
+
+

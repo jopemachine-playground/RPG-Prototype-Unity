@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-class DontDestroyOnLoad : MonoBehaviour
+namespace UnityChanRPG
 {
-    private void Awake()
+    class DontDestroyOnLoad : MonoBehaviour
     {
-        DontDestroyOnLoad(this.gameObject);
+        private void Awake()
+        {
+            DontDestroyOnLoad(this.gameObject);
+        }
     }
 }
-
