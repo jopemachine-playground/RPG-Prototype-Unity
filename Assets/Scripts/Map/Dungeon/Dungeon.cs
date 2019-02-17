@@ -40,6 +40,10 @@ namespace UnityChanRPG
             // Scene의 Init 를 호출해, 먼저 부모의 변수부터 초기화 시키고 진행
             base.PlayerInit();
             base.ScreenCoverInit();
+
+            FadeIn();
+            playerControl.NoInputMode = false;
+
             cam = GameObject.FindGameObjectWithTag("MainCamera").gameObject.GetComponent<Camera>();
 
             ControlChange(CHARTER_DEFAULT_SCALE, cam.transform);

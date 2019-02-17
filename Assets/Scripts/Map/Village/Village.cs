@@ -19,6 +19,9 @@ namespace UnityChanRPG
             base.PlayerInit();
             base.ScreenCoverInit();
 
+            FadeIn();
+            playerControl.NoInputMode = false;
+
             ControlChange(new Vector3(1.5f, 1.5f, 1.5f), cam.transform, 0, 10);
             MoveCharacter();
             Debug.Log(placeName);

@@ -28,9 +28,7 @@ namespace UnityChanRPG
 
             AsyncOperation load = SceneManager.LoadSceneAsync(destinationScene, LoadSceneMode.Single);
 
-            FadeIn();
-
-            playerControl.NoInputMode = false;
+            Time.timeScale = 1;
 
             Cursor.visible = true;
         }

@@ -26,7 +26,10 @@ namespace UnityChanRPG
         protected static Image screenCover;
         // 각각 페이드 인, 아웃이 일어나는 시간과, 명암도 조절 시간
         private const float SCENE_MOVE_WAITTIME = 0.75f;
+        private const float FADEINOUT_SPEED_MULTIPLIER = 1.5f;
         private WaitForSeconds FADEINOUT_WAITTIME = new WaitForSeconds(0.001f);
+        private Color FADEIN_INITIAL = new Color(0, 0, 0, 1f);
+        private Color FADEOUT_INITIAL = new Color(0, 0, 0, 0f);
 
         // 로딩 씬을 거쳐 도착할 씬의 string
         protected static string previousScene;
@@ -87,24 +90,40 @@ namespace UnityChanRPG
         {
             screenCover.gameObject.SetActive(true);
 
-            screenCover.color = new Color(0, 0, 0, 0);
+            screenCover.color = FADEIN_INITIAL;
 
-            for (float i = screenCover.color.a; i >= 255f; i += 0.001f)
+            for (float i = 1f; i >= 0f; i -= 0.001f)
             {
-                screenCover.color = new Color(screenCover.color.r, screenCover.color.g, screenCover.color.b, screenCover.color.a - 1f * Time.deltaTime);
+                screenCover.color =
+                    new Color(
+                        screenCover.color.r,
+                        screenCover.color.g,
+                        screenCover.color.b,
+                        screenCover.color.a - FADEINOUT_SPEED_MULTIPLIER * Time.deltaTime
+                     );
+
                 yield return FADEINOUT_WAITTIME;
             }
+
+            screenCover.gameObject.SetActive(false);
         }
 
         protected IEnumerator FadeOutScreen()
         {
             screenCover.gameObject.SetActive(true);
 
-            screenCover.color = new Color(screenCover.color.r, screenCover.color.g, screenCover.color.b, 0);
+            screenCover.color = FADEOUT_INITIAL;
 
-            for (float i = screenCover.color.a; i <= 0f; i -= 0.001f)
+            for (float i = 0f; i <= 1f; i += 0.001f)
             {
-                screenCover.color = new Color(screenCover.color.r, screenCover.color.g, screenCover.color.b, screenCover.color.a + 1f * Time.deltaTime);
+                screenCover.color =
+                    new Color(
+                        screenCover.color.r,
+                        screenCover.color.g,
+                        screenCover.color.b,
+                        screenCover.color.a + FADEINOUT_SPEED_MULTIPLIER * Time.deltaTime
+                    );
+
                 yield return FADEINOUT_WAITTIME;
             }
         }

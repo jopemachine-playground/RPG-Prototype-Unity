@@ -22,7 +22,10 @@ namespace UnityChanRPG
             base.PlayerInit();
             base.ScreenCoverInit();
 
-            ControlChange(CHARTER_DEFAULT_SCALE, livingRoomCam.transform, 5, 0);
+            FadeIn();
+            playerControl.NoInputMode = false;
+
+            ControlChange(CHARTER_DEFAULT_SCALE, livingRoomCam.transform, 0, 5);
             MoveCharacter();
             MapNameIndicator.Instance.IndicateMapName(placeName);
         }
