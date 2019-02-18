@@ -83,48 +83,43 @@ namespace UnityChanRPG
         #region Item Use
 
         // 아이템 사용을 위한 Delegate와 이벤트. 사용 가능하다면 true를 리턴
+
         public delegate bool ItemUsing();
         public ItemUsing ItemConsume;
         public ItemUsing ItemEquip;
 
-        public void test(ItemUsing a)
-        {
-            Debug.Log("실행");
-
-            ItemConsume += new ItemUsing(a);
-
-            if (ItemConsume == null)
-            {
-                Debug.Log("ItemConsume == null: " + ItemConsume == null);
-            }
-        }
-
         public void Consume()
         {
-            if (ItemConsume == null)
+            if (ItemConsume != null)
             {
-                Debug.Log("ItemConsume == null");
-                return;
-            }
+                bool used = ItemConsume();
 
-            bool used = ItemConsume();
-
-            if (used == true)
-            {
-                if (ItemValue == 1)
+                if (used == true)
                 {
-                    clean();
-                }
-                else
-                {
-                    ItemValue--;
+                    if (ItemValue == 1)
+                    {
+                        clean();
+                    }
+                    else
+                    {
+                        ItemValue--;
+                    }
                 }
             }
         }
 
         public void Equip()
         {
+            if (ItemEquip != null)
+            {
+                bool equiped = ItemEquip();
 
+                if (equiped == true)
+                {
+                    // 아이템 착 탈의에 대한 코드 처리
+                }
+
+            }
         }
         #endregion
     }

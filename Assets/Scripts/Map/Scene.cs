@@ -92,7 +92,7 @@ namespace UnityChanRPG
 
             screenCover.color = FADEIN_INITIAL;
 
-            for (float i = 1f; i >= 0f; i -= 0.001f)
+            while (screenCover.color.a >= 0)
             {
                 screenCover.color =
                     new Color(
@@ -106,6 +106,7 @@ namespace UnityChanRPG
             }
 
             screenCover.gameObject.SetActive(false);
+
         }
 
         protected IEnumerator FadeOutScreen()
@@ -114,7 +115,7 @@ namespace UnityChanRPG
 
             screenCover.color = FADEOUT_INITIAL;
 
-            for (float i = 0f; i <= 1f; i += 0.001f)
+            while (screenCover.color.a <= 1)
             {
                 screenCover.color =
                     new Color(

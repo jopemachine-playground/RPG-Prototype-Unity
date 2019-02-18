@@ -51,7 +51,7 @@ namespace UnityChanRPG
 
             ParsingJsonItem(itemData);
             ParsingJsonItemAttribute(itemAttributeData);
-
+            MakePickUpItemPool();
             yield return null;
         }
 
@@ -73,16 +73,13 @@ namespace UnityChanRPG
                 switch (entireItemList[ItemIndex].ItemAttributes[AttIndex].AttributeName)
                 {
                     case "heal_hp":
-                        entireItemList[ItemIndex].test(entireItemList[ItemIndex].ItemAttributes[AttIndex].HealHP);
-                        Debug.Log(entireItemList[ItemIndex].ItemConsume == null);
+                        entireItemList[ItemIndex].ItemConsume += entireItemList[ItemIndex].ItemAttributes[AttIndex].HealHP;
                         break;
                     case "heal_mp":
-                        entireItemList[ItemIndex].test(entireItemList[ItemIndex].ItemAttributes[AttIndex].HealMP);
-                        Debug.Log(entireItemList[ItemIndex].ItemConsume == null);
+                        entireItemList[ItemIndex].ItemConsume += entireItemList[ItemIndex].ItemAttributes[AttIndex].HealMP;
                         break;
                     case "get_item":
-                        entireItemList[ItemIndex].test(entireItemList[ItemIndex].ItemAttributes[AttIndex].ItemBoxOpen);
-                        Debug.Log(entireItemList[ItemIndex].ItemConsume == null);
+                        entireItemList[ItemIndex].ItemConsume += entireItemList[ItemIndex].ItemAttributes[AttIndex].ItemBoxOpen;
                         break;
                     case "adj_atk":
                         break;
@@ -108,8 +105,6 @@ namespace UnityChanRPG
                 entireItemList[i].ItemModel = objModel[i];
                 entireItemList[i].ItemIcon = objIcon[i];
                 entireItemList[i].ItemValue = 1;
-
-                MakePickUpItemPool(i, entireItemList[i].ID);
             }
 
         }
@@ -117,34 +112,33 @@ namespace UnityChanRPG
         #endregion
 
         #region Make Item Pool
-        private void MakePickUpItemPool(int _index, int _ID)
+        private void MakePickUpItemPool()
         {
-            GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            sphere.name = "" + _ID;
-            sphere.layer = pickUpItemLayer;
-            sphere.SetActive(false);
-            sphere.AddComponent<PickUpItem>();
-            sphere.AddComponent<Rigidbody>();
-            sphere.GetComponent<PickUpItem>().item = entireItemList[_index];
+            for (int i = 0; i < entireItemList.Count; i++)
+            {
+                GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                sphere.name = "" + entireItemList[i].ID;
+                sphere.layer = pickUpItemLayer;
+                sphere.SetActive(false);
+                sphere.AddComponent<PickUpItem>();
+                sphere.AddComponent<Rigidbody>();
+                sphere.GetComponent<PickUpItem>().item = entireItemList[i];
 
-            Debug.Log(entireItemList[_index].ItemConsume == null);
-            Debug.Log(sphere.GetComponent<PickUpItem>().item.ItemConsume == null);
+                // Item Pool 아래에 PickUpItem 들을 미리 생성
+                sphere.transform.parent = GameObject.FindGameObjectWithTag("ItemPool").transform;
 
-            // Item Pool 아래에 PickUpItem 들을 미리 생성
-            sphere.transform.parent = GameObject.FindGameObjectWithTag("ItemPool").transform;
-
-            // Renderer 내 Material 배열 교체.
-            sphere.GetComponent<Renderer>().materials = entireItemList[_index].ItemModel.GetComponent<Renderer>().sharedMaterials;
-            sphere.GetComponent<MeshFilter>().mesh = entireItemList[_index].ItemModel.GetComponent<MeshFilter>().sharedMesh;
+                // Renderer 내 Material 배열 교체.
+                sphere.GetComponent<Renderer>().materials = entireItemList[i].ItemModel.GetComponent<Renderer>().sharedMaterials;
+                sphere.GetComponent<MeshFilter>().mesh = entireItemList[i].ItemModel.GetComponent<MeshFilter>().sharedMesh;
+            }
         }
 
         public void GeneratePickUpItem(Vector3 _genPoint, Quaternion _genRotate, int _ID)
         {
-            // false
-            Debug.Log(entireItemList[0].ItemConsume == null);
-
             Transform obj = GameObject.FindGameObjectWithTag("ItemPool").transform.Find("" + _ID);
             Transform tr = Instantiate(obj, _genPoint, _genRotate);
+            // Instantiate 를 통해 생성한 프리팹의 delegate엔 이 아이템의 속성 delegate (ItemConsume)가 등록되어 있지 않으므로, 직접 붙여줘야함에 주의
+            tr.gameObject.GetComponent<PickUpItem>().item.ItemConsume += obj.gameObject.GetComponent<PickUpItem>().item.ItemConsume;
             tr.gameObject.SetActive(true);
             tr.parent = GameObject.FindGameObjectWithTag("Pickup Items").transform;
         }

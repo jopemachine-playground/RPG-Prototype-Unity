@@ -69,15 +69,8 @@ namespace UnityChanRPG
             }
             // 슬롯을 모두 뒤졌는데, 같은 물품이 없다면 체크해둔 슬롯에 아이템을 넣음
 
-            // true
-            Debug.Log(playerItems[checkIndex].Item.ItemConsume == null);
-
-            // true
-            Debug.Log(item.ItemConsume == null);
             playerItems[checkIndex].Item = item;
 
-            // true
-            Debug.Log(playerItems[checkIndex].Item.ItemConsume == null);
             playerItems[checkIndex].ItemExist = true;
 
         }

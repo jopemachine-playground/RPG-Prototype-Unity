@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections;
+
 
 using UniRx;
 
@@ -11,10 +13,12 @@ using UniRx;
 
 /// <summary>
 /// ItemSlot은 인벤토리 창에서 하나 하나의 슬롯에 대응함. 슬롯을 더블클릭하거나, 우클릭 했을 때의 이벤트 처리 역시 ItemSlot에서 함.
+/// https://www.youtube.com/watch?v=-ow-Dp17mYY 참고
 /// </summary>
 
 namespace UnityChanRPG
 {
+    [RequireComponent(typeof(Button))]
     public class ItemSlot : MonoBehaviour, IPointerExitHandler, IPointerClickHandler, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerEnterHandler
     {
         [SerializeField]
@@ -25,8 +29,11 @@ namespace UnityChanRPG
 
         public int IndexItemInList;
 
+        // 우클릭 및 더블 클릭 이벤트를 처리하기 위한 버튼 
         [SerializeField]
         public Button button;
+        private int clickCounter;
+        public float clickTimer = .5f;
 
         // Dragging Item에서 ItemSlot에 마우스 포인터가 와 있는지 확인하기 위한 자기 자신의 RectTransform
         public RectTransform rect;
@@ -43,9 +50,6 @@ namespace UnityChanRPG
         // ToolTip을 활성화
         public void OnPointerEnter(PointerEventData data)
         {
-            // true
-            Debug.Log(Item.ItemConsume == null);
-
             if (!ItemExist) return;
 
             tooltip.CopyItemInfoToTooltip(this.Item);
@@ -102,12 +106,35 @@ namespace UnityChanRPG
 
         #endregion
 
+        private void ButtonListener()
+        {
+            clickCounter++;
+
+            if (clickCounter == 1)
+            {
+                StartCoroutine("DoubleClickEvent");
+            }
+
+        }
+
+        private IEnumerator DoubleClickEvent()
+        {
+            yield return new WaitForSeconds(clickTimer);
+
+            if (clickCounter > 1)
+            {
+                this.UseItem();
+            }
+            yield return new WaitForSeconds(.5f);
+            clickCounter = 0;
+        }
+
         void Start()
         {
             rect = GetComponent<RectTransform>();
             button = GetComponent<Button>();
-            var doubleLeftClickStream = Observable.EveryUpdate().Where(_ => Input.GetMouseButtonDown(0));
-            var rightClickStream = Observable.EveryUpdate().Where(_ => Input.GetMouseButtonDown(1));
+
+            button.onClick.AddListener(ButtonListener);
 
             #region Init static Variable
             // 첫 초기화시에만 실행되어 할당됨
@@ -128,15 +155,20 @@ namespace UnityChanRPG
 
             #endregion
 
-            // Update를 돌며 클릭과 더블클릭을 나눠 입력 받으려 했지만, UniRx란 걸 알게 되어 이걸로 구현 (모든 이벤트 처리를 UniRx로 구현하진 않고 더블클릭만 이걸로 구현했음)
-            button.onClick
-                .AsObservable()
-                .Buffer(doubleLeftClickStream.Throttle(TimeSpan.FromMilliseconds(100)))
-                .Where(xs => xs.Count >= 2)
-                .Subscribe(_ =>
-                {
-                    this.UseItem();
-                });
+            #region UNUSED CODE
+            //var doubleLeftClickStream = Observable.EveryUpdate().Where(_ => Input.GetMouseButtonDown(0));
+            //var rightClickStream = Observable.EveryUpdate().Where(_ => Input.GetMouseButtonDown(1));
+
+            //// Update를 돌며 클릭과 더블클릭을 나눠 입력 받으려 했지만, UniRx란 걸 알게 되어 이걸로 구현 (모든 이벤트 처리를 UniRx로 구현하진 않고 더블클릭만 이걸로 구현했음)
+            //button.onClick
+            //    .AsObservable()
+            //    .Buffer(doubleLeftClickStream.Throttle(TimeSpan.FromMilliseconds(100)))
+            //    .Where(xs => xs.Count >= 2)
+            //    .Subscribe(_ =>
+            //    {
+            //        this.UseItem();
+            //    });
+            #endregion
         }
 
         private void Update()
@@ -160,9 +192,6 @@ namespace UnityChanRPG
 
         public void UseItem()
         {
-            // true
-            Debug.Log(Item.ItemConsume == null);
-
             if (Item.ItemType == ItemType.UseAble)
             {
                 Item.Consume();
