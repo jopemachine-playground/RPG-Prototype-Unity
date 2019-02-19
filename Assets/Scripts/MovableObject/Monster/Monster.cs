@@ -20,13 +20,7 @@ namespace UnityChanRPG
         public int Speed;
         public MonsterType Type;
         public GameObject MonsterModel;
-
         public Status monsterStatus;
-
-        // spawn Area에 생성될 수 있는 최대 몬스터 갯수.
-        // spawn Area에 따라 달라지므로, Spawn Manager에서 지정.
-        public int MaxGenerateNumber;
-
 
         public Monster getCopy()
         {

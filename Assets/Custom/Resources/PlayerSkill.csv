@@ -6,4 +6,4 @@ ID,Name,Desc,Coefficient,Animation,EmittingParticleID
 10005,라이트 스트레이트,(스킬설명..),100,Punch Attack2,10001
 10006,옆날치기,(스킬설명..),150,Punch Attack3,10001
 10007,어퍼컷,(스킬설명..),170,Punch Attack4,10001
-10008,대쉬어택,(스킬설명..),175,Dash Attack,10001
+10008,대쉬어택,(스킬설명..),175,Dash Attack,10002

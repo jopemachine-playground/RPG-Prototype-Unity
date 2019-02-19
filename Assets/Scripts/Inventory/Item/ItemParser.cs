@@ -6,6 +6,7 @@ using System.IO;
 
 /// <summary>
 /// 아이템과 그 속성들을 파싱해 갖고 있음. Json 파싱엔 LitJson을 이용
+/// 아이템을 파싱하는 것만 하는 건 아니고, 자식오브젝트로 갖고 있다가 필요할 때 오브젝트 풀링으로 생성할 때 거쳐가는 역할도 함 (GeneratePickUpItem)
 /// </summary>
 
 namespace UnityChanRPG
@@ -16,7 +17,6 @@ namespace UnityChanRPG
 
         public List<Item> entireItemList = new List<Item>();
 
-        public List<GameObject> objModel;
         public List<Sprite> objIcon;
 
         private LayerMask pickUpItemLayer;
@@ -25,7 +25,7 @@ namespace UnityChanRPG
         {
             if (mInstance != null)
             {
-                Destroy(this.gameObject);
+                Debug.Assert(false, "ItemParser Class is Singleton.");
             }
             else
             {
@@ -51,7 +51,6 @@ namespace UnityChanRPG
 
             ParsingJsonItem(itemData);
             ParsingJsonItemAttribute(itemAttributeData);
-            MakePickUpItemPool();
             yield return null;
         }
 
@@ -102,9 +101,9 @@ namespace UnityChanRPG
                 entireItemList[i].Rarity = (int)(name[i]["Rarity"]);
                 entireItemList[i].ShopPrice = (int)(name[i]["ShopPrice"]);
                 entireItemList[i].ItemType = (ItemType)((int)(name[i]["ItemType"]));
-                entireItemList[i].ItemModel = objModel[i];
                 entireItemList[i].ItemIcon = objIcon[i];
                 entireItemList[i].ItemValue = 1;
+                transform.Find(entireItemList[i].ID + "").GetComponent<PickUpItem>().item = entireItemList[i];
             }
 
         }
@@ -112,35 +111,17 @@ namespace UnityChanRPG
         #endregion
 
         #region Make Item Pool
-        private void MakePickUpItemPool()
+
+        public void GenerateItemPool(int _ID, SpawnPoint _SpawnPoint)
         {
-            for (int i = 0; i < entireItemList.Count; i++)
-            {
-                GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                sphere.name = "" + entireItemList[i].ID;
-                sphere.layer = pickUpItemLayer;
-                sphere.SetActive(false);
-                sphere.AddComponent<PickUpItem>();
-                sphere.AddComponent<Rigidbody>();
-                sphere.GetComponent<PickUpItem>().item = entireItemList[i];
-
-                // Item Pool 아래에 PickUpItem 들을 미리 생성
-                sphere.transform.parent = GameObject.FindGameObjectWithTag("ItemPool").transform;
-
-                // Renderer 내 Material 배열 교체.
-                sphere.GetComponent<Renderer>().materials = entireItemList[i].ItemModel.GetComponent<Renderer>().sharedMaterials;
-                sphere.GetComponent<MeshFilter>().mesh = entireItemList[i].ItemModel.GetComponent<MeshFilter>().sharedMesh;
-            }
-        }
-
-        public void GeneratePickUpItem(Vector3 _genPoint, Quaternion _genRotate, int _ID)
-        {
-            Transform obj = GameObject.FindGameObjectWithTag("ItemPool").transform.Find("" + _ID);
-            Transform tr = Instantiate(obj, _genPoint, _genRotate);
+            Transform obj = GameObject.FindGameObjectWithTag("Parser").transform.Find("Item Parser").Find("" + _ID);
+            Transform tr = Instantiate(obj, Vector3.zero, Quaternion.identity);
             // Instantiate 를 통해 생성한 프리팹의 delegate엔 이 아이템의 속성 delegate (ItemConsume)가 등록되어 있지 않으므로, 직접 붙여줘야함에 주의
             tr.gameObject.GetComponent<PickUpItem>().item.ItemConsume += obj.gameObject.GetComponent<PickUpItem>().item.ItemConsume;
-            tr.gameObject.SetActive(true);
-            tr.parent = GameObject.FindGameObjectWithTag("Pickup Items").transform;
+            tr.gameObject.SetActive(false);
+            tr.gameObject.name = _ID + "";
+            tr.gameObject.tag = "FieldSpawnItem";
+            tr.parent = GameObject.FindGameObjectWithTag("Object Pool").transform.Find("PickUp Item Pool").Find(_SpawnPoint.gameObject.name);
         }
 
         #endregion

@@ -50,11 +50,14 @@ namespace UnityChanRPG
             bool check;
             check = false;
 
+            Debug.Log("ItemPickup");
+
             for (int i = 0; i < playerItems.Count; i++)
             {
                 // 처음으로 비어 있는 슬롯을 발견하면 check하고 index를 기억해놓음.
                 if ((check == false) && playerItems[i].ItemExist == false)
                 {
+                    Debug.Log("Find slot");
                     checkIndex = i;
                     check = true;
                 }
@@ -68,7 +71,7 @@ namespace UnityChanRPG
                 }
             }
             // 슬롯을 모두 뒤졌는데, 같은 물품이 없다면 체크해둔 슬롯에 아이템을 넣음
-
+            Debug.Log("Insert Item");
             playerItems[checkIndex].Item = item;
 
             playerItems[checkIndex].ItemExist = true;

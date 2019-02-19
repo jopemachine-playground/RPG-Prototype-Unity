@@ -14,7 +14,7 @@ namespace UnityChanRPG
     {
         public MonsterAdapter monsterAdpt;
         public MonsterState AIState;
-        public MonsterPatrolArea patrolArea;
+        public SpawnPoint spawnPoint;
 
         private Transform monsterTr;
         private Transform playerTr;
@@ -320,8 +320,8 @@ namespace UnityChanRPG
         // 지상의 몬스터가 Roaming할 방향을 난수 생성으로 결정
         private Vector3 RandomDecideRoamingDirection()
         {
-            float x = Random.Range(patrolArea.minX, patrolArea.maxX);
-            float z = Random.Range(patrolArea.minZ, patrolArea.maxZ);
+            float x = Random.Range(spawnPoint.patrolArea.minX, spawnPoint.patrolArea.maxX);
+            float z = Random.Range(spawnPoint.patrolArea.minZ, spawnPoint.patrolArea.maxZ);
 
             return new Vector3(x, 0, z);
 
@@ -329,7 +329,7 @@ namespace UnityChanRPG
 
         private void DeactivateMonster()
         {
-            gameObject.active = false;
+            gameObject.SetActive(false);
         }
 
         // remaining Distance가 0이 아닐 상황에서도, 왜 계속 0인지 이해가 안 되서, 구글에 검색하다 찾음

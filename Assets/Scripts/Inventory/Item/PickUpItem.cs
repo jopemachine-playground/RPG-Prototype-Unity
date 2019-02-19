@@ -24,7 +24,7 @@ namespace UnityChanRPG
             inv = player.GetComponent<Inventory>();
         }
 
-        private void Start()
+        private void OnEnable()
         {
             // 일정 시간이 지난 아이템은 삭제
             Invoke("DestroyByTimeElapse", elapsedTime);
@@ -39,7 +39,8 @@ namespace UnityChanRPG
                 // ItemIndexInList는 InventorySystem에서 아이템 순서를 드래깅으로 변경할 때,
                 // PickUpItem과 충돌했을 때 변경, 초기화 된다.
                 inv.ItemPickup(item);
-                Destroy(this.gameObject);
+                ParticlePool.getItemPool.CallParticle(GetItemParticle.ID, transform.position);
+                gameObject.SetActive(false);
 
             }
         }
@@ -52,7 +53,7 @@ namespace UnityChanRPG
 
         public void DestroyByTimeElapse()
         {
-            Destroy(this.gameObject);
+            gameObject.SetActive(false);
         }
     }
 

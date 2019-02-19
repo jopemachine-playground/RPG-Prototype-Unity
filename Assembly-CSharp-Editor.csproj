@@ -62,6 +62,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Download Asset\EffectExamples\TutorialInfo\Scripts\Editor\ReadmeEditor.cs" />
+    <Compile Include="Assets\Download Asset\Particlecollection_Free samples\Plugins\Effect\Editor\EffectControllerInspector.cs" />
+    <Compile Include="Assets\Download Asset\Particlecollection_Free samples\Plugins\Effect\Editor\EffectToolBar.cs" />
+    <Compile Include="Assets\Download Asset\Particlecollection_Free samples\Plugins\Effect\Editor\RenderEffectInspector.cs" />
+    <Compile Include="Assets\Download Asset\Particlecollection_Free samples\Plugins\Effect\Editor\ShaderCustomEditor\ShaderMaterialsEditor.cs" />
+    <Compile Include="Assets\Download Asset\Particlecollection_Free samples\Plugins\Effect\Editor\XUIUtils.cs" />
     <Compile Include="Assets\Download Asset\RainMaker\Editor\RainMakerEditor.cs" />
     <Compile Include="Assets\Download Asset\SlimUI\Modern Menu 1\Editor\SlimUIWindow.cs" />
     <Compile Include="Assets\Download Asset\Standard Assets\Editor\Water\Water4\GerstnerDisplaceEditor.cs" />
@@ -69,19 +74,22 @@
     <Compile Include="Assets\Download Asset\Standard Assets\Editor\Water\Water4\SpecularLightingEditor.cs" />
     <Compile Include="Assets\Download Asset\Standard Assets\Editor\Water\Water4\WaterBaseEditor.cs" />
     <Compile Include="Assets\Download Asset\Standard Assets\Editor\Water\Water4\WaterEditorUtility.cs" />
-    <Compile Include="Assets\InventoryMaster\Editor\CraftSystemEditor.cs" />
-    <Compile Include="Assets\InventoryMaster\Editor\EquipmentSystemEditor.cs" />
-    <Compile Include="Assets\InventoryMaster\Editor\HotbarEditor.cs" />
-    <Compile Include="Assets\InventoryMaster\Editor\IM_Manager.cs" />
-    <Compile Include="Assets\InventoryMaster\Editor\InventoryDesignEditor.cs" />
-    <Compile Include="Assets\InventoryMaster\Editor\InventoryEditor.cs" />
-    <Compile Include="Assets\InventoryMaster\Editor\StorageInventoryEditor.cs" />
-    <Compile Include="Assets\InventoryMaster\Editor\TooltipEditor.cs" />
-    <Compile Include="Assets\Particlecollection_Free samples\Plugins\Effect\Editor\EffectControllerInspector.cs" />
-    <Compile Include="Assets\Particlecollection_Free samples\Plugins\Effect\Editor\EffectToolBar.cs" />
-    <Compile Include="Assets\Particlecollection_Free samples\Plugins\Effect\Editor\RenderEffectInspector.cs" />
-    <Compile Include="Assets\Particlecollection_Free samples\Plugins\Effect\Editor\ShaderCustomEditor\ShaderMaterialsEditor.cs" />
-    <Compile Include="Assets\Particlecollection_Free samples\Plugins\Effect\Editor\XUIUtils.cs" />
+    <Compile Include="Assets\PE2D\Editor\ImageEffects\AntialiasingEditor.cs" />
+    <Compile Include="Assets\PE2D\Editor\ImageEffects\BloomAndFlaresEditor.cs" />
+    <Compile Include="Assets\PE2D\Editor\ImageEffects\BloomEditor.cs" />
+    <Compile Include="Assets\PE2D\Editor\ImageEffects\CameraMotionBlurEditor.cs" />
+    <Compile Include="Assets\PE2D\Editor\ImageEffects\ColorCorrectionCurvesEditor.cs" />
+    <Compile Include="Assets\PE2D\Editor\ImageEffects\ColorCorrectionLookupEditor.cs" />
+    <Compile Include="Assets\PE2D\Editor\ImageEffects\DepthOfFieldDeprecatedEditor.cs" />
+    <Compile Include="Assets\PE2D\Editor\ImageEffects\DepthOfFieldEditor.cs" />
+    <Compile Include="Assets\PE2D\Editor\ImageEffects\EdgeDetectionEditor.cs" />
+    <Compile Include="Assets\PE2D\Editor\ImageEffects\NoiseAndGrainEditor.cs" />
+    <Compile Include="Assets\PE2D\Editor\ImageEffects\SunShaftsEditor.cs" />
+    <Compile Include="Assets\PE2D\Editor\ImageEffects\TonemappingEditor.cs" />
+    <Compile Include="Assets\PE2D\Editor\ImageEffects\VignetteAndChromaticAberrationEditor.cs" />
+    <Compile Include="Assets\PE2D\Particle Effects\Editor\ParticleEffectorEditor.cs" />
+    <Compile Include="Assets\PE2D\Particle Effects\Editor\ParticleEmitterInRandomDirectionEditor.cs" />
+    <Compile Include="Assets\PE2D\Particle Effects\Editor\ParticleEmitterInRandomDirectionEditor1.cs" />
     <None Include="Assets\Download Asset\EffectExamples\Editor\PackageManagerAssembly\PackageImportList.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Unity-Chan/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

@@ -7,13 +7,18 @@ using UnityEngine;
 // 아래 스크립트의 작성은 http://www.yes24.com/24/goods/27894042 도서를 참고함
 namespace UnityChanRPG
 {
+    [RequireComponent(typeof(Status))]
+    [RequireComponent(typeof(CharacterController))]
     public class HitArea : MonoBehaviour
     {
         private Status status;
 
-        private void Awake()
+        private CharacterController hitPoint;
+
+        private void OnEnable()
         {
             status = GetComponent<Status>();
+            hitPoint = GetComponent<CharacterController>();
         }
 
         public void Damaged(Damage damage)
@@ -29,7 +34,8 @@ namespace UnityChanRPG
 
             if (damage.EmittingParticleID != 0)
             {
-                ParticlePool.mInstance.CallAttackParticle(damage.EmittingParticleID, transform.position);
+                Debug.Log(hitPoint.center);
+                ParticlePool.attackPool.CallParticle(damage.EmittingParticleID, transform.position + hitPoint.center);
             }
         }
 

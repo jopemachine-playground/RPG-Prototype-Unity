@@ -30,9 +30,6 @@ namespace UnityChanRPG
         // 상점 가격
         public int ShopPrice;
 
-        // 아이템의 fbx 모델 (3D 맵 상에서 표현될 모델)
-        public GameObject ItemModel;
-
         // 아이템 갯수
         public int ItemValue;
 
@@ -51,19 +48,9 @@ namespace UnityChanRPG
         #region Item Method
         public Item getCopy()
         {
-            Debug.Log("getCopy 실행");
             Item ret = (Item)this.MemberwiseClone();
-            ret.ItemConsume = this.ItemConsume;
-            ret.ItemEquip = this.ItemEquip;
-
-            if (this.ItemConsume == null)
-            {
-                Debug.Log("this.ItemConsume == null");
-            }
-            if (ret.ItemConsume == null)
-            {
-                Debug.Log("ret.ItemConsume == null");
-            }
+            //ret.ItemConsume = this.ItemConsume;
+            //ret.ItemEquip = this.ItemEquip;
             return ret;
         }
 

@@ -18,16 +18,16 @@ namespace UnityChanRPG
 
         public override void MoveCharacter()
         {
-            Debug.Log("MoveCharacter 실행");
-            Debug.Log(Scene.previousScene);
+            //Debug.Log("MoveCharacter 실행");
+            //Debug.Log(Scene.previousScene);
 
             for (int i = 0; i < adjacentMap.Count; i++)
             {
-                Debug.Log(i);
+                //Debug.Log(i);
                 // 엔트리 포인트의 이름을 전환할 씬의 이름과 같게할 것
                 if (adjacentMap[i].nodeName == Scene.previousScene)
                 {
-                    Debug.Log("Goto 실행");
+                    //Debug.Log("Goto 실행");
                     Goto(adjacentMap[i].entrance.transform.position);
                     return;
                 }

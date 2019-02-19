@@ -13,7 +13,7 @@ namespace UnityChanRPG
         public void Start()
         {
             ID = Int32.Parse(gameObject.name);
-            monster = MonsterPool.mInstance.getMonsterByID(ID);
+            monster = MonsterParser.mInstance.getMonsterByID(ID);
             monster.monsterStatus = GetComponent<Status>();
         }
     }
