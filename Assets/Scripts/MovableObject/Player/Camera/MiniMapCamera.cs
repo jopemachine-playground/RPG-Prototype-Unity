@@ -3,7 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// MiniMap 에서 사용하는 카메라 컨트롤 스크립트
+/// <summary>
+/// MiniMap 에서 사용하는 카메라 컨트롤 스크립트
+/// </summary>
+
 namespace UnityChanRPG
 {
     public class MiniMapCamera : MonoBehaviour

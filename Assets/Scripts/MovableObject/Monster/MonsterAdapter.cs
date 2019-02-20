@@ -8,13 +8,10 @@ namespace UnityChanRPG
     {
         public Monster monster;
 
-        private int ID;
-
         public void Start()
         {
-            ID = Int32.Parse(gameObject.name);
-            monster = MonsterParser.mInstance.getMonsterByID(ID);
             monster.monsterStatus = GetComponent<Status>();
         }
+
     }
 }

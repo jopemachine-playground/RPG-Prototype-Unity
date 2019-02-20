@@ -283,6 +283,7 @@
     <Compile Include="Assets\Scripts\Inventory\Item\Item.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\ItemAttribute.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\ItemParser.cs" />
+    <Compile Include="Assets\Scripts\Inventory\Item\ItemPool.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\ItemType.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item\PickUpItem.cs" />
     <Compile Include="Assets\Scripts\Map\Dungeon\Dungeon.cs" />
@@ -308,6 +309,7 @@
     <Compile Include="Assets\Scripts\MovableObject\Monster\Monster.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Monster\MonsterAdapter.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Monster\MonsterControl.cs" />
+    <Compile Include="Assets\Scripts\MovableObject\Monster\MonsterDropItem.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Monster\MonsterParser.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Monster\MonsterState.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Monster\MonsterType.cs" />

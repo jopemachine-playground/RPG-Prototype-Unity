@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ using UnityEngine;
 
 namespace UnityChanRPG
 {
-    [System.Serializable]
+    [Serializable]
     public class Monster
     {
         public int ID;
@@ -21,11 +22,13 @@ namespace UnityChanRPG
         public MonsterType Type;
         public GameObject MonsterModel;
         public Status monsterStatus;
+        public List<MonsterDropItem> monsterDropItems = new List<MonsterDropItem>();
 
         public Monster getCopy()
         {
             return (Monster)this.MemberwiseClone();
         }
+        
 
     }
 }

@@ -66,7 +66,7 @@ namespace UnityChanRPG
                     new ItemAttribute((name[i]["AttributeName"]).ToString(), (int)(name[i]["AttributeValue"]))
                 );
 
-                // 추가한 속성을 이벤트에 등록
+                // 추가한 속성을 등록
                 int AttIndex = entireItemList[ItemIndex].ItemAttributes.Count - 1;
 
                 switch (entireItemList[ItemIndex].ItemAttributes[AttIndex].AttributeName)
@@ -112,7 +112,8 @@ namespace UnityChanRPG
 
         #region Make Item Pool
 
-        public void GenerateItemPool(int _ID, SpawnPoint _SpawnPoint)
+        // 일정한 장소에 스폰되는 아이템의 경우, ItemPool을 만들 때 사용하는 함수
+        public void GenerateFieldSpawnItemPool(int _ID, SpawnPoint _SpawnPoint)
         {
             Transform obj = GameObject.FindGameObjectWithTag("Parser").transform.Find("Item Parser").Find("" + _ID);
             Transform tr = Instantiate(obj, Vector3.zero, Quaternion.identity);

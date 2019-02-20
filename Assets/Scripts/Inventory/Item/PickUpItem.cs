@@ -5,7 +5,8 @@ using UnityEngine.UI;
 // 인벤토리 관련 클래스들은 https://assetstore.unity.com/packages/tools/gui/inventory-master-ugui-26310 를 많이 참고해 작성함
 
 /// <summary>
-/// 필드 위에 표시되는 아이템들을 다루는 클래스
+/// 필드 위에 표시되는 아이템들을 다루는 클래스. 아이템 말고도, 필드 위에 표시되는 일시적인 회복 아이템이나, 
+/// 돈 (코인) 역시 PickUpItem에서 처리한다
 /// </summary>
 
 namespace UnityChanRPG
@@ -18,10 +19,36 @@ namespace UnityChanRPG
         private Inventory inv;
         private GameObject player;
 
+        // 아이템의 종류에 따라 전혀 다른 메서드가 실행되어야 하므로 delegate를 이용해 구현. 기본값은 Item.
+        // PickUpType이 Item이 아닐 땐, item엔 Null이 있으니 접근해선 안 된다.
+        [Serializable]
+        public enum PickUpType
+        {
+            Item = 0,
+            Money,
+            Recover
+        }
+
+        public PickUpType type;
+
+        private delegate void GetItem();
+        private GetItem getItem;
+
         private void Awake()
         {
             player = GameObject.FindGameObjectWithTag("Player");
             inv = player.GetComponent<Inventory>();
+
+            switch (type)
+            {
+                case PickUpType.Item:
+                    getItem += GetPickUpItem;
+                    break;
+                case PickUpType.Money:
+                    break;
+                case PickUpType.Recover:
+                    break;
+            }
         }
 
         private void OnEnable()
@@ -38,11 +65,16 @@ namespace UnityChanRPG
             {
                 // ItemIndexInList는 InventorySystem에서 아이템 순서를 드래깅으로 변경할 때,
                 // PickUpItem과 충돌했을 때 변경, 초기화 된다.
-                inv.ItemPickup(item);
+                getItem();
                 ParticlePool.getItemPool.CallParticle(GetItemParticle.ID, transform.position);
                 gameObject.SetActive(false);
 
             }
+        }
+
+        private void GetPickUpItem()
+        {
+            inv.ItemPickup(item);
         }
 
         // 아이템을 움직이게 해, 애니메이션 처럼 보이게 하려고 했음.

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -247,6 +248,7 @@ namespace UnityChanRPG
                     {
                         IsDied = true;
                         animator.SetBool("IsDied", true);
+                        ItemDrop();
                         Invoke("DeactivateMonster", monsterDisappearingTime);
                         break;
                     }
@@ -320,8 +322,8 @@ namespace UnityChanRPG
         // 지상의 몬스터가 Roaming할 방향을 난수 생성으로 결정
         private Vector3 RandomDecideRoamingDirection()
         {
-            float x = Random.Range(spawnPoint.patrolArea.minX, spawnPoint.patrolArea.maxX);
-            float z = Random.Range(spawnPoint.patrolArea.minZ, spawnPoint.patrolArea.maxZ);
+            float x = UnityEngine.Random.Range(spawnPoint.patrolArea.minX, spawnPoint.patrolArea.maxX);
+            float z = UnityEngine.Random.Range(spawnPoint.patrolArea.minZ, spawnPoint.patrolArea.maxZ);
 
             return new Vector3(x, 0, z);
 
@@ -426,5 +428,58 @@ namespace UnityChanRPG
                 IsGrounded = false;
             }
         }
+
+        // 이 몬스터의 드롭 아이템 중 확률로 드롭할 아이템의 ID를 결정하고, ItemPool을 거쳐 드롭함
+        // 1개 이상 드롭되는 아이템의 경우 드롭될 갯수 역시 확률로 결정
+        private void ItemDrop()
+        {
+            float probability = ((float)UnityEngine.Random.Range(0, 10000)) / 10000f;
+
+            float[] probAccum = new float[monsterAdpt.monster.monsterDropItems.Count + 1];
+
+            float[] minProb = new float[monsterAdpt.monster.monsterDropItems.Count + 1];
+
+            for (int i = 1; i < probAccum.Length + 1; i++)
+            {
+                probAccum[i] = monsterAdpt.monster.monsterDropItems[i - 1].DropProb;
+
+                probAccum[i] += probAccum[i - 1];
+
+                minProb[i - 1] =
+
+                    Math.Abs(probAccum[i] - probability - 0.0001f) < Math.Abs(probAccum[i - 1] - probability) ?
+                    
+                    Math.Abs(probAccum[i] - probability - 0.0001f) : Math.Abs(probAccum[i - 1] - probability);
+            }
+
+            int Index = 0;
+            float result = 1.0f;
+
+            for (int i = 0; i < minProb.Length; i++)
+            {
+                if (result > minProb[i])
+                {
+                    result = minProb[i];
+                    Index = i;
+                }
+            }
+
+            if (monsterAdpt.monster.monsterDropItems[Index].DropMaxNumber == 1)
+            {
+                ItemPool.Instance.DropItem(monsterAdpt.monster.monsterDropItems[Index].ItemID, transform.position);
+            }
+
+            else
+            {
+                ItemPool.Instance.DropItem(
+                    monsterAdpt.monster.monsterDropItems[Index].ItemID, 
+                    transform.position, 
+                    UnityEngine.Random.Range(monsterAdpt.monster.monsterDropItems[Index].DropMinNumber, monsterAdpt.monster.monsterDropItems[Index].DropMaxNumber));
+            }
+
+
+        }
+
+
     }
 }

@@ -6,7 +6,7 @@ using System.Collections;
 /// 랜덤으로 스폰 위치와 아이템이나 몬스터의 종류를 결정해 스폰함. (또는 일정 확률로 스폰하지 않음.)
 /// 스폰 위치와, 스폰되는 아이템(이나 몬스터) 들은 유니티 에디터에서 넣을 것
 /// SpawnManager에서 스폰하는 오브젝트의 갯수는 maxSpawnNumber를 넘을 수 없기 때문에 처음 정해진 크기에서 더 늘어나지 않지만, 아이템의 경우
-/// 몬스터 사냥으로 드랍되어 일정 상황에서 maxSpawnNumber보다 높은 숫자를 가질 수 있고, 이 경우 두 배만큼 아이템을 미리 생성해 놓는다
+/// 몬스터 사냥으로 드랍되는 아이템은 생성 한계가 정해져 있지 않으므로, ItemPool에서 따로 풀링해 관리함
 /// </summary>
 
 namespace UnityChanRPG
@@ -46,10 +46,7 @@ namespace UnityChanRPG
         {
             waitingTime = new WaitForSeconds(WaitingTime);
             SpawnPoint = GetComponentsInChildren<SpawnPoint>();
-        }
 
-        private void Start()
-        {
             if (SpawnPoint.Length > 0)
             {
                 StartCoroutine(this.SpawnOnField(type));
@@ -57,7 +54,7 @@ namespace UnityChanRPG
                 switch (type)
                 {
                     case spawnerType.FieldSpawnItem:
-                        GenerateObject += ItemParser.mInstance.GenerateItemPool;
+                        GenerateObject += ItemParser.mInstance.GenerateFieldSpawnItemPool;
                         Pool = GameObject.FindGameObjectWithTag("Object Pool").transform.Find("PickUp Item Pool").gameObject;
                         break;
 

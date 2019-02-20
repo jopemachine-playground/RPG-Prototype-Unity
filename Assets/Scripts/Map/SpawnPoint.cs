@@ -18,6 +18,7 @@ namespace UnityChanRPG
         public List<SpawnObject> SpawnObjects = new List<SpawnObject>();
 
         // 아이템 역시 SpawnPoint에서 생성되지만, 이 경우엔 MonsterPatrolArea를 사용하지 않는다.
+        [NonSerialized]
         public MonsterPatrolArea patrolArea;
 
         private void Awake()

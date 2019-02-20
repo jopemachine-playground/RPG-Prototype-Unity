@@ -29,22 +29,34 @@ namespace UnityChanRPG
             {
                 DontDestroyOnLoad(this.gameObject);
                 mInstance = this;
+                StartCoroutine("LoadCoroutine");
             }
-
-            // 파싱되어 있는 데이터 로드
-            StartCoroutine("LoadCoroutine");
         }
 
         #region Data Parsing and Load
         IEnumerator LoadCoroutine()
         {
-            string JsonString = File.ReadAllText(Application.dataPath + "/Custom/Resources/MonsterData.json");
+            string monsterJsonString = File.ReadAllText(Application.dataPath + "/Custom/Resources/MonsterData.json");
 
-            JsonData monsterData = JsonMapper.ToObject(JsonString);
+            string monsterDropItemJsonString = File.ReadAllText(Application.dataPath + "/Custom/Resources/MonsterDropItem.json");
+
+            JsonData monsterData = JsonMapper.ToObject(monsterJsonString);
+
+            JsonData monsterDropItemData = JsonMapper.ToObject(monsterDropItemJsonString);
 
             Debug.Assert(monsterData != null, "monster Data == null");
 
+            Debug.Assert(monsterDropItemData != null, "monsterDropItemData == null");
+
             ParsingJsonMonster(monsterData);
+
+            ParsingJsonMonsterDropItem(monsterDropItemData);
+
+            for (int i = 0; i < entireMonsterList.Count; i++)
+            {
+                transform.Find(entireMonsterList[i].ID + "").gameObject.AddComponent<MonsterAdapter>();
+                transform.Find(entireMonsterList[i].ID + "").gameObject.GetComponent<MonsterAdapter>().monster = entireMonsterList[i];
+            }
 
             yield return null;
         }
@@ -70,7 +82,34 @@ namespace UnityChanRPG
             }
 
         }
+
+        private void ParsingJsonMonsterDropItem(JsonData monsterDropItemData)
+        {
+            for (int j = 0; j < monsterDropItemData.Count; j++)
+            {
+                int index = getMonsterIndex((int)(monsterDropItemData[j]["MonsterID"]));
+
+                entireMonsterList[index].monsterDropItems.Add(new MonsterDropItem
+                (
+                    (int)(monsterDropItemData[j]["ItemID"]),
+                    ((int)(monsterDropItemData[j]["DropProb"]) / 100f),
+                    (int)(monsterDropItemData[j]["DropMinNum"]),
+                    (int)(monsterDropItemData[j]["DropMaxNum"]))
+                );
+            }
+        }
+
         #endregion
+
+        private int getMonsterIndex(int id)
+        {
+            for (int i = 0; i < entireMonsterList.Count; i++)
+            {
+                if (entireMonsterList[i].ID == id)
+                    return i;
+            }
+            return -1;
+        }
 
         public Monster getMonsterByID(int id)
         {
