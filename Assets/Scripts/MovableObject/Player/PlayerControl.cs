@@ -326,7 +326,7 @@ namespace UnityChanRPG
         public void HandleAttackParticle(ref Damage damage)
         {
             // Animator의 실행 중인 애니메이션 이름을 구하는 함수가 없어, 직접 AnimationNameString을 선언해 사용했음
-            PlayerSkill skill = PlayerSkillManager.GetSkill(AnimationNameString);
+            Skill skill = SkillManager.GetSkill(0, AnimationNameString);
 
             damage.skillCoefficient = skill.AttackValueCoefficient;
             damage.EmittingParticleID = skill.EmittingParticleID;

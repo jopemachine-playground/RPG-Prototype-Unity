@@ -37,13 +37,22 @@ namespace UnityChanRPG
 
             for (int i = 0; i < tag.childCount; i++)
             {
-                if (transform.GetChild(i).gameObject.activeSelf == false)
+                GameObject item = transform.GetChild(i).gameObject;
+
+                if (item.activeSelf == false)
                 {
-                    transform.GetChild(i).gameObject.SetActive(true);
-                    transform.position = spawnPosition;
+                    item.SetActive(true);
+                    item.transform.position = spawnPosition;
+
+                    if (ItemNumber != 1)
+                    {
+                        item.GetComponent<PickUpItem>().item.ItemValue = ItemNumber;
+                    }
                 }
             }
+
             ExtendPool(ID, tag, defaultPoolingNumber);
+
             DropItem(ID, spawnPosition, ItemNumber);
         }
 
@@ -71,6 +80,7 @@ namespace UnityChanRPG
                             for (int l = 0; l < defaultPoolingNumber; l++)
                             {
                                 GenerateMonsterSpawnItemPool(monsterApt.monster.monsterDropItems[k].ItemID);
+
                                 wholePoolingItems.Add(monsterApt.monster.monsterDropItems[k].ItemID + "");
                             }
                         }

@@ -5,6 +5,11 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// 던전 씬에서 시작하면 플레이어의 위치가 어떤 entry Point로 갱신되어야 할 지 모르기 때문에 버그가 발생함에 주의.
+/// Playing 씬을 Active Scene으로 해 놓고, 다른 씬으로 이동해도 마찬가지로 버그가 발생한다.
+/// </summary>
+
 namespace UnityChanRPG
 {
     public class Dungeon : Scene
@@ -16,18 +21,17 @@ namespace UnityChanRPG
         [SerializeField]
         public List<EntryPoint> adjacentMap;
 
+        // 클리어된 던전 씬에선 Direct Light를 활성화 해, 편하게 이동할 수 있게한다.
+        public bool IsCleared;
+
         public override void MoveCharacter()
         {
-            //Debug.Log("MoveCharacter 실행");
-            //Debug.Log(Scene.previousScene);
-
             for (int i = 0; i < adjacentMap.Count; i++)
             {
-                //Debug.Log(i);
                 // 엔트리 포인트의 이름을 전환할 씬의 이름과 같게할 것
                 if (adjacentMap[i].nodeName == Scene.previousScene)
                 {
-                    //Debug.Log("Goto 실행");
+                    Debug.Log("Goto 실행");
                     Goto(adjacentMap[i].entrance.transform.position);
                     return;
                 }

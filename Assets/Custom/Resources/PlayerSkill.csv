@@ -1,9 +1,0 @@
-ID,Name,Desc,Coefficient,Animation,EmittingParticleID
-10001,사이드킥,(스킬설명..),150,Kick Attack1,10001
-10002,라이트 하이킥,(스킬설명..),125,Kick Attack2,10001
-10003,웅크려 차기,(스킬설명..),100,Kick Attack3,10001
-10004,레프트 잽,(스킬설명..),100,Punch Attack1,10001
-10005,라이트 스트레이트,(스킬설명..),100,Punch Attack2,10001
-10006,옆날치기,(스킬설명..),150,Punch Attack3,10001
-10007,어퍼컷,(스킬설명..),170,Punch Attack4,10001
-10008,대쉬어택,(스킬설명..),175,Dash Attack,10002

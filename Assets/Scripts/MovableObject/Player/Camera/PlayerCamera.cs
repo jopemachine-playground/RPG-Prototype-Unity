@@ -23,6 +23,7 @@ namespace UnityChanRPG
         private const float Y_MaxAngle = 80f;
 
         // 카메라와 타겟 객체
+        [NonSerialized]
         public Transform target;
         [NonSerialized]
         public Vector3 DistanceFromCharacter;
