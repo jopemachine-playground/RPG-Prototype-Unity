@@ -444,6 +444,8 @@ namespace UnityChanRPG
         // 1개 이상 드롭되는 아이템의 경우 드롭될 갯수 역시 확률로 결정
         private void ItemDrop()
         {
+            Debug.ClearDeveloperConsole(); 
+
             float probability = ((float)UnityEngine.Random.Range(0, 10000)) / 10000f;
 
             float[] probAccum = new float[monsterAdpt.monster.monsterDropItems.Count + 1];
@@ -476,17 +478,27 @@ namespace UnityChanRPG
                 }
             }
 
+            Debug.Log(result);
+
+            Debug.Log(Index);
+
+            if (result > probAccum[monsterAdpt.monster.monsterDropItems.Count])
+            {
+                Debug.Log("아이템 안 나옴!");
+                return;
+            }
+
             if (monsterAdpt.monster.monsterDropItems[Index].DropMaxNumber == 1)
             {
-                ItemPool.Instance.DropItem(monsterAdpt.monster.monsterDropItems[Index].ItemID, transform.position);
+                ItemPool.Instance.DropItem(monsterAdpt.monster.monsterDropItems[Index].ItemID, transform.position + controller.center);
             }
 
             else
             {
                 ItemPool.Instance.DropItem(
                     monsterAdpt.monster.monsterDropItems[Index].ItemID,
-                    transform.position,
-                    UnityEngine.Random.Range(monsterAdpt.monster.monsterDropItems[Index].DropMinNumber, monsterAdpt.monster.monsterDropItems[Index].DropMaxNumber));
+                    transform.position + controller.center,
+                    UnityEngine.Random.Range(monsterAdpt.monster.monsterDropItems[Index].DropMinNumber, monsterAdpt.monster.monsterDropItems[Index].DropMaxNumber + 1));
             }
 
 

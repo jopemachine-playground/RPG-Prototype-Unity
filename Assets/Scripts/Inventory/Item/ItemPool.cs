@@ -41,13 +41,9 @@ namespace UnityChanRPG
 
                 if (item.activeSelf == false)
                 {
-                    item.SetActive(true);
                     item.transform.position = spawnPosition;
-
-                    if (ItemNumber != 1)
-                    {
-                        item.GetComponent<PickUpItem>().item.ItemValue = ItemNumber;
-                    }
+                    item.GetComponent<PickUpItem>().item.ItemValue = ItemNumber;
+                    item.SetActive(true);
                 }
                 return;
             }
@@ -65,7 +61,7 @@ namespace UnityChanRPG
             else
             {
                 Instance = this;
-                GameObject monsterPool = GameObject.FindGameObjectWithTag("Object Pool").transform.Find("Monster Pool").gameObject;
+                GameObject monsterPool = GameObject.FindGameObjectWithTag("Object Pool").transform.Find("FieldSpawnMonster Pool").gameObject;
 
                 for (int i = 0; i < monsterPool.transform.childCount; i++)
                 {

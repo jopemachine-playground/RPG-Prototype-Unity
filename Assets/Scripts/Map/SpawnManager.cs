@@ -49,18 +49,16 @@ namespace UnityChanRPG
 
             if (SpawnPoint.Length > 0)
             {
-                StartCoroutine(this.SpawnOnField(type));
-
                 switch (type)
                 {
                     case spawnerType.FieldSpawnItem:
                         GenerateObject += ItemParser.mInstance.GenerateFieldSpawnItemPool;
-                        Pool = GameObject.FindGameObjectWithTag("Object Pool").transform.Find("PickUp Item Pool").gameObject;
+                        Pool = GameObject.FindGameObjectWithTag("Object Pool").transform.Find("FieldSpawnItem Pool").gameObject;
                         break;
 
                     case spawnerType.FieldSpawnMonster:
                         GenerateObject += MonsterParser.mInstance.GenerateMonsterPool;
-                        Pool = GameObject.FindGameObjectWithTag("Object Pool").transform.Find("Monster Pool").gameObject;
+                        Pool = GameObject.FindGameObjectWithTag("Object Pool").transform.Find("FieldSpawnMonster Pool").gameObject;
                         break;
                 }
             }
@@ -77,6 +75,11 @@ namespace UnityChanRPG
                     }
                 }
             }
+        }
+
+        private void Start()
+        {
+            StartCoroutine(this.SpawnOnField(type));
         }
 
         // ID가 같고 비활성화된 게임 오브젝트를 찾는다. 없다면 null 반환
@@ -106,25 +109,44 @@ namespace UnityChanRPG
         {
             string type_string = Enum.GetName(type.GetType(), type);
 
+            GameObject fieldSpawnPool = GameObject.FindGameObjectWithTag("Object Pool").transform.Find(type_string + " Pool").gameObject;
+
             while (true)
             {
-                FieldObjectsCount = GameObject.FindGameObjectsWithTag(type_string).Length;
+                // 아래 같은 코드가 렉의 원인이 됨. 실수로 FindGameObjectsWithTag를 무한루프를 도는 코루틴, Update 안에 넣지 않게 조심하자 
+                // 코드가 많기 때문에 한 번 넣어놓으면 찾기가 힘들어질 수 있다..
+                // FieldObjectsCount = GameObject.FindGameObjectsWithTag(type_string).Length;
+
+                FieldObjectsCount = 0;
+
+                for (int i = 0; i< fieldSpawnPool.transform.childCount; i++)
+                {
+                    Transform point = fieldSpawnPool.transform.GetChild(i);
+
+                    for (int j = 0; j < point.childCount; j++)
+                    {
+                        if (point.GetChild(j).gameObject.activeSelf == true)
+                        {
+                            FieldObjectsCount++;
+                        }
+                    }
+                }
 
                 if (FieldObjectsCount < maxSpawnNumber)
                 {
                     yield return waitingTime;
 
-                    int index = UnityEngine.Random.Range(0, SpawnPoint.Length);
+                    int placeIndex = UnityEngine.Random.Range(0, SpawnPoint.Length);
 
                     float probability = ((float)UnityEngine.Random.Range(0, 10000)) / 10000f;
 
-                    int ID = ReturnID(probability, index, 0.0001f);
+                    int ID = ReturnID(probability, placeIndex, 0.0001f);
 
                     GameObject spawnObj = SearchObject(ID);
 
                     if (spawnObj != null)
                     {
-                        spawnObj.transform.position = SpawnPoint[index].transform.position;
+                        spawnObj.transform.position = SpawnPoint[placeIndex].transform.position;
                         spawnObj.SetActive(true);
                     }
 

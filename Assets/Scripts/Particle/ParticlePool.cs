@@ -14,8 +14,8 @@ namespace UnityChanRPG
 {
     public class ParticlePool : MonoBehaviour
     {
-        public static ParticlePool attackPool;
-        public static ParticlePool getItemPool;
+        public static ParticlePool attackParticle;
+        public static ParticlePool pickupItemParticle;
 
         private LayerMask PARTICLE_LAYER;
 
@@ -38,11 +38,11 @@ namespace UnityChanRPG
             switch (type)
             {
                 case PoolType.Attack:
-                    attackPool = this;
+                    attackParticle = this;
                     init += InitAttackParticlePool;
                     break;
                 case PoolType.PickUpItem:
-                    getItemPool = this;
+                    pickupItemParticle = this;
                     init += InitPickUpItemParticlePool;
                     break;
             }

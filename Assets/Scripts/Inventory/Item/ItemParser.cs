@@ -122,7 +122,7 @@ namespace UnityChanRPG
             tr.gameObject.SetActive(false);
             tr.gameObject.name = _ID + "";
             tr.gameObject.tag = "FieldSpawnItem";
-            tr.parent = GameObject.FindGameObjectWithTag("Object Pool").transform.Find("PickUp Item Pool").Find(_SpawnPoint.gameObject.name);
+            tr.parent = GameObject.FindGameObjectWithTag("Object Pool").transform.Find("FieldSpawnItem Pool").Find(_SpawnPoint.gameObject.name);
         }
 
         #endregion

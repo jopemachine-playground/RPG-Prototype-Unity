@@ -21,6 +21,7 @@ namespace UnityChanRPG
         {
             DeleteSlot.ItemExist = false;
             DeleteSlot.Item.ID = 0;
+            DeleteSlot.Item.clean();
             gameObject.SetActive(false);
             invSystem.ItemIconUpdate();
         }

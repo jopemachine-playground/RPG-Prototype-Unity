@@ -155,7 +155,7 @@ namespace UnityChanRPG
             tr.gameObject.SetActive(false);
             tr.gameObject.name = _ID + "";
             tr.gameObject.GetComponent<MonsterControl>().spawnPoint = _SpawnPoint;
-            tr.parent = GameObject.FindGameObjectWithTag("Object Pool").transform.Find("Monster Pool").Find(_SpawnPoint.gameObject.name);
+            tr.parent = GameObject.FindGameObjectWithTag("Object Pool").transform.Find("FieldSpawnMonster Pool").Find(_SpawnPoint.gameObject.name);
         }
 
         #endregion

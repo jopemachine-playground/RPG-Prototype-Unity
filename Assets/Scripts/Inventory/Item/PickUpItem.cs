@@ -18,8 +18,9 @@ namespace UnityChanRPG
         public Item item;
         private Inventory inv;
         private GameObject player;
-        private FadeInOutObject fadeInOut;
+        // private FadeInOutObject fadeInOut;
         private new Transform transform;
+        private static Vector3 ParticleOffset = new Vector3(0, 1, 0);
 
         // 아이템의 종류에 따라 전혀 다른 메서드가 실행되어야 하므로 delegate를 이용해 구현. 기본값은 Item.
         // PickUpType이 Item이 아닐 땐, item엔 Null이 있으니 접근해선 안 된다.
@@ -34,25 +35,25 @@ namespace UnityChanRPG
         public PickUpType type;
 
         private delegate void GetItem();
-        private GetItem getItem;
+        private event GetItem ItemCollsionEvent;
 
         private void Awake()
         {
             player = GameObject.FindGameObjectWithTag("Player");
             inv = player.GetComponent<Inventory>();
             transform = GetComponent<Transform>();
-            fadeInOut = GetComponent<FadeInOutObject>();
+            // fadeInOut = GetComponent<FadeInOutObject>();
 
             switch (type)
             {
                 case PickUpType.Item:
-                    getItem += GetPickUpItem;
+                    ItemCollsionEvent += GetPickUpItem;
                     break;
                 case PickUpType.Money:
-                    getItem += GetMoney;
+                    ItemCollsionEvent += GetMoney;
                     break;
                 case PickUpType.Recover:
-                    getItem += GetRecoverItem;
+                    ItemCollsionEvent += GetRecoverItem;
                     break;
             }
         }
@@ -61,7 +62,7 @@ namespace UnityChanRPG
         {
             // 일정 시간이 지난 아이템은, 페이드 아웃을 적용해 삭제
             Invoke("FadeOutByTimeElapse", elapsedTime);
-            ParticlePool.getItemPool.CallParticle(PickUpItemParticleList.ID_Twinkle, transform.position);
+            // ParticlePool.pickupItemParticle.CallParticle(PickUpItemParticleList.ID_Twinkle, transform.position);
         }
 
         // 땅에 떨어진 Pickupitem 객체와 플레이어가 충돌하면 플레이어의 아이템이 되고
@@ -74,8 +75,9 @@ namespace UnityChanRPG
             {
                 // ItemIndexInList는 InventorySystem에서 아이템 순서를 드래깅으로 변경할 때,
                 // PickUpItem과 충돌했을 때 변경, 초기화 된다.
-                getItem();
-                ParticlePool.getItemPool.CallParticle(PickUpItemParticleList.ID_Get_Item, transform.position);
+                ItemCollsionEvent();
+                ParticlePool.pickupItemParticle.CallParticle(PickUpItemParticleList.ID_Get_Item, transform.position + ParticleOffset);
+                // fadeInOut.StopAllCoroutines();
                 CancelInvoke();
                 gameObject.SetActive(false);
             }
@@ -108,8 +110,9 @@ namespace UnityChanRPG
 
         public void FadeOutByTimeElapse()
         {
-            fadeInOut.StopAllCoroutines();
-            fadeInOut.StartCoroutine("FadeOut");
+            //fadeInOut.StopAllCoroutines();
+            //fadeInOut.StartCoroutine("FadeOut");
+            gameObject.SetActive(false); 
         }
     }
 

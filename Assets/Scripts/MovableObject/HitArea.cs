@@ -34,8 +34,7 @@ namespace UnityChanRPG
 
             if (damage.EmittingParticleID != 0)
             {
-                Debug.Log(hitPoint.center);
-                ParticlePool.attackPool.CallParticle(damage.EmittingParticleID, transform.position + hitPoint.center);
+                ParticlePool.attackParticle.CallParticle(damage.EmittingParticleID, transform.position + hitPoint.center);
             }
         }
 
