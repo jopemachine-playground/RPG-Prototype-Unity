@@ -10,7 +10,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>
     </RootNamespace>
-    <ProjectGuid>{189E3DE7-AFD6-FCE6-40B0-6FA3E4F27E72}</ProjectGuid>
+    <ProjectGuid>{CA14CB08-9047-6A07-33D0-79008C803597}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -290,6 +290,7 @@
     <Compile Include="Assets\Scripts\Map\Village\Village.cs" />
     <Compile Include="Assets\Scripts\MovableObject\AttackArea.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Damage.cs" />
+    <Compile Include="Assets\Scripts\MovableObject\FadeInOutObject.cs" />
     <Compile Include="Assets\Scripts\MovableObject\HitArea.cs" />
     <Compile Include="Assets\Scripts\MovableObject\IInteractable.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Monster\Behavior\MonsterAttack.cs" />
@@ -332,10 +333,11 @@
     <Compile Include="Assets\Scripts\MovableObject\SightArea.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Skill.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Status.cs" />
-    <Compile Include="Assets\Scripts\Particle\AttackParticle.cs" />
-    <Compile Include="Assets\Scripts\Particle\AttackParticleList.cs" />
-    <Compile Include="Assets\Scripts\Particle\GetItemParticle.cs" />
+    <Compile Include="Assets\Scripts\Particle\Attack\AttackParticleList.cs" />
+    <Compile Include="Assets\Scripts\Particle\Particle.cs" />
+    <Compile Include="Assets\Scripts\Particle\ParticleList.cs" />
     <Compile Include="Assets\Scripts\Particle\ParticlePool.cs" />
+    <Compile Include="Assets\Scripts\Particle\PickUpItem\PickUpItemParticleList.cs" />
     <Compile Include="Assets\Scripts\UI\DamageIndicator.cs" />
     <Compile Include="Assets\Scripts\UI\FloatingTextTweener.cs" />
     <Compile Include="Assets\Scripts\UI\Inventory\EquipmentSystem.cs" />
@@ -511,19 +513,19 @@
     <None Include="Assets\Mushroom house\StandardDoubleSided.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Unity-Chan/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/UnityChan/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Unity-Chan/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/UnityChan/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Unity-Chan/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>C:/UnityChan/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Unity-Chan/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/UnityChan/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>C:/Unity-Chan/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+      <HintPath>C:/UnityChan/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -727,22 +729,22 @@
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="LitJson">
-      <HintPath>C:/Unity-Chan/Assets/Plugins/LitJson.dll</HintPath>
+      <HintPath>C:/UnityChan/Assets/Plugins/LitJson.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Advertisements">
-      <HintPath>C:/Unity-Chan/Library/PackageCache/com.unity.ads@2.3.1/Runtime/UnityEngine.Advertisements.dll</HintPath>
+      <HintPath>C:/UnityChan/Library/PackageCache/com.unity.ads@2.3.1/Runtime/UnityEngine.Advertisements.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Advertisements.Editor">
-      <HintPath>C:/Unity-Chan/Library/PackageCache/com.unity.ads@2.3.1/Runtime/UnityEngine.Advertisements.Editor.dll</HintPath>
+      <HintPath>C:/UnityChan/Library/PackageCache/com.unity.ads@2.3.1/Runtime/UnityEngine.Advertisements.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
-      <HintPath>C:/Unity-Chan/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>
+      <HintPath>C:/UnityChan/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>C:/Unity-Chan/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.StandardEvents.dll</HintPath>
+      <HintPath>C:/UnityChan/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>C:/Unity-Chan/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
+      <HintPath>C:/UnityChan/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/unity/mscorlib.dll</HintPath>
@@ -774,19 +776,19 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{2241BDA6-A50B-FA4B-6722-D9DE9C0649C0}</Project>
+      <Project>{A0B8A3E7-17B9-BF72-D2A8-0FBBBAC84EF6}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
     <ProjectReference Include="UniRx.csproj">
-      <Project>{44959B48-2449-29DD-87EB-7EF4B2CAF324}</Project>
+      <Project>{259F24FD-8FBF-05F4-86DE-79F6E606CD78}</Project>
       <Name>UniRx</Name>
     </ProjectReference>
     <ProjectReference Include="UniRx.Async.csproj">
-      <Project>{9CD28017-351B-4929-5394-340A48AFA59C}</Project>
+      <Project>{E7CBB9CF-26E8-3B68-F8AD-66E6359184B8}</Project>
       <Name>UniRx.Async</Name>
     </ProjectReference>
     <ProjectReference Include="UniRx.Async.Editor.csproj">
-      <Project>{F14CAA72-B33E-3E23-B01B-DFE98295A10D}</Project>
+      <Project>{A13565E0-9BA9-B0AC-C42C-BEC2A0C6E051}</Project>
       <Name>UniRx.Async.Editor</Name>
     </ProjectReference>
   </ItemGroup>

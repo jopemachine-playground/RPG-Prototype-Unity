@@ -5,8 +5,8 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// 아래 스크립트의 작성 중 Character Controller와 NavMeshAgent를 함께 사용하는 법에 대해
-/// https://forum.unity.com/threads/using-a-navmeshagent-with-a-charactercontroller.466902/ 를 참고함
+/// Character Controller와 NavMeshAgent를 함께 사용하는 법에 대해선, 아래 링크를 참고했다.
+/// https://forum.unity.com/threads/using-a-navmeshagent-with-a-charactercontroller.466902/ 
 /// </summary>
 
 namespace UnityChanRPG
@@ -16,6 +16,7 @@ namespace UnityChanRPG
         public MonsterAdapter monsterAdpt;
         public MonsterState AIState;
         public SpawnPoint spawnPoint;
+        public Status status;
 
         private Transform monsterTr;
         private Transform playerTr;
@@ -34,7 +35,7 @@ namespace UnityChanRPG
         private Vector3 nextMovingDirection;
         public Vector3 desireVelocity;
 
-        private static WaitForSeconds CheckingTime;
+        private static WaitForSeconds CheckingTime = new WaitForSeconds(0.2f);
 
         private const float GroundCheckDistance = 0.1f;
 
@@ -60,22 +61,31 @@ namespace UnityChanRPG
         private const float DashAttackSpeedMultiplier = 6.0f;
         private const float ChasingSpeedMultiplier = 2.5f;
 
-        private void Start()
+        private void OnEnable()
         {
+            nvAgent.ResetPath();
+            IsDied = false;
+            status.StatusInit(monsterAdpt.monster.MaxHP, monsterAdpt.monster.MaxMP);
+            AIState = MonsterState.Idle;
+            RoamingTimer = 0;
+            StartCoroutine(this.CheckMonsterAI());
+        }
+
+        private void OnDisable()
+        {
+            StopAllCoroutines();
+        }
+
+        private void Awake()
+        {
+            playerTr = GameObject.FindWithTag("Player").GetComponent<Transform>();
             monsterAdpt = GetComponent<MonsterAdapter>();
             monsterTr = GetComponent<Transform>();
             animator = GetComponent<Animator>();
             nvAgent = GetComponent<NavMeshAgent>();
             controller = GetComponent<CharacterController>();
-
-            playerTr = GameObject.FindWithTag("Player").GetComponent<Transform>();
-            AIState = MonsterState.Idle;
-            CheckingTime = new WaitForSeconds(0.2f);
-
-            RoamingTimer = 0;
+            status = GetComponent<Status>();
             OrcWeapon = GetComponentInChildren<AttackArea>();
-
-            StartCoroutine(this.CheckMonsterAI());
         }
 
         IEnumerator CheckMonsterAI()
@@ -130,24 +140,11 @@ namespace UnityChanRPG
                 {
                     AIState = MonsterState.Stun;
                 }
-
-                if (monsterAdpt.monster.monsterStatus.currentHP < 0)
-                {
-                    AIState = MonsterState.Death;
-                }
             }
         }
 
         private void Update()
         {
-            CheckGroundStatus();
-
-            HandleAttackEvent();
-
-            animator.SetBool("OnGround", IsGrounded);
-
-            desireVelocity.x = nvAgent.desiredVelocity.x;
-            desireVelocity.z = nvAgent.desiredVelocity.z;
 
             if (IsGrounded == false)
             {
@@ -158,6 +155,28 @@ namespace UnityChanRPG
             else
             {
                 desireVelocity.y = Vector3.down.y;
+            }
+
+            if (IsDied == true)
+            {
+                return;
+            }
+
+            CheckGroundStatus();
+
+            HandleAttackEvent();
+
+            animator.SetBool("OnGround", IsGrounded);
+
+            desireVelocity.x = nvAgent.desiredVelocity.x;
+            desireVelocity.z = nvAgent.desiredVelocity.z;
+
+            if (status.currentHP <= 0)
+            {
+                IsDied = true;
+                animator.SetBool("IsDied", true);
+                ItemDrop();
+                Invoke("DeactivateMonster", monsterDisappearingTime);
             }
 
             #region Action Change by Animation Play
@@ -242,14 +261,6 @@ namespace UnityChanRPG
 
                         animator.SetBool("IsDashAttacking", true);
 
-                        break;
-                    }
-                case MonsterState.Death:
-                    {
-                        IsDied = true;
-                        animator.SetBool("IsDied", true);
-                        ItemDrop();
-                        Invoke("DeactivateMonster", monsterDisappearingTime);
                         break;
                     }
 
@@ -379,7 +390,7 @@ namespace UnityChanRPG
         // 공격할 스킬을 결정
         private void RandomDecideAttackType()
         {
-            animator.SetInteger("AttackType", 1);
+            animator.SetInteger("AttackType", UnityEngine.Random.Range(1, 5));
         }
 
         #endregion
@@ -437,10 +448,11 @@ namespace UnityChanRPG
 
             float[] probAccum = new float[monsterAdpt.monster.monsterDropItems.Count + 1];
 
-            float[] minProb = new float[monsterAdpt.monster.monsterDropItems.Count + 1];
+            float[] minProb = new float[monsterAdpt.monster.monsterDropItems.Count];
 
-            for (int i = 1; i < probAccum.Length + 1; i++)
+            for (int i = 1; i < probAccum.Length; i++)
             {
+
                 probAccum[i] = monsterAdpt.monster.monsterDropItems[i - 1].DropProb;
 
                 probAccum[i] += probAccum[i - 1];
@@ -448,7 +460,7 @@ namespace UnityChanRPG
                 minProb[i - 1] =
 
                     Math.Abs(probAccum[i] - probability - 0.0001f) < Math.Abs(probAccum[i - 1] - probability) ?
-                    
+
                     Math.Abs(probAccum[i] - probability - 0.0001f) : Math.Abs(probAccum[i - 1] - probability);
             }
 
@@ -472,8 +484,8 @@ namespace UnityChanRPG
             else
             {
                 ItemPool.Instance.DropItem(
-                    monsterAdpt.monster.monsterDropItems[Index].ItemID, 
-                    transform.position, 
+                    monsterAdpt.monster.monsterDropItems[Index].ItemID,
+                    transform.position,
                     UnityEngine.Random.Range(monsterAdpt.monster.monsterDropItems[Index].DropMinNumber, monsterAdpt.monster.monsterDropItems[Index].DropMaxNumber));
             }
 

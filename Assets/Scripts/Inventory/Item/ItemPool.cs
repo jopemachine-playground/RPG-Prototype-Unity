@@ -37,7 +37,7 @@ namespace UnityChanRPG
 
             for (int i = 0; i < tag.childCount; i++)
             {
-                GameObject item = transform.GetChild(i).gameObject;
+                GameObject item = tag.GetChild(i).gameObject;
 
                 if (item.activeSelf == false)
                 {
@@ -49,10 +49,10 @@ namespace UnityChanRPG
                         item.GetComponent<PickUpItem>().item.ItemValue = ItemNumber;
                     }
                 }
+                return;
             }
 
             ExtendPool(ID, tag, defaultPoolingNumber);
-
             DropItem(ID, spawnPosition, ItemNumber);
         }
 

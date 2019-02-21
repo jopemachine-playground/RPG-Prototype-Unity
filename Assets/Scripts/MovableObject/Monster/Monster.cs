@@ -17,6 +17,7 @@ namespace UnityChanRPG
         public string Name;
         public string Description;
         public int MaxHP;
+        public int MaxMP;
         public int ExperienceValue;
         public int Speed;
         public MonsterType Type;

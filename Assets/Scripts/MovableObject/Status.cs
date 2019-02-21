@@ -17,6 +17,13 @@ namespace UnityChanRPG
         public int AttackValue;
         public int DefenceValue;
 
+        // 몬스터가 활성화될 때 호출해, status를 초기화.
+        public void StatusInit(int MaxHP, int MaxMP)
+        {
+            currentHP = MaxHP;
+            currentMP = MaxMP;
+        }
+
         // 방어력 속성들을 이용해 최종적인 데미지를 계산하고, 
         // UI에 입힌 데미지를 표시하며, 공격 이펙트를 불러와 재생한다 
         public void CalculateDamage(Damage damage)

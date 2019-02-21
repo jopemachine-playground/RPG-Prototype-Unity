@@ -22,7 +22,7 @@ namespace UnityChanRPG
         public enum PoolType
         {
             Attack,
-            Get_Item
+            PickUpItem
         }
 
         public PoolType type;
@@ -41,9 +41,9 @@ namespace UnityChanRPG
                     attackPool = this;
                     init += InitAttackParticlePool;
                     break;
-                case PoolType.Get_Item:
+                case PoolType.PickUpItem:
                     getItemPool = this;
-                    init += InitGetItemParticlePool;
+                    init += InitPickUpItemParticlePool;
                     break;
             }
 
@@ -57,43 +57,47 @@ namespace UnityChanRPG
 
             for (int i = 0; i < particleLists.Length; i++)
             {
-                for (int j = 0; j < particleLists[i].attackParticleList.Count; j++)
+                for (int j = 0; j < particleLists[i].particleList.Count; j++)
                 {
                     GameObject ID_Tag = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                     Destroy(ID_Tag.gameObject.GetComponent<Collider>());
                     Destroy(ID_Tag.gameObject.GetComponent<MeshRenderer>());
-                    ID_Tag.name = particleLists[i].attackParticleList[j].ID + "";
+                    ID_Tag.name = particleLists[i].particleList[j].ID + "";
                     ID_Tag.transform.parent = gameObject.transform;
                     ID_Tag.layer = PARTICLE_LAYER;
 
-                    for (int k = 0; k < particleLists[i].attackParticleList[j].defaultParticlesNumber; k++)
+                    for (int k = 0; k < particleLists[i].particleList[j].defaultParticlesNumber; k++)
                     {
-                        GameObject particleObj = Instantiate(particleLists[i].attackParticleList[j].particle.gameObject, Vector3.zero, Quaternion.identity);
+                        GameObject particleObj = Instantiate(particleLists[i].particleList[j].particle.gameObject, Vector3.zero, Quaternion.identity);
                         particleObj.name = ID_Tag.name + " (" + k + ")";
                         particleObj.transform.parent = ID_Tag.transform;
                         particleObj.layer = PARTICLE_LAYER;
                     }
-                    particleLists[i].attackParticleList[j].currentParticlesNumber = particleLists[i].attackParticleList[j].defaultParticlesNumber;
+                    particleLists[i].particleList[j].currentParticlesNumber = particleLists[i].particleList[j].defaultParticlesNumber;
                 }
             }
         }
 
-        private void InitGetItemParticlePool()
+        private void InitPickUpItemParticlePool()
         {
-            GetItemParticle getItemParticle = gameObject.GetComponent<GetItemParticle>();
+            PickUpItemParticleList pickUpItemParticles = gameObject.GetComponent<PickUpItemParticleList>();
 
-            GameObject ID_Tag = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            Destroy(ID_Tag.gameObject.GetComponent<Collider>());
-            Destroy(ID_Tag.gameObject.GetComponent<MeshRenderer>());
-            ID_Tag.name = GetItemParticle.ID + "";
-            ID_Tag.transform.parent = gameObject.transform;
-
-            for (int i = 0; i < getItemParticle.defaultParticlesNumber; i++)
+            for (int i = 0; i < pickUpItemParticles.particleList.Count; i++)
             {
-                GameObject particle = Instantiate(getItemParticle.particle.gameObject, Vector3.zero, Quaternion.identity);
-                particle.transform.parent = ID_Tag.transform;
-                particle.name = GetItemParticle.ID + " (" + i + ")";
+                GameObject ID_Tag = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                Destroy(ID_Tag.gameObject.GetComponent<Collider>());
+                Destroy(ID_Tag.gameObject.GetComponent<MeshRenderer>());
+                ID_Tag.name = pickUpItemParticles.particleList[i].ID + "";
+                ID_Tag.transform.parent = gameObject.transform;
+
+                for (int j = 0; j < pickUpItemParticles.particleList[i].defaultParticlesNumber; j++)
+                {
+                    GameObject particle = Instantiate(pickUpItemParticles.particleList[i].particle.gameObject, Vector3.zero, Quaternion.identity);
+                    particle.transform.parent = ID_Tag.transform;
+                    particle.name = pickUpItemParticles.particleList[i].ID + " (" + j + ")";
+                }
             }
+
         }
 
         public void CallParticle(int particleID, Vector3 emitPosition)
