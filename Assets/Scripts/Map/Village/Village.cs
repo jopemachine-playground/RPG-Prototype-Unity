@@ -25,7 +25,7 @@ namespace UnityChanRPG
             ControlChange(new Vector3(1.5f, 1.5f, 1.5f), cam.transform, 0, 10);
             MoveCharacter();
             MapNameIndicator.Instance.IndicateMapName(placeName);
-
+            MusicManager.mInstance.Play(backGroundMusic[0]);
         }
 
         public override void MoveCharacter()

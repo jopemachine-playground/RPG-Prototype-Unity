@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/*
-    성능을 위해 데미지 플로팅 텍스트들을 오브젝트 풀링으로 관리
-    디폴트 갯수로 만들어 놓았던 플로팅 텍스트 갯수를 넘으면 두 배의 갯수로 만들어 놓는다.
- */
+/// <summary>
+/// 성능을 위해 데미지 플로팅 텍스트들을 오브젝트 풀링으로 관리
+/// 디폴트 갯수로 만들어 놓았던 플로팅 텍스트 갯수를 넘으면 두 배의 갯수로 만들어 놓는다.
+/// </summary>
+
 namespace UnityChanRPG
 {
     public class DamageIndicator : MonoBehaviour

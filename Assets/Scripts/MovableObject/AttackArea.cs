@@ -6,6 +6,10 @@ using UnityEngine;
 
 // 아래 스크립트의 작성은 http://www.yes24.com/24/goods/27894042 도서를 참고함
 
+/// <summary>
+/// 공격이 상대에게 닿는 영역에 스크립틀를 붙여 사용.
+/// </summary>
+
 namespace UnityChanRPG
 {
     public class AttackArea : MonoBehaviour
@@ -22,6 +26,7 @@ namespace UnityChanRPG
             collider = GetComponent<Collider>();
             attacker = GetComponentInParent<Animator>();
 
+            // 아래 코드를 IInteractAble 인터페이스를 이용한 방식이 아닌 delegate를 이용한 방식으로 바꾸고 싶다.
             attackerObj = GetComponentInParent<MonsterControl>();
 
             if (attackerObj == null)
@@ -34,6 +39,7 @@ namespace UnityChanRPG
         {
             // 어떤 경우에도, 한 공격 모션에 데미지가 한 번만 들어가게 한다.
             // 그렇게 하기 위해 Animator 파라미터로 'DamagedProcessed' 를 만들어 사용함
+            // 하지만, 이렇게 하면 플레이어가 다수의 몬스터를 한 번에 공격할 수 없으므로 수정이 필요함
             if (attacker.GetBool("DamagedProcessed") == true) return;
 
             HitArea hit = other.gameObject.GetComponent<HitArea>();

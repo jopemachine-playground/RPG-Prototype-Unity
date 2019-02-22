@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+/// <summary>
+/// 플레이어와 몬스터의 스킬을 담는 자료구조.
+/// </summary>
+
 namespace UnityChanRPG
 {
     [Serializable]

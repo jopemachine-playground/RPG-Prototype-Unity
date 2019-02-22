@@ -46,6 +46,7 @@ namespace UnityChanRPG
             base.ScreenCoverInit();
 
             FadeIn();
+            MusicManager.mInstance.Play(backGroundMusic[0]);
             playerControl.NoInputMode = false;
 
             cam = GameObject.FindGameObjectWithTag("MainCamera").gameObject.GetComponent<Camera>();

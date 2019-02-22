@@ -77,7 +77,7 @@ namespace UnityChanRPG
                 entireMonsterList[i].MonsterModel = monsterModel[i];
 
                 entireMonsterList[i].monsterStatus = transform.Find(entireMonsterList[i].ID + "").gameObject.GetComponent<Status>();
-                entireMonsterList[i].monsterStatus.currentHP = entireMonsterList[i].MaxHP;
+                entireMonsterList[i].monsterStatus.CurrentHP = entireMonsterList[i].MaxHP;
                 entireMonsterList[i].monsterStatus.AttackValue = (int)(monsterData[i]["AttackValue"]);
                 entireMonsterList[i].monsterStatus.DefenceValue = (int)(monsterData[i]["DefenceValue"]);
 

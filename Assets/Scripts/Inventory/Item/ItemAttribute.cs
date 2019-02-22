@@ -33,18 +33,18 @@ namespace UnityChanRPG
 
         public bool HealHP()
         {
-            if (PlayerInfo.mInstance.player.playerStatus.currentHP == LevelInfo.getMaxHP(PlayerInfo.mInstance.player.Level))
+            if (PlayerInfo.mInstance.player.playerStatus.CurrentHP == LevelInfo.getMaxHP(PlayerInfo.mInstance.player.Level))
             {
                 return false;
             }
-            else if (PlayerInfo.mInstance.player.playerStatus.currentHP + AttributeValue >= LevelInfo.getMaxHP(PlayerInfo.mInstance.player.Level))
+            else if (PlayerInfo.mInstance.player.playerStatus.CurrentHP + AttributeValue >= LevelInfo.getMaxHP(PlayerInfo.mInstance.player.Level))
             {
-                PlayerInfo.mInstance.player.playerStatus.currentHP = LevelInfo.getMaxHP(PlayerInfo.mInstance.player.Level);
+                PlayerInfo.mInstance.player.playerStatus.CurrentHP = LevelInfo.getMaxHP(PlayerInfo.mInstance.player.Level);
                 return true;
             }
-            else if (PlayerInfo.mInstance.player.playerStatus.currentHP + AttributeValue < LevelInfo.getMaxHP(PlayerInfo.mInstance.player.Level))
+            else if (PlayerInfo.mInstance.player.playerStatus.CurrentHP + AttributeValue < LevelInfo.getMaxHP(PlayerInfo.mInstance.player.Level))
             {
-                PlayerInfo.mInstance.player.playerStatus.currentHP += AttributeValue;
+                PlayerInfo.mInstance.player.playerStatus.CurrentHP += AttributeValue;
                 return true;
             }
 
@@ -53,18 +53,18 @@ namespace UnityChanRPG
 
         public bool HealMP()
         {
-            if (PlayerInfo.mInstance.player.playerStatus.currentMP == LevelInfo.getMaxMP(PlayerInfo.mInstance.player.Level))
+            if (PlayerInfo.mInstance.player.playerStatus.CurrentMP == LevelInfo.getMaxMP(PlayerInfo.mInstance.player.Level))
             {
                 return false;
             }
-            else if (PlayerInfo.mInstance.player.playerStatus.currentMP + AttributeValue >= LevelInfo.getMaxMP(PlayerInfo.mInstance.player.Level))
+            else if (PlayerInfo.mInstance.player.playerStatus.CurrentMP + AttributeValue >= LevelInfo.getMaxMP(PlayerInfo.mInstance.player.Level))
             {
-                PlayerInfo.mInstance.player.playerStatus.currentMP = LevelInfo.getMaxMP(PlayerInfo.mInstance.player.Level);
+                PlayerInfo.mInstance.player.playerStatus.CurrentMP = LevelInfo.getMaxMP(PlayerInfo.mInstance.player.Level);
                 return true;
             }
-            else if (PlayerInfo.mInstance.player.playerStatus.currentMP + AttributeValue < LevelInfo.getMaxMP(PlayerInfo.mInstance.player.Level))
+            else if (PlayerInfo.mInstance.player.playerStatus.CurrentMP + AttributeValue < LevelInfo.getMaxMP(PlayerInfo.mInstance.player.Level))
             {
-                PlayerInfo.mInstance.player.playerStatus.currentMP += AttributeValue;
+                PlayerInfo.mInstance.player.playerStatus.CurrentMP += AttributeValue;
                 return true;
             }
 

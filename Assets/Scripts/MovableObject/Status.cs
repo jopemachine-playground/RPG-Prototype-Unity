@@ -4,13 +4,72 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+/// <summary>
+/// 현재 플레이어, 몬스터에 붙여 사용하고 있는, Status 스크립트. 같은 스크립트를 공유하므로, 몬스터의 currentHP가 변해도
+/// 플레이어의 정보를 업데이트 하는 함수를 (필요 없는 경우에도) 호출한다는 단점이 있다.
+/// Status는 스스로를 초기화하지 않으므로, 다른 스크립트에서 초기화 해 사용해야 함
+/// </summary>
+
 namespace UnityChanRPG
 {
     public class Status : MonoBehaviour
     {
-        public int currentHP;
-        public int currentMP;
-        public float stamina;
+        [SerializeField]
+        private int currentHP;
+        public int CurrentHP
+        {
+            get
+            {
+                return currentHP;
+            }
+            set
+            {
+                currentHP = value;
+
+                if (PlayerInfoSystem.Instance != null)
+                {
+                    PlayerInfoSystem.Instance.PlayerInfoWindowUpdate();
+                }
+            }
+        }
+
+        [SerializeField]
+        private int currentMP;
+        public int CurrentMP
+        {
+            get
+            {
+                return currentMP;
+            }
+            set
+            {
+                currentMP = value;
+
+                if (PlayerInfoSystem.Instance != null)
+                {
+                    PlayerInfoSystem.Instance.PlayerInfoWindowUpdate();
+                }
+            }
+        }
+
+        [SerializeField]
+        private float stamina;
+        public float Stamina
+        {
+            get
+            {
+                return stamina;
+            }
+
+            set
+            {
+                stamina = value;
+                if (PlayerInfoSystem.Instance != null)
+                {
+                    PlayerInfoSystem.Instance.PlayerInfoWindowUpdate();
+                }
+            }
+        }
 
         public int FatalBlowValue;
         public int FatalBlowProb;
@@ -20,8 +79,8 @@ namespace UnityChanRPG
         // 몬스터가 활성화될 때 호출해, status를 초기화.
         public void StatusInit(int MaxHP, int MaxMP)
         {
-            currentHP = MaxHP;
-            currentMP = MaxMP;
+            CurrentHP = MaxHP;
+            CurrentMP = MaxMP;
         }
 
         // 방어력 속성들을 이용해 최종적인 데미지를 계산하고, 
@@ -41,13 +100,13 @@ namespace UnityChanRPG
 
             int resultDamage = (int)(Mathf.Floor(resultDamageFloat));
 
-            if (currentHP - resultDamage >= 0)
+            if (CurrentHP - resultDamage >= 0)
             {
-                currentHP -= (int)(Mathf.Floor(resultDamage));
+                CurrentHP -= (int)(Mathf.Floor(resultDamage));
             }
             else
             {
-                currentHP = 0;
+                CurrentHP = 0;
             }
 
             DamageIndicator.mInstance.CallFloatingText(damage.SetDamageValue(resultDamage));

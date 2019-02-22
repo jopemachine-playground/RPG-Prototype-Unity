@@ -76,8 +76,8 @@ namespace UnityChanRPG
             JsonData playerInfo = new JsonData();
             playerInfo["Name"] = player.Name;
             playerInfo["Money"] = player.Money;
-            playerInfo["currentHP"] = player.playerStatus.currentHP;
-            playerInfo["currentMP"] = player.playerStatus.currentMP;
+            playerInfo["currentHP"] = player.playerStatus.CurrentHP;
+            playerInfo["currentMP"] = player.playerStatus.CurrentMP;
             playerInfo["Level"] = player.Level;
             playerInfo["Experience"] = player.ExperienceValue;
 

@@ -2,12 +2,18 @@
 using UnityEngine.UI;
 using System.Collections;
 
-// 플레이어의 현재 HP, 경험치 등의 정보를 실제로 UI에 표시하는 클래스
+/// <summary>
+/// 플레이어의 현재 HP, 경험치 등의 정보를 실제로 UI에 표시하고 관리하는 싱글톤 클래스.
+/// Update에서 계속해서, 창을 관리하는 것은 낭비가 커보여, Status 프로퍼티의 값이 변경될 때 마다, PlayerInfoSystem 클래스의
+/// 업데이트 함수를 호출하게 했다.
+/// </summary>
 
 namespace UnityChanRPG
 {
     public class PlayerInfoSystem : MonoBehaviour
     {
+        public static PlayerInfoSystem Instance;
+
         public Text HPText;
         public Text MPText;
         public Text PlayerName;
@@ -21,6 +27,19 @@ namespace UnityChanRPG
         private Image StaminaSliderFillArea;
 
         private Player player;
+
+        private void Awake()
+        {
+            if (Instance != null)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                DontDestroyOnLoad(this.gameObject);
+                Instance = this;
+            }
+        }
 
         private void Start()
         {
@@ -40,14 +59,20 @@ namespace UnityChanRPG
             SliderMaxValueChange();
         }
 
-        private void Update()
+        // HP, MP, Stamina에 변화가 있을 때 프로퍼티에서 호출되어 값의 변화를 창에 업데이트함
+        public void PlayerInfoWindowUpdate()
         {
-            HPText.text = (player.playerStatus.currentHP).ToString() + " / " + player.MaxHP;
-            HPSlider.value = player.playerStatus.currentHP;
-            MPText.text = (player.playerStatus.currentMP).ToString() + " / " + player.MaxMP;
-            MPSlider.value = player.playerStatus.currentMP;
+            if (player == null)
+            {
+                return;
+            }
+
+            HPText.text = (player.playerStatus.CurrentHP).ToString() + " / " + player.MaxHP;
+            HPSlider.value = player.playerStatus.CurrentHP;
+            MPText.text = (player.playerStatus.CurrentMP).ToString() + " / " + player.MaxMP;
+            MPSlider.value = player.playerStatus.CurrentMP;
             EXPSlider.value = player.ExperienceValue;
-            StaminaSlider.value = player.playerStatus.stamina;
+            StaminaSlider.value = player.playerStatus.Stamina;
 
             StaminaSliderFillArea.color = Color.yellow;
 
@@ -55,23 +80,28 @@ namespace UnityChanRPG
             {
                 StaminaSliderFillArea.color = Color.red;
             }
-
-            LevelUP();
         }
 
-        private void LevelUP()
+        // 경험치에 변화가 있을 때 프로퍼티에서 호출되어, 레벨업이 필요한 경우, 레벨업 시키고, 창을 업데이트
+        public void LevelUP()
         {
+            if (player == null)
+            {
+                return;
+            }
+
             if (player.ExperienceValue > LevelInfo.getMaxExp(player.Level))
             {
                 player.ExperienceValue -= LevelInfo.getMaxExp(player.Level);
                 player.Level++;
-                player.playerStatus.currentHP = player.MaxHP;
-                player.playerStatus.currentMP = player.MaxMP;
-                SliderMaxValueChange();
                 LevelText.text = "Lv." + (player.Level).ToString();
                 player.playerInfoUpdate();
+                SliderMaxValueChange();
+                player.playerStatus.CurrentHP = player.MaxHP;
+                player.playerStatus.CurrentMP = player.MaxMP;
             }
 
+            PlayerInfoWindowUpdate();
         }
 
         private void SliderMaxValueChange()

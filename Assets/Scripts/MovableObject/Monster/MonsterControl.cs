@@ -171,10 +171,11 @@ namespace UnityChanRPG
             desireVelocity.x = nvAgent.desiredVelocity.x;
             desireVelocity.z = nvAgent.desiredVelocity.z;
 
-            if (status.currentHP <= 0)
+            if (status.CurrentHP <= 0)
             {
                 IsDied = true;
                 animator.SetBool("IsDied", true);
+                Player.mInstance.Experience(monsterAdpt.monster.ExperienceValue);
                 ItemDrop();
                 Invoke("DeactivateMonster", monsterDisappearingTime);
             }

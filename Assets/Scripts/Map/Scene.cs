@@ -66,6 +66,7 @@ namespace UnityChanRPG
             destinationScene = sceneName;
             playerControl.NoInputMode = true;
             FadeOut();
+            MusicManager.mInstance.Stop();
             Invoke("LoadingSceneLoad", SCENE_MOVE_WAITTIME);
         }
 

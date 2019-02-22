@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnityChanRPG
 {
-    [System.Serializable]
+    [Serializable]
     public class Player : MonoBehaviour
     {
         static public Player mInstance;
@@ -17,10 +18,28 @@ namespace UnityChanRPG
         public string Name;
         [SerializeField]
         public int Money;
+
         [SerializeField]
         public int Level;
+
         [SerializeField]
-        public int ExperienceValue;
+        private int experienceValue;
+        public int ExperienceValue
+        {
+            get
+            {
+                return experienceValue;
+            }
+            set
+            {
+                experienceValue = value;
+                if (PlayerInfoSystem.Instance != null)
+                {
+                    PlayerInfoSystem.Instance.LevelUP();
+                }
+            }
+        }
+
         [SerializeField]
         public Status playerStatus;
 
@@ -55,10 +74,21 @@ namespace UnityChanRPG
 
             StaminaMax = 100;
             playerStatus = GetComponent<Status>();
-            playerStatus.currentHP = PlayerInfo.mInstance.currentHPTemp;
-            playerStatus.currentMP = PlayerInfo.mInstance.currentMPTemp;
-            playerStatus.stamina = StaminaMax;
+            playerStatus.CurrentHP = PlayerInfo.mInstance.currentHPTemp;
+            playerStatus.CurrentMP = PlayerInfo.mInstance.currentMPTemp;
+            playerStatus.Stamina = StaminaMax;
             playerInfoUpdate();
+
+        }
+
+        private void Start()
+        {
+            PlayerInfoSystem.Instance.PlayerInfoWindowUpdate();
+        }
+
+        public void Experience(int TakeExperienceValue)
+        {
+            ExperienceValue += TakeExperienceValue;
         }
 
         // 항상 변하는 변수가 아닌, 아이템 착탈의, 레벨 업시에만 변하는 변수들이므로 성능을 위해 update에 넣지 않았다

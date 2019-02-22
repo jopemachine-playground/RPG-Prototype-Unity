@@ -14,10 +14,25 @@ namespace UnityChanRPG
 {
     public class InventorySystem : MonoBehaviour
     {
+        public static InventorySystem Instance;
+
         public Image[] itemImage;
         public Text[] itemText;
 
         public Text moneyText;
+
+        private void Awake()
+        {
+            if (Instance != null)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                DontDestroyOnLoad(this.gameObject);
+                Instance = this;
+            }
+        }
 
         // GameManager에서 초기화
         public void Initialize()
@@ -76,7 +91,7 @@ namespace UnityChanRPG
 
         }
 
-        public void moneyUpdate()
+        public void moneyInfoUpdate()
         {
             moneyText.text = PlayerInfo.mInstance.player.Money.ToString();
         }
@@ -84,7 +99,6 @@ namespace UnityChanRPG
         private void Update()
         {
             ItemIconUpdate();
-            moneyUpdate();
         }
 
     }

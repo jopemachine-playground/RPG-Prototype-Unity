@@ -221,29 +221,29 @@ namespace UnityChanRPG
             // 스태미나 부족 상태에서 달리려하면 속도가 느려지고, 계속되면 Relax 애니메이션에 들어가, 스태미너를 회복할 때 까지 움직일 수 없게 됨
             if (Input.GetKey(KeyCode.LeftShift) &&
                 Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") &&
-                status.stamina > 30 &&
+                status.Stamina > 30 &&
                 (h != 0 | v != 0))
             {
-                status.stamina -= staminaUseMultiplier * Time.deltaTime;
+                status.Stamina -= staminaUseMultiplier * Time.deltaTime;
                 MoveVector *= 2;
             }
             else if (Input.GetKey(KeyCode.LeftShift) &&
                 Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") &&
-                status.stamina < 30 &&
+                status.Stamina < 30 &&
                 (h != 0 | v != 0))
             {
-                status.stamina -= staminaUseMultiplier * Time.deltaTime;
+                status.Stamina -= staminaUseMultiplier * Time.deltaTime;
                 MoveVector *= 0.5f;
             }
             else
             {
-                if (status.stamina + staminaRecoverMultiplier * Time.deltaTime < player.StaminaMax)
+                if (status.Stamina + staminaRecoverMultiplier * Time.deltaTime < player.StaminaMax)
                 {
-                    status.stamina += staminaRecoverMultiplier * Time.deltaTime;
+                    status.Stamina += staminaRecoverMultiplier * Time.deltaTime;
                 }
-                else if (status.stamina < player.StaminaMax)
+                else if (status.Stamina < player.StaminaMax)
                 {
-                    status.stamina = player.StaminaMax;
+                    status.Stamina = player.StaminaMax;
                 }
             }
 
@@ -252,11 +252,11 @@ namespace UnityChanRPG
                (Animator.GetCurrentAnimatorStateInfo(0).IsTag("Ground") |
                 Animator.GetCurrentAnimatorStateInfo(0).IsName("Dash Attack")))
             {
-                if (IsOnGrounded == true && player.playerStatus.stamina > 15)
+                if (IsOnGrounded == true && player.playerStatus.Stamina > 15)
                 {
                     HandleGroundedMovement(MoveVector, IsJump);
                 }
-                else if (IsOnGrounded == true && player.playerStatus.stamina <= 15)
+                else if (IsOnGrounded == true && player.playerStatus.Stamina <= 15)
                 {
                     Animator.Play("Refresh");
                     BreakRestTime();
@@ -306,13 +306,13 @@ namespace UnityChanRPG
             CamForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
             MoveVector = (v * CamForward + h * cam.right) / 2;
 
-            if (status.stamina + staminaRecoverMultiplier * Time.deltaTime < player.StaminaMax)
+            if (status.Stamina + staminaRecoverMultiplier * Time.deltaTime < player.StaminaMax)
             {
-                status.stamina += staminaRecoverMultiplier * Time.deltaTime;
+                status.Stamina += staminaRecoverMultiplier * Time.deltaTime;
             }
-            else if (status.stamina < player.StaminaMax)
+            else if (status.Stamina < player.StaminaMax)
             {
-                status.stamina = player.StaminaMax;
+                status.Stamina = player.StaminaMax;
             }
 
             // 공중에서도 왼쪽 쉬프트 버튼을 누르면 살짝 빨라지게 처리함.
@@ -603,7 +603,7 @@ namespace UnityChanRPG
 
         private void HandleDeathEvent()
         {
-            if (status.currentHP <= 0)
+            if (status.CurrentHP <= 0)
             {
                 // 플레이어 사망에 관한 이벤트 처리는 여기서.
                 // 지금은 원활한 디버깅을 위해 주석 처리

@@ -31,16 +31,29 @@ namespace UnityChanRPG
             }
         }
 
-        public void Play(AudioClip selectedMusic)
+        public void Play(AudioClip selectedMusic, bool ApplyFadeIn = true)
         {
             mSource.volume = 1f;
             mSource.clip = selectedMusic;
+
+            if (ApplyFadeIn == true)
+            {
+                FadeInMusic();
+            }
+
             mSource.Play();
         }
 
-        public void Stop()
+        public void Stop(bool ApplyFadeOut = true)
         {
-            mSource.Stop();
+            if (ApplyFadeOut == true)
+            {
+                FadeOutMusic();
+            }
+            else
+            {
+                mSource.Stop();
+            }
         }
 
         public void SetVolumn(float volumn)
@@ -74,6 +87,7 @@ namespace UnityChanRPG
             }
         }
 
+        // 음악을 페이드 아웃하며, Stop 시킴
         private IEnumerator FadeOutMusicCoroutine()
         {
             for (float i = 1.0f; i >= 0f; i -= 0.01f)
@@ -81,6 +95,8 @@ namespace UnityChanRPG
                 mSource.volume = i;
                 yield return FADEINOUT_WAITTIME;
             }
+
+            mSource.Stop();
         }
     }
 }
