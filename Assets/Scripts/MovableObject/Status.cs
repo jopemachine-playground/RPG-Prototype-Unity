@@ -28,16 +28,18 @@ namespace UnityChanRPG
         // UI에 입힌 데미지를 표시하며, 공격 이펙트를 불러와 재생한다 
         public void CalculateDamage(Damage damage)
         {
-            float resultDamage = damage.value * (damage.skillCoefficient / 100);
+            float resultDamageFloat = damage.value * (damage.skillCoefficient / 100);
 
-            if (DefenceValue >= resultDamage)
+            if (DefenceValue >= resultDamageFloat)
             {
-                resultDamage = 1;
+                resultDamageFloat = 1;
             }
             else
             {
-                resultDamage -= DefenceValue;
+                resultDamageFloat -= DefenceValue;
             }
+
+            int resultDamage = (int)(Mathf.Floor(resultDamageFloat));
 
             if (currentHP - resultDamage >= 0)
             {
@@ -48,28 +50,28 @@ namespace UnityChanRPG
                 currentHP = 0;
             }
 
-            DamageIndicator.mInstance.CallFloatingText(damage);
+            DamageIndicator.mInstance.CallFloatingText(damage.SetDamageValue(resultDamage));
 
             damage.attacker.SetBool("DamagedProcessed", true);
 
         }
 
         // 공격 데미지 공식
-        public Damage Attack()
+        public Damage DecideDamageValue(Animator attacker, Animator attackee)
         {
             bool isFatalBlow;
 
-            float minDamage = AttackValue;
-            float maxDamage = 1.5f * AttackValue;
+            float minDamageValue = AttackValue;
+            float maxDamageValue = 1.5f * AttackValue;
 
-            float damage = UnityEngine.Random.Range(minDamage, maxDamage);
+            float damageValue = UnityEngine.Random.Range(minDamageValue, maxDamageValue);
 
             if (isFatalBlow = DecideFatalBlow())
             {
-                damage *= (FatalBlowValue / 100);
+                damageValue *= (FatalBlowValue / 100);
             }
 
-            return new Damage((int)(Mathf.Floor(damage)), isFatalBlow);
+            return new Damage((int)(Mathf.Floor(damageValue)), isFatalBlow, attacker, attackee);
         }
 
         // 이번 공격이 치명타인지 결정

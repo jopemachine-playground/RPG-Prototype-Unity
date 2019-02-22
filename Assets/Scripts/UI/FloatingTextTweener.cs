@@ -66,7 +66,7 @@ namespace UnityChanRPG
                     DisableTimer = 0;
                     updateCounter = 0;
                     isActived = false;
-                    gameObject.active = false;
+                    gameObject.SetActive(false);
                 }
 
                 else

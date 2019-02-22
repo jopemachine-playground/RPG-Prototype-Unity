@@ -21,6 +21,9 @@ namespace UnityChanRPG
         [NonSerialized]
         public MonsterPatrolArea patrolArea;
 
+        // SpawnObject가 나올 수 있는 확률을 누적해 더해놓은 것.
+        public float[] SpawnProbAccum;
+
         private void Awake()
         {
             point = this.GetComponent<Transform>();

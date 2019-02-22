@@ -62,7 +62,7 @@ namespace UnityChanRPG
             currentTextValue = floatingTextsObj.Count;
         }
 
-        public void CallFloatingText(Damage damage)
+        public void CallFloatingText(Damage damageResult)
         {
 
             for (int i = 0; i < currentTextValue; i++)
@@ -70,15 +70,15 @@ namespace UnityChanRPG
                 if (floatingTextsObj[i].gameObject.GetComponent<FloatingTextTweener>().isActived == false)
                 {
                     FloatingTextTweener floatingText = floatingTextsObj[i].gameObject.GetComponent<FloatingTextTweener>();
-                    floatingText.damage = damage;
-                    floatingTextsObj[i].active = true;
+                    floatingText.damage = damageResult;
+                    floatingTextsObj[i].SetActive(true);
                     return;
                 }
             }
 
             floatingTextsObj.Capacity = currentTextValue * 2;
             floatingTextUpdate();
-            CallFloatingText(damage);
+            CallFloatingText(damageResult);
         }
 
     }

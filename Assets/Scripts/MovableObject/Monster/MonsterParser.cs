@@ -58,6 +58,8 @@ namespace UnityChanRPG
                 transform.Find(entireMonsterList[i].ID + "").gameObject.GetComponent<MonsterAdapter>().monster = entireMonsterList[i];
             }
 
+            Calc_ItemDropProbAccum();
+
             yield return null;
         }
 
@@ -96,6 +98,20 @@ namespace UnityChanRPG
                     (int)(monsterDropItemData[j]["DropMinNum"]),
                     (int)(monsterDropItemData[j]["DropMaxNum"]))
                 );
+            }
+        }
+
+        private void Calc_ItemDropProbAccum()
+        {
+            for (int i = 0; i < entireMonsterList.Count; i++)
+            {
+                entireMonsterList[i].dropItemProbAccum = new float[entireMonsterList[i].monsterDropItems.Count + 1];
+
+                for (int j = 1; j < entireMonsterList[i].dropItemProbAccum.Length; j++)
+                {
+                    entireMonsterList[i].dropItemProbAccum[j] = entireMonsterList[i].monsterDropItems[j - 1].DropProb;
+                    entireMonsterList[i].dropItemProbAccum[j] += entireMonsterList[i].dropItemProbAccum[j - 1];
+                }
             }
         }
 

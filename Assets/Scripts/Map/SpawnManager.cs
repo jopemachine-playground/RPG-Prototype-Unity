@@ -75,10 +75,22 @@ namespace UnityChanRPG
                     }
                 }
             }
+
         }
 
         private void Start()
         {
+            for (int i = 0; i < SpawnPoint.Length; i++)
+            {
+                for (int j = 1; j < SpawnPoint[i].SpawnObjects.Count + 1; j++)
+                {
+                    SpawnPoint[i].SpawnProbAccum = new float[SpawnPoint[i].SpawnObjects.Count + 1];
+
+                    SpawnPoint[i].SpawnProbAccum[j] = (SpawnPoint[i].SpawnObjects[j - 1].SpawnProbablity);
+
+                    SpawnPoint[i].SpawnProbAccum[j] += SpawnPoint[i].SpawnProbAccum[j - 1];
+                }
+            }
             StartCoroutine(this.SpawnOnField(type));
         }
 
@@ -88,7 +100,7 @@ namespace UnityChanRPG
             for (int i = 0; i < Pool.transform.childCount; i++)
             {
                 Transform point = Pool.transform.GetChild(i);
-                
+
                 for (int j = 0; j < point.transform.childCount; j++)
                 {
                     Transform child = point.transform.GetChild(j);
@@ -119,7 +131,7 @@ namespace UnityChanRPG
 
                 FieldObjectsCount = 0;
 
-                for (int i = 0; i< fieldSpawnPool.transform.childCount; i++)
+                for (int i = 0; i < fieldSpawnPool.transform.childCount; i++)
                 {
                     Transform point = fieldSpawnPool.transform.GetChild(i);
 
@@ -138,9 +150,14 @@ namespace UnityChanRPG
 
                     int placeIndex = UnityEngine.Random.Range(0, SpawnPoint.Length);
 
-                    float probability = ((float)UnityEngine.Random.Range(0, 10000)) / 10000f;
+                    float probability = (UnityEngine.Random.Range(0f, 10000f)) / 10000f;
 
                     int ID = ReturnID(probability, placeIndex, 0.0001f);
+
+                    if (ID == -1)
+                    {
+                        yield return null;
+                    }
 
                     GameObject spawnObj = SearchObject(ID);
 
@@ -163,24 +180,18 @@ namespace UnityChanRPG
 
             Debug.Assert(_prob <= 1, "Error Occur - ReturnID in SpawnManager.cs");
 
-            float[] probAccum = new float[SpawnPoint[_placeIndex].SpawnObjects.Count + 1];
-
             float[] minProb = new float[SpawnPoint[_placeIndex].SpawnObjects.Count];
 
             for (int i = 1; i < SpawnPoint[_placeIndex].SpawnObjects.Count + 1; i++)
             {
-                probAccum[i] = (SpawnPoint[_placeIndex].SpawnObjects[i - 1].SpawnProbablity);
-
-                probAccum[i] += probAccum[i - 1];
-
                 minProb[i - 1] =
 
-                    Math.Abs(probAccum[i] - _prob - _minProbUnit) < Math.Abs(probAccum[i - 1] - _prob) ?
+                    Math.Abs(SpawnPoint[_placeIndex].SpawnProbAccum[i] - _prob - _minProbUnit) < Math.Abs(SpawnPoint[_placeIndex].SpawnProbAccum[i - 1] - _prob) ?
 
-                    Math.Abs(probAccum[i] - _prob - _minProbUnit) : Math.Abs(probAccum[i - 1] - _prob);
+                    Math.Abs(SpawnPoint[_placeIndex].SpawnProbAccum[i] - _prob - _minProbUnit) : Math.Abs(SpawnPoint[_placeIndex].SpawnProbAccum[i - 1] - _prob);
 
                 // 확률의 합은 1보다 작아야 함
-                Debug.Assert(probAccum[i] <= 1, "Error Occur - ReturnID in SpawnManager.cs");
+                Debug.Assert(SpawnPoint[_placeIndex].SpawnProbAccum[i] <= 1, "Error Occur - ReturnID in SpawnManager.cs");
             }
 
             int Index = 0;
@@ -194,6 +205,19 @@ namespace UnityChanRPG
                     Index = i;
                 }
             }
+
+            //Debug.Log("Index: " + Index);
+            //Debug.Log("Result: " + result);
+            //Debug.Log("_prob: " + _prob);
+            //Debug.Log("_placeIndex: " + _placeIndex);
+            //Debug.Log("SpawnPoint[_placeIndex].SpawnProbAccum.Length - 1: " + (SpawnPoint[_placeIndex].SpawnProbAccum.Length - 1));
+
+
+            if (_prob > SpawnPoint[_placeIndex].SpawnProbAccum[SpawnPoint[_placeIndex].SpawnProbAccum.Length - 1])
+            {
+                return -1;
+            }
+
             return SpawnPoint[_placeIndex].SpawnObjects[Index].ID;
         }
     }

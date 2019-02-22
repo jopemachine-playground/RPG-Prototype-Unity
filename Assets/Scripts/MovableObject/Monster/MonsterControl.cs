@@ -444,26 +444,17 @@ namespace UnityChanRPG
         // 1개 이상 드롭되는 아이템의 경우 드롭될 갯수 역시 확률로 결정
         private void ItemDrop()
         {
-            Debug.ClearDeveloperConsole(); 
-
             float probability = ((float)UnityEngine.Random.Range(0, 10000)) / 10000f;
-
-            float[] probAccum = new float[monsterAdpt.monster.monsterDropItems.Count + 1];
 
             float[] minProb = new float[monsterAdpt.monster.monsterDropItems.Count];
 
-            for (int i = 1; i < probAccum.Length; i++)
+            for (int i = 1; i < monsterAdpt.monster.dropItemProbAccum.Length; i++)
             {
-
-                probAccum[i] = monsterAdpt.monster.monsterDropItems[i - 1].DropProb;
-
-                probAccum[i] += probAccum[i - 1];
-
                 minProb[i - 1] =
 
-                    Math.Abs(probAccum[i] - probability - 0.0001f) < Math.Abs(probAccum[i - 1] - probability) ?
+                    Math.Abs(monsterAdpt.monster.dropItemProbAccum[i] - probability - 0.0001f) < Math.Abs(monsterAdpt.monster.dropItemProbAccum[i - 1] - probability) ?
 
-                    Math.Abs(probAccum[i] - probability - 0.0001f) : Math.Abs(probAccum[i - 1] - probability);
+                    Math.Abs(monsterAdpt.monster.dropItemProbAccum[i] - probability - 0.0001f) : Math.Abs(monsterAdpt.monster.dropItemProbAccum[i - 1] - probability);
             }
 
             int Index = 0;
@@ -478,13 +469,8 @@ namespace UnityChanRPG
                 }
             }
 
-            Debug.Log(result);
-
-            Debug.Log(Index);
-
-            if (result > probAccum[monsterAdpt.monster.monsterDropItems.Count])
+            if (probability > monsterAdpt.monster.dropItemProbAccum[minProb.Length])
             {
-                Debug.Log("아이템 안 나옴!");
                 return;
             }
 

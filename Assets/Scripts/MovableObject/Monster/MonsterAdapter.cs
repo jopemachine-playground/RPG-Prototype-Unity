@@ -8,7 +8,7 @@ namespace UnityChanRPG
     {
         public Monster monster;
 
-        public void Start()
+        public void Awake()
         {
             monster.monsterStatus = GetComponent<Status>();
         }
