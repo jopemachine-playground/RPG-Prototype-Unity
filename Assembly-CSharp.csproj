@@ -89,6 +89,12 @@
     <Compile Include="Assets\Download Asset\Particlecollection_Free samples\Plugins\Effect\Script\EffectShaderPropertyStr.cs" />
     <Compile Include="Assets\Download Asset\Particlecollection_Free samples\Plugins\Effect\Script\RenderEffect.cs" />
     <Compile Include="Assets\Download Asset\Particlecollection_Free samples\Plugins\Effect\Script\TransformExtension.cs" />
+    <Compile Include="Assets\Download Asset\PowerUp\Scripts\CustomizablePowerUp.cs" />
+    <Compile Include="Assets\Download Asset\PowerUp\Scripts\PowerUpManager.cs" />
+    <Compile Include="Assets\Download Asset\PowerUp\Scripts\PowerUpRotation.cs" />
+    <Compile Include="Assets\Download Asset\PowerUp\Scripts\ScaleParticles.cs" />
+    <Compile Include="Assets\Download Asset\PowerUp\Scripts\TakeablePowerUp.cs" />
+    <Compile Include="Assets\Download Asset\PowerUp\Scripts\Utility\Singleton.cs" />
     <Compile Include="Assets\Download Asset\RainMaker\Demo\DemoScript.cs" />
     <Compile Include="Assets\Download Asset\RainMaker\Demo\DemoScript2D.cs" />
     <Compile Include="Assets\Download Asset\RainMaker\Demo\DemoScriptStartRainOnSpaceBar.cs" />
@@ -242,6 +248,7 @@
     <Compile Include="Assets\Download Asset\Standard Assets\Vehicles\Car\Scripts\SkidTrail.cs" />
     <Compile Include="Assets\Download Asset\Standard Assets\Vehicles\Car\Scripts\Suspension.cs" />
     <Compile Include="Assets\Download Asset\Standard Assets\Vehicles\Car\Scripts\WheelEffects.cs" />
+    <Compile Include="Assets\FullTiltBoogie\RotateFlareHolder.cs" />
     <Compile Include="Assets\miniMap-TurzoStudio\Scripts\FollowCharacter.cs" />
     <Compile Include="Assets\miniMap-TurzoStudio\Scripts\GUIManager.cs" />
     <Compile Include="Assets\miniMap-TurzoStudio\Scripts\miniCameraScript.cs" />
@@ -261,12 +268,6 @@
     <Compile Include="Assets\PE2D\Particle Effects\Scripts\Particles\ParticleFactory.cs" />
     <Compile Include="Assets\PE2D\Particle Effects\Scripts\Particles\ParticleRenderer.cs" />
     <Compile Include="Assets\PE2D\Particle Effects\Scripts\Pulsate.cs" />
-    <Compile Include="Assets\PowerUp\Scripts\CustomizablePowerUp.cs" />
-    <Compile Include="Assets\PowerUp\Scripts\PowerUpManager.cs" />
-    <Compile Include="Assets\PowerUp\Scripts\PowerUpRotation.cs" />
-    <Compile Include="Assets\PowerUp\Scripts\ScaleParticles.cs" />
-    <Compile Include="Assets\PowerUp\Scripts\TakeablePowerUp.cs" />
-    <Compile Include="Assets\PowerUp\Scripts\Utility\Singleton.cs" />
     <Compile Include="Assets\Scripts\DontDestroyOnLoad.cs" />
     <Compile Include="Assets\Scripts\Game Manage\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Game Manage\InitManager.cs" />
@@ -317,9 +318,6 @@
     <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerKickAttack1.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerKickAttack2.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerKickAttack3.cs" />
-    <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerPunchAttack1.cs" />
-    <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerPunchAttack2.cs" />
-    <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerPunchAttack3.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerPunchAttack4.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Camera\MiniMapCamera.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Camera\PlayerCamera.cs" />
@@ -401,6 +399,7 @@
     <None Include="Assets\miniMap-TurzoStudio\Read Me First.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Apply.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Simple.shader" />
+    <None Include="Assets\FullTiltBoogie\Helpers\readme.txt" />
     <None Include="Assets\UnityChan\license.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\frag_ao.cginc" />
     <None Include="Assets\Download Asset\Standard Assets\Vehicles\Aircraft\AircraftGuidelines.txt" />
@@ -778,18 +777,6 @@
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{A0B8A3E7-17B9-BF72-D2A8-0FBBBAC84EF6}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
-    </ProjectReference>
-    <ProjectReference Include="UniRx.csproj">
-      <Project>{259F24FD-8FBF-05F4-86DE-79F6E606CD78}</Project>
-      <Name>UniRx</Name>
-    </ProjectReference>
-    <ProjectReference Include="UniRx.Async.csproj">
-      <Project>{E7CBB9CF-26E8-3B68-F8AD-66E6359184B8}</Project>
-      <Name>UniRx.Async</Name>
-    </ProjectReference>
-    <ProjectReference Include="UniRx.Async.Editor.csproj">
-      <Project>{A13565E0-9BA9-B0AC-C42C-BEC2A0C6E051}</Project>
-      <Name>UniRx.Async.Editor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

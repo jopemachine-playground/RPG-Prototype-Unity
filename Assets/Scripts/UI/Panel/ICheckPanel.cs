@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-using UniRx;
 namespace UnityChanRPG
 {
     abstract public class ICheckPanel : MonoBehaviour

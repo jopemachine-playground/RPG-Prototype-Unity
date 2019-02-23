@@ -10,6 +10,11 @@ namespace UnityChanRPG
         override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             Player.mInstance.state = PlayerSkillState.KickAttack3;
+
+            if (Input.GetButtonDown("KickAttack"))
+            {
+                animator.SetInteger("AttackState", 4);
+            }
         }
 
         override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

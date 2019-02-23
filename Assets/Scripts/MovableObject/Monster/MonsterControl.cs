@@ -40,7 +40,7 @@ namespace UnityChanRPG
         private const float GroundCheckDistance = 0.1f;
 
         // 공격 거리
-        public const float attackDistance = 2.0f;
+        public float attackDistance = 1.5f;
         // 플레이어 탐지 거리
         public const float detectionDistance = 10.0f;
         // 대쉬 어택 판정 거리
@@ -60,6 +60,11 @@ namespace UnityChanRPG
         private const float RoamingSpeedMultiplier = 2.0f;
         private const float DashAttackSpeedMultiplier = 6.0f;
         private const float ChasingSpeedMultiplier = 2.5f;
+
+        // 공격 전, 랜덤한 시간 동안 기다림
+        private bool IsWaiting;
+        private float randomWaitingTime;
+        private float randomWaitingTime_Timer;
 
         private void OnEnable()
         {
@@ -83,6 +88,7 @@ namespace UnityChanRPG
             monsterTr = GetComponent<Transform>();
             animator = GetComponent<Animator>();
             nvAgent = GetComponent<NavMeshAgent>();
+            nvAgent.stoppingDistance = attackDistance;
             controller = GetComponent<CharacterController>();
             status = GetComponent<Status>();
             OrcWeapon = GetComponentInChildren<AttackArea>();
@@ -191,6 +197,20 @@ namespace UnityChanRPG
             {
                 desireVelocity.x = 0;
                 desireVelocity.z = 0;
+            }
+
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("Wait"))
+            {
+                if (randomWaitingTime_Timer > randomWaitingTime)
+                {
+                    animator.SetBool("IsWaiting", false);
+                    randomWaitingTime_Timer = 0;
+                }
+                else
+                {
+                    animator.SetBool("IsWaiting", true);
+                    randomWaitingTime_Timer += Time.deltaTime;
+                }
             }
 
             #endregion
@@ -491,6 +511,11 @@ namespace UnityChanRPG
 
         }
 
+        // Wait 모션이 시작될 때 호출되어 기다릴, 시간을 결정
+        private void DecideRandomWaitTIme()
+        {
+            randomWaitingTime = UnityEngine.Random.Range(2f, 5f);
+        }
 
     }
 }

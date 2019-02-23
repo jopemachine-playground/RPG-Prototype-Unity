@@ -40,7 +40,6 @@ namespace UnityChanRPG
         private bool IsJump;
         private bool IsOnGrounded;
         private bool IsKickAttacking;
-        private bool IsPunchAttacking;
         private bool IsAirAttacking;
         private bool IsDashAttack;
         private bool IsFalling;
@@ -198,12 +197,6 @@ namespace UnityChanRPG
                     IsKickAttacking = true;
                     BreakRestTime();
                 }
-
-                else if (Input.GetButtonDown("PunchAttack"))
-                {
-                    IsPunchAttacking = true;
-                    BreakRestTime();
-                }
             }
 
             HandleDeathEvent();
@@ -272,7 +265,6 @@ namespace UnityChanRPG
             UpdateAnimator();
 
             IsKickAttacking = false;
-            IsPunchAttacking = false;
             IsAirAttacking = false;
             IsDashAttack = false;
             IsJump = false;
@@ -332,7 +324,6 @@ namespace UnityChanRPG
             UpdateAnimator();
 
             IsKickAttacking = false;
-            IsPunchAttacking = false;
             IsAirAttacking = false;
             IsDashAttack = false;
             IsJump = false;
@@ -365,11 +356,6 @@ namespace UnityChanRPG
                 {
                     currentVelocity = Vector3.zero;
                     Animator.SetInteger("AttackState", 1);
-                }
-                else if (IsPunchAttacking == true)
-                {
-                    currentVelocity = Vector3.zero;
-                    Animator.SetInteger("AttackState", 4);
                 }
             }
 
@@ -502,38 +488,6 @@ namespace UnityChanRPG
                     return true;
                 }
 
-                if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Punch Attack1"))
-                {
-                    LeftFoot.OffAttack();
-                    LeftHand.OnAttack();
-                    RightFoot.OffAttack();
-                    RightHand.OffAttack();
-
-                    AnimationNameString = "Punch Attack1";
-                    return true;
-                }
-
-                if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Punch Attack2"))
-                {
-                    LeftFoot.OffAttack();
-                    LeftHand.OffAttack();
-                    RightFoot.OffAttack();
-                    RightHand.OnAttack();
-
-                    AnimationNameString = "Punch Attack2";
-                    return true;
-                }
-
-                if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Punch Attack3"))
-                {
-                    LeftFoot.OffAttack();
-                    LeftHand.OffAttack();
-                    RightFoot.OffAttack();
-                    RightHand.OnAttack();
-
-                    AnimationNameString = "Punch Attack3";
-                    return true;
-                }
 
                 if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Punch Attack4"))
                 {

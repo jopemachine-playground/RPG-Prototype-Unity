@@ -72,7 +72,6 @@
     <None Include="Assets\Plugins\BitmapFontImporter\Shaders\Font5.shader" />
     <None Include="Assets\Plugins\BitmapFontImporter\Shaders\Font3.shader" />
     <None Include="Assets\Plugins\Pixelplacement\iTween\ReadMe!\ReadMe!.txt" />
-    <None Include="Assets\Plugins\UniRx\ReadMe.txt" />
     <None Include="Assets\Plugins\BitmapFontImporter\Examples\font3\font3.fnt" />
     <None Include="Assets\Plugins\BitmapFontImporter\Examples\Font2\font2.fnt" />
     <Reference Include="Unity.TextMeshPro.Editor">
@@ -336,20 +335,6 @@
     <Reference Include="Boo.Lang">
       <HintPath>C:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/unity/Boo.Lang.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="UniRx.csproj">
-      <Project>{259F24FD-8FBF-05F4-86DE-79F6E606CD78}</Project>
-      <Name>UniRx</Name>
-    </ProjectReference>
-    <ProjectReference Include="UniRx.Async.csproj">
-      <Project>{E7CBB9CF-26E8-3B68-F8AD-66E6359184B8}</Project>
-      <Name>UniRx.Async</Name>
-    </ProjectReference>
-    <ProjectReference Include="UniRx.Async.Editor.csproj">
-      <Project>{A13565E0-9BA9-B0AC-C42C-BEC2A0C6E051}</Project>
-      <Name>UniRx.Async.Editor</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
