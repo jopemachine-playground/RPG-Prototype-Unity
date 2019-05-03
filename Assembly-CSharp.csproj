@@ -286,7 +286,6 @@
      <Compile Include="Assets\Scripts\MovableObject\Damage.cs" />
      <Compile Include="Assets\Scripts\MovableObject\FadeInOutObject.cs" />
      <Compile Include="Assets\Scripts\MovableObject\HitArea.cs" />
-     <Compile Include="Assets\Scripts\MovableObject\IInteractable.cs" />
      <Compile Include="Assets\Scripts\MovableObject\Monster\Behavior\MonsterAttack.cs" />
      <Compile Include="Assets\Scripts\MovableObject\Monster\Behavior\MonsterChasing.cs" />
      <Compile Include="Assets\Scripts\MovableObject\Monster\Behavior\MonsterDamaged.cs" />

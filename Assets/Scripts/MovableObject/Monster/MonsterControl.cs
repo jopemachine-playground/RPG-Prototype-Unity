@@ -11,7 +11,7 @@ using UnityEngine.AI;
 
 namespace UnityChanRPG
 {
-    public class MonsterControl : MonoBehaviour, IInteractAble
+    public class MonsterControl : MonoBehaviour
     {
         public MonsterAdapter monsterAdpt;
         public MonsterState AIState;
@@ -92,6 +92,7 @@ namespace UnityChanRPG
             controller = GetComponent<CharacterController>();
             status = GetComponent<Status>();
             OrcWeapon = GetComponentInChildren<AttackArea>();
+            OrcWeapon.handleAttackParticle += HandleAttackParticle;
         }
 
         IEnumerator CheckMonsterAI()

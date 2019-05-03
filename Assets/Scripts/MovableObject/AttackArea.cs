@@ -17,7 +17,9 @@ namespace UnityChanRPG
         private Status attackerStatus;
         private new Collider collider;
         private Animator attacker;
-        private IInteractAble attackerObj;
+
+        public delegate void HandleAttackParticle(ref Damage damage);
+        public HandleAttackParticle handleAttackParticle;
 
         private void Awake()
         {
@@ -25,14 +27,6 @@ namespace UnityChanRPG
             gameObject.GetComponentInParent<Animator>();
             collider = GetComponent<Collider>();
             attacker = GetComponentInParent<Animator>();
-
-            // 아래 코드를 IInteractAble 인터페이스를 이용한 방식이 아닌 delegate를 이용한 방식으로 바꾸고 싶다.
-            attackerObj = GetComponentInParent<MonsterControl>();
-
-            if (attackerObj == null)
-            {
-                attackerObj = GetComponentInParent<PlayerControl>();
-            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -48,7 +42,7 @@ namespace UnityChanRPG
 
             Damage damage = attackerStatus.DecideDamageValue(attacker, other.gameObject.GetComponent<Animator>());
 
-            attackerObj.HandleAttackParticle(ref damage);
+            handleAttackParticle(ref damage);
 
             // PlayerControl이나 MonsterControl 둘 중 하나의 Damaged와, HitArea의 Damaged를 호출한다
             other.SendMessage("Damaged", damage);

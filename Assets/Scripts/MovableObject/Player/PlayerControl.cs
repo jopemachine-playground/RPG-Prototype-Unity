@@ -14,7 +14,7 @@ namespace UnityChanRPG
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(CharacterController))]
     [RequireComponent(typeof(Player))]
-    public class PlayerControl : MonoBehaviour, IInteractAble
+    public class PlayerControl : MonoBehaviour
     {
         #region Variables
         [NonSerialized]
@@ -122,15 +122,19 @@ namespace UnityChanRPG
                 {
                     case "Character1_RightFoot":
                         RightFoot = area[i];
+                        RightFoot.handleAttackParticle += HandleAttackParticle;
                         break;
                     case "Character1_LeftFoot":
                         LeftFoot = area[i];
+                        LeftFoot.handleAttackParticle += HandleAttackParticle;
                         break;
                     case "Character1_LeftHand":
                         LeftHand = area[i];
+                        LeftHand.handleAttackParticle += HandleAttackParticle;
                         break;
                     case "Character1_RightHand":
                         RightHand = area[i];
+                        RightHand.handleAttackParticle += HandleAttackParticle;
                         break;
                 }
             }
