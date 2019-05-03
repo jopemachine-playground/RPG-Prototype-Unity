@@ -171,7 +171,7 @@ namespace UnityChanRPG
 
             CheckGroundStatus();
 
-            HandleAttackEvent();
+            ToggleAttackArea();
 
             animator.SetBool("OnGround", IsGrounded);
 
@@ -388,7 +388,7 @@ namespace UnityChanRPG
 
         #region Handle Attack Event
 
-        public bool HandleAttackEvent()
+        public bool ToggleAttackArea()
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack") |
                 animator.GetCurrentAnimatorStateInfo(0).IsName("Dash Attack"))

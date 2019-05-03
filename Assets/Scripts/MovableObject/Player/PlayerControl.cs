@@ -184,7 +184,7 @@ namespace UnityChanRPG
 
             waitingTimeForWaitingMotionTimer += Time.deltaTime;
 
-            HandleAttackEvent();
+            ToggleAttackArea();
 
             if (ControlFlags.IsOnGround(Animator))
             {
@@ -338,7 +338,7 @@ namespace UnityChanRPG
             damage.EmittingParticleID = skill.EmittingParticleID;
         }
 
-        public bool HandleAttackEvent()
+        public bool ToggleAttackArea()
         {
             if (Animator.GetCurrentAnimatorStateInfo(0).IsTag("DamageAttack") |
                 Animator.GetCurrentAnimatorStateInfo(0).IsTag("DownAttack"))
@@ -396,11 +396,6 @@ namespace UnityChanRPG
                     RightHand.OffAttack();
 
                     AnimationNameString = "Dash Attack";
-                    return true;
-                }
-
-                if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Air Attack"))
-                {
                     return true;
                 }
 
