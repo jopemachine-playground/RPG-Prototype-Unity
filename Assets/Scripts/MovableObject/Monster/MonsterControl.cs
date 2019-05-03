@@ -24,6 +24,7 @@ namespace UnityChanRPG
         private CharacterController controller;
         private Animator animator;
         private AttackArea OrcWeapon;
+        private HitArea OrcHitArea;
 
         private bool IsGrounded;
         private bool IsAttacking;
@@ -91,8 +92,10 @@ namespace UnityChanRPG
             nvAgent.stoppingDistance = attackDistance;
             controller = GetComponent<CharacterController>();
             status = GetComponent<Status>();
+            OrcHitArea = GetComponent<HitArea>();
             OrcWeapon = GetComponentInChildren<AttackArea>();
-            OrcWeapon.handleAttackParticle += HandleAttackParticle;
+            OrcWeapon.handleAttackEvent += HandleAttackParticle;
+            OrcHitArea.handleAttackedEvent += Damaged;
         }
 
         IEnumerator CheckMonsterAI()

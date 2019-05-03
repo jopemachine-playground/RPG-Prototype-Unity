@@ -9,7 +9,6 @@ using UnityEngine;
 
 namespace UnityChanRPG
 {
-    [RequireComponent(typeof(IInteractAble))]
     public class SightArea : MonoBehaviour
     {
         // 시야 거리, 각

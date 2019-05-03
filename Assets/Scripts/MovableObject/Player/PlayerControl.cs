@@ -72,6 +72,8 @@ namespace UnityChanRPG
         private AttackArea LeftFoot;
         private AttackArea RightFoot;
 
+        private HitArea playerHitArea;
+
         public CharacterController controller;
         private const float gravityValue = 15f;
         public Vector3 currentVelocity;
@@ -101,6 +103,7 @@ namespace UnityChanRPG
             playerTr = GetComponent<Transform>();
             controller = GetComponent<CharacterController>();
             rigidbody = GetComponent<Rigidbody>();
+            playerHitArea = GetComponent<HitArea>();
 
             cam = GameObject.FindGameObjectWithTag("MainCamera").gameObject.GetComponent<Transform>();
 
@@ -115,6 +118,7 @@ namespace UnityChanRPG
             waitingTimeForWaitingMotionTimer = 0;
 
             AttackArea[] area = gameObject.GetComponentsInChildren<AttackArea>();
+            playerHitArea.handleAttackedEvent += Damaged;
 
             for (int i = 0; i < area.Length; i++)
             {
@@ -122,19 +126,19 @@ namespace UnityChanRPG
                 {
                     case "Character1_RightFoot":
                         RightFoot = area[i];
-                        RightFoot.handleAttackParticle += HandleAttackParticle;
+                        RightFoot.handleAttackEvent += HandleAttackParticle;
                         break;
                     case "Character1_LeftFoot":
                         LeftFoot = area[i];
-                        LeftFoot.handleAttackParticle += HandleAttackParticle;
+                        LeftFoot.handleAttackEvent += HandleAttackParticle;
                         break;
                     case "Character1_LeftHand":
                         LeftHand = area[i];
-                        LeftHand.handleAttackParticle += HandleAttackParticle;
+                        LeftHand.handleAttackEvent += HandleAttackParticle;
                         break;
                     case "Character1_RightHand":
                         RightHand = area[i];
-                        RightHand.handleAttackParticle += HandleAttackParticle;
+                        RightHand.handleAttackEvent += HandleAttackParticle;
                         break;
                 }
             }

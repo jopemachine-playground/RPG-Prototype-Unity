@@ -15,6 +15,9 @@ namespace UnityChanRPG
 
         private CharacterController hitPoint;
 
+        public delegate void HandleAttackedEvent(Damage damage);
+        public HandleAttackedEvent handleAttackedEvent;
+
         private void OnEnable()
         {
             status = GetComponent<Status>();
@@ -31,6 +34,8 @@ namespace UnityChanRPG
             if (damage.attacker.gameObject.tag == damage.attackee.gameObject.tag) return;
 
             status.CalculateDamage(damage);
+
+            handleAttackedEvent(damage);
 
             if (damage.EmittingParticleID != 0)
             {

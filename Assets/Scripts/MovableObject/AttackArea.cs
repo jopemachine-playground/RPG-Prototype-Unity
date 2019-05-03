@@ -18,8 +18,8 @@ namespace UnityChanRPG
         private new Collider collider;
         private Animator attacker;
 
-        public delegate void HandleAttackParticle(ref Damage damage);
-        public HandleAttackParticle handleAttackParticle;
+        public delegate void HandleAttackEvent(ref Damage damage);
+        public HandleAttackEvent handleAttackEvent;
 
         private void Awake()
         {
@@ -36,16 +36,15 @@ namespace UnityChanRPG
             // 하지만, 이렇게 하면 플레이어가 다수의 몬스터를 한 번에 공격할 수 없으므로 수정이 필요함
             if (attacker.GetBool("DamagedProcessed") == true) return;
 
-            HitArea hit = other.gameObject.GetComponent<HitArea>();
+            HitArea hitArea = other.gameObject.GetComponent<HitArea>();
 
-            if (hit == null) return;
+            if (hitArea == null) return;
 
             Damage damage = attackerStatus.DecideDamageValue(attacker, other.gameObject.GetComponent<Animator>());
 
-            handleAttackParticle(ref damage);
+            this.handleAttackEvent(ref damage);
 
-            // PlayerControl이나 MonsterControl 둘 중 하나의 Damaged와, HitArea의 Damaged를 호출한다
-            other.SendMessage("Damaged", damage);
+            hitArea.Damaged(damage);
         }
 
         // 각 MoveableObject들은 공격 애니메이션의 진행도에 따라 OnAttack, OffAttack을 호출해 처리하도록 한다
