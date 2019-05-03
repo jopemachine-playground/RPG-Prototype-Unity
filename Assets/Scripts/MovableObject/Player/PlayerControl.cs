@@ -226,8 +226,6 @@ namespace UnityChanRPG
                 }
             }
 
-            Debug.Log(IsOnGrounded);
-
             if (ControlFlags.IsMoveable(Animator, IsOnGrounded))
             {
                 if (ControlFlags.IsRefreshable())

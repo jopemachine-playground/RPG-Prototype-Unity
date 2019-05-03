@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UnityChanRPG
 {
-    public class Tooltip : MonoBehaviour
+    public class Tooltip : MonoBehaviour, IManualInitializeable
     {
         public Item item;
         public Text itemNameText;

@@ -12,7 +12,7 @@ using UnityEngine.EventSystems;
 
 namespace UnityChanRPG
 {
-    public class DraggingItem : MonoBehaviour, IDropHandler
+    public class DraggingItem : MonoBehaviour, IDropHandler, IManualInitializeable
     {
         public int indexInInventory;
         public Item item;

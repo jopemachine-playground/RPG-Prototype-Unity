@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UnityChanRPG
 {
-    public class Inventory : MonoBehaviour
+    public class Inventory : MonoBehaviour, IManualInitializeable
     {
         public static Inventory mInstance;
 

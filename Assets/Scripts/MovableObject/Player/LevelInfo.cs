@@ -26,7 +26,7 @@ namespace UnityChanRPG
         public static int[] DefalutFatalBlowProb;
         public static int[] DefaultFatalBlowValue;
 
-        public void Initialize()
+        public void Awake()
         {
             if (mInstance != null)
             {

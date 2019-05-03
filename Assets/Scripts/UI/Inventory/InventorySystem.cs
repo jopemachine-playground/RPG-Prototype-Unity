@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 namespace UnityChanRPG
 {
-    public class InventorySystem : MonoBehaviour
+    public class InventorySystem : MonoBehaviour, IManualInitializeable
     {
         public static InventorySystem Instance;
 

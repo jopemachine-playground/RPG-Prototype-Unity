@@ -261,10 +261,11 @@
      <Compile Include="Assets\PE2D\Particle Effects\Scripts\Particles\ParticleRenderer.cs" />
      <Compile Include="Assets\PE2D\Particle Effects\Scripts\Pulsate.cs" />
      <Compile Include="Assets\Scripts\DontDestroyOnLoad.cs" />
+     <Compile Include="Assets\Scripts\ExtendedMonoBehavior.cs" />
      <Compile Include="Assets\Scripts\Game Manage\AudioManager.cs" />
-     <Compile Include="Assets\Scripts\Game Manage\InitManager.cs" />
+     <Compile Include="Assets\Scripts\Game Manage\IManualInitializeable.cs" />
+     <Compile Include="Assets\Scripts\Game Manage\InitDelegator.cs" />
      <Compile Include="Assets\Scripts\Game Manage\MusicManager.cs" />
-     <Compile Include="Assets\Scripts\Inventory\DragInventory.cs" />
      <Compile Include="Assets\Scripts\Inventory\Inventory.cs" />
      <Compile Include="Assets\Scripts\Inventory\Item\DraggingItem.cs" />
      <Compile Include="Assets\Scripts\Inventory\Item\Item.cs" />
@@ -331,6 +332,7 @@
      <Compile Include="Assets\Scripts\Particle\ParticlePool.cs" />
      <Compile Include="Assets\Scripts\Particle\PickUpItem\PickUpItemParticleList.cs" />
      <Compile Include="Assets\Scripts\UI\DamageIndicator.cs" />
+     <Compile Include="Assets\Scripts\UI\DraggingEventHandler.cs" />
      <Compile Include="Assets\Scripts\UI\FloatingTextTweener.cs" />
      <Compile Include="Assets\Scripts\UI\Inventory\EquipmentSystem.cs" />
      <Compile Include="Assets\Scripts\UI\Inventory\Hotbar.cs" />
