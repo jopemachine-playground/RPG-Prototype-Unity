@@ -60,7 +60,7 @@ namespace UnityChanRPG
         private float staminaUseMultiplier = 10f;
 
         // 레이 캐스팅을 통해 측정된 거리가 GroundCheckDistance 보다 작다면 지면에 있는 것으로 처리
-        private float GroundCheckDistance;
+        public const float GroundCheckDistance = 1.0f;
         private float DistanceFromGround;
 
         // 일정 시간 이상 키보드 Input이 들어오지 않으면 랜덤으로 3개의 Waiting motion 중 하나를 재생
@@ -138,6 +138,7 @@ namespace UnityChanRPG
 
         private void Update()
         {
+
             CheckTerrainStatus();
 
             if (NoInputMode == true || IsSliding == true)
@@ -146,10 +147,7 @@ namespace UnityChanRPG
             }
 
             // 랜딩, 땅에서 걸어 다닐 때
-            if (DistanceFromGround <= GroundCheckDistance && rigidbody.velocity.y <= 0.001f && (TerrainSlope < controller.slopeLimit))
-            {
-                // 점프 중엔 DistanceFromGround <= GroundCheckDistance 라도 IsOnGrounded를 false로 체크해줘야 한다.
-                // 따라서, currentVelocity.y가 음의 방향일 때만 IsOnGrounded를 true로 체크함 (0.001f으로 놓은 이유는 0보다 미세하게 큰 값이 나올 수 있기 때문)
+            if (ControlFlags.IsOnGroundable(DistanceFromGround, rigidbody, TerrainSlope, controller.slopeLimit)) {
                 IsOnGrounded = true;
                 IsFalling = false;
                 rigidbody.velocity = Vector3.zero;
@@ -157,8 +155,9 @@ namespace UnityChanRPG
                 controller.enabled = true;
                 IsSliding = false;
             }
+   
             // 미끄러짐 처리. 
-            else if (DistanceFromGround <= GroundCheckDistance && (TerrainSlope > controller.slopeLimit))
+            else if (ControlFlags.IsSlideable(DistanceFromGround, TerrainSlope, controller.slopeLimit))
             {
                 IsOnGrounded = false;
                 rigidbody.useGravity = true;
@@ -167,8 +166,9 @@ namespace UnityChanRPG
                 // 미끄러진 다음 일정 시간 동안 update, fixedupdate에서 입력을 받지 않고, TerrainSlope가 controller.slopeLimit와 충분한 간격을 두도록 강제함
                 Invoke("SlideOff", SlideTime);
             }
+
             // 공중에 있을 때
-            else
+            else if(ControlFlags.IsOnAirable(DistanceFromGround, rigidbody))
             {
                 IsOnGrounded = false;
                 rigidbody.useGravity = true;
@@ -180,19 +180,11 @@ namespace UnityChanRPG
 
             waitingTimeForWaitingMotionTimer += Time.deltaTime;
 
-            float h = Input.GetAxis("Horizontal");
-            float v = Input.GetAxis("Vertical");
-
-            if (IsJump == false)
-            {
-                IsJump = Input.GetButtonDown("Jump");
-            }
-
             HandleAttackEvent();
 
-            if (Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") == true)
+            if (ControlFlags.IsOnGround(Animator))
             {
-                if (Input.GetButtonDown("KickAttack"))
+                if (ControlKeyStates.KickAttackButtonClicked())
                 {
                     IsKickAttacking = true;
                     BreakRestTime();
@@ -201,58 +193,51 @@ namespace UnityChanRPG
 
             HandleDeathEvent();
 
-            if ((h != 0 | v != 0))
+            if (!ControlKeyStates.ArrowButtonClicked())
             {
                 BreakRestTime();
             }
 
             // 기본동작은 걷기
             CamForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
-            MoveVector = (v * CamForward + h * cam.right) / 2;
+            MoveVector = (Input.GetAxis("Vertical") * CamForward + Input.GetAxis("Horizontal") * cam.right) / 2;
 
             // 지상에서 왼쪽 쉬프트 버튼을 누르면 달리기를 하며 속도가 두 배가 되지만, 스태미나를 소모한다.
             // 스태미나 부족 상태에서 달리려하면 속도가 느려지고, 계속되면 Relax 애니메이션에 들어가, 스태미너를 회복할 때 까지 움직일 수 없게 됨
-            if (Input.GetKey(KeyCode.LeftShift) &&
-                Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") &&
-                status.Stamina > 30 &&
-                (h != 0 | v != 0))
+            if (ControlFlags.IsRunnable(Animator, status))
             {
                 status.Stamina -= staminaUseMultiplier * Time.deltaTime;
                 MoveVector *= 2;
             }
-            else if (Input.GetKey(KeyCode.LeftShift) &&
-                Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded") &&
-                status.Stamina < 30 &&
-                (h != 0 | v != 0))
+            else if (ControlFlags.IsGaspable(Animator, status))
             {
                 status.Stamina -= staminaUseMultiplier * Time.deltaTime;
                 MoveVector *= 0.5f;
             }
             else
             {
-                if (status.Stamina + staminaRecoverMultiplier * Time.deltaTime < player.StaminaMax)
+                if (ControlFlags.IsStaminaRecoverable(status, staminaRecoverMultiplier))
                 {
                     status.Stamina += staminaRecoverMultiplier * Time.deltaTime;
                 }
-                else if (status.Stamina < player.StaminaMax)
+                else if (ControlFlags.IsStaminaFull(status))
                 {
                     status.Stamina = player.StaminaMax;
                 }
             }
 
-            // Attack 중이라면 움직일 수 없음
-            if (Animator.GetInteger("AttackState") == 0 && IsOnGrounded == true &&
-               (Animator.GetCurrentAnimatorStateInfo(0).IsTag("Ground") |
-                Animator.GetCurrentAnimatorStateInfo(0).IsName("Dash Attack")))
+            Debug.Log(IsOnGrounded);
+
+            if (ControlFlags.IsMoveable(Animator, IsOnGrounded))
             {
-                if (IsOnGrounded == true && player.playerStatus.Stamina > 15)
-                {
-                    HandleGroundedMovement(MoveVector, IsJump);
-                }
-                else if (IsOnGrounded == true && player.playerStatus.Stamina <= 15)
+                if (ControlFlags.IsRefreshable())
                 {
                     Animator.Play("Refresh");
                     BreakRestTime();
+                }
+                else 
+                {
+                    HandleGroundedMovement(MoveVector, IsJump);
                 }
             }
 
@@ -270,66 +255,6 @@ namespace UnityChanRPG
             IsJump = false;
         }
 
-
-        private void FixedUpdate()
-        {
-
-            if (IsOnGrounded == true && IsSliding == false)
-            {
-                return;
-            }
-
-            // IsOnGrounded에, 아래로 향하는 속도까지 붙어 있을 때 IsFalling이 true라고 한다. 
-            if (rigidbody.velocity.y < -1)
-            {
-                IsFalling = true;
-            }
-
-            BreakRestTime();
-
-            float h = Input.GetAxis("Horizontal");
-            float v = Input.GetAxis("Vertical");
-
-            HandleDeathEvent();
-
-            HandleAttackEvent();
-
-            // 기본동작은 걷기
-            CamForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
-            MoveVector = (v * CamForward + h * cam.right) / 2;
-
-            if (status.Stamina + staminaRecoverMultiplier * Time.deltaTime < player.StaminaMax)
-            {
-                status.Stamina += staminaRecoverMultiplier * Time.deltaTime;
-            }
-            else if (status.Stamina < player.StaminaMax)
-            {
-                status.Stamina = player.StaminaMax;
-            }
-
-            // 공중에서도 왼쪽 쉬프트 버튼을 누르면 살짝 빨라지게 처리함.
-            // 스태미너는 소모 되지 않음 (FixedUpdate에서 Time.deltaTime으로 처리해도 정상적으로 감소하지 않음)
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                MoveVector *= 1.25f;
-            }
-
-            // Attack 중이라면 움직일 수 없음
-            if (Animator.GetInteger("AttackState") == 0 &&
-               (Animator.GetCurrentAnimatorStateInfo(0).IsTag("Airborne Movable")))
-            {
-                HandleAirborneMovement(MoveVector);
-            }
-
-            UpdateAnimator();
-
-            IsKickAttacking = false;
-            IsAirAttacking = false;
-            IsDashAttack = false;
-            IsJump = false;
-
-        }
-
         void UpdateAnimator()
         {
             Animator.SetFloat("Forward", ForwardAmount, 0.1f, Time.smoothDeltaTime);
@@ -341,9 +266,7 @@ namespace UnityChanRPG
             Animator.SetBool("IsFalling", IsFalling);
 
             // 지상에서 대쉬상태에서 공격버튼이 눌러지면 대쉬어택
-            if (IsKickAttacking == true &&
-                IsOnGrounded &&
-                Input.GetKey(KeyCode.LeftShift))
+            if (IsOnGrounded && ControlKeyStates.DashAttackButtonClicked())
             {
                 IsDashAttack = true;
             }
@@ -362,33 +285,6 @@ namespace UnityChanRPG
             Animator.SetBool("IsDashAttack", IsDashAttack);
         }
 
-
-        void HandleAirborneMovement(Vector3 moveVector)
-        {
-            if (moveVector.magnitude > 1f) moveVector.Normalize();
-            moveVector = transform.InverseTransformDirection(moveVector);
-            moveVector = Vector3.ProjectOnPlane(moveVector, GroundNormal);
-            TurnAmount = Mathf.Atan2(moveVector.x, moveVector.z);
-            ForwardAmount = moveVector.z;
-
-            ApplyExtraTurnRotation();
-
-            if (Input.GetButtonDown("KickAttack"))
-            {
-                IsAirAttacking = true;
-            }
-
-            // 추가적인 중력 부여 해, 높은 곳에서 낙하해도 발이 Terrain에 묻히지 않게 하기 위해, Mass를 일정 값 이상으로 잡아야 하는데 이 때 움직임이 느려지는 것을 방지하려 했음
-            rigidbody.AddForce(rigidbody.mass * Physics.gravity);
-
-            if (TerrainSlope < controller.slopeLimit)
-            {
-                rigidbody.velocity =
-                   new Vector3(0.65f * MoveSpeed * MoveVector.x,
-                   rigidbody.velocity.y,
-                   0.65f * MoveSpeed * MoveVector.z);
-            }
-        }
 
         private void SlideOff()
         {
@@ -418,16 +314,6 @@ namespace UnityChanRPG
             {
                 currentVelocity = Vector3.Lerp(currentVelocity, new Vector3(MoveSpeed * MoveVector.x, 0, MoveSpeed * MoveVector.z), Time.deltaTime * 5f);
 
-                // 지상에서의 점프 처리 
-                if (IsJump == true &&
-                    Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
-                {
-                    currentVelocity = Vector3.zero;
-                    controller.enabled = false;
-                    rigidbody.useGravity = true;
-                    rigidbody.velocity = new Vector3(currentVelocity.x, JumpPower, currentVelocity.z);
-                    return;
-                }
                 controller.Move(currentVelocity * Time.deltaTime + snapGround);
             }
 
@@ -680,7 +566,7 @@ namespace UnityChanRPG
             // 지상에서 GroundCheckDistance 가 DistanceFromGround보다 작으면 버그가 생김.
             // GroundCheckDistance를 0.5 정도로 맞추면 버그가 없어지지만, 점프할 때 공중에 착지하는 버그가 있어 아래처럼 씀 
 
-            GroundCheckDistance = (TerrainSlope / 100f) + 0.15f;
+            // GroundCheckDistance = (TerrainSlope / 100f) + 0.15f;
 
         }
 
