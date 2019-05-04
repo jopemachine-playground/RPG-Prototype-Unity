@@ -118,7 +118,7 @@ namespace UnityChanRPG
             waitingTimeForWaitingMotionTimer = 0;
 
             AttackArea[] area = gameObject.GetComponentsInChildren<AttackArea>();
-            playerHitArea.handleAttackedEvent += Damaged;
+            playerHitArea.handleAttackedEvent += HandleAttackedEvent;
 
             for (int i = 0; i < area.Length; i++)
             {
@@ -420,7 +420,7 @@ namespace UnityChanRPG
         #endregion
 
         #region Handle Attacked Event
-        public void Damaged(Damage damage)
+        public void HandleAttackedEvent(Damage damage)
         {
             BreakRestTime();
 

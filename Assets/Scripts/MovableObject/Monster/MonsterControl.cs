@@ -95,7 +95,7 @@ namespace UnityChanRPG
             OrcHitArea = GetComponent<HitArea>();
             OrcWeapon = GetComponentInChildren<AttackArea>();
             OrcWeapon.handleAttackEvent += HandleAttackParticle;
-            OrcHitArea.handleAttackedEvent += Damaged;
+            OrcHitArea.handleAttackedEvent += HandleAttackedEvent;
         }
 
         IEnumerator CheckMonsterAI()
@@ -421,9 +421,9 @@ namespace UnityChanRPG
         #endregion
 
 
-        #region Handle Attacked Evnet
+        #region Handle Attacked Animation
 
-        public void Damaged(Damage damage)
+        public void HandleAttackedEvent(Damage damage)
         {
             if (IsDied == true)
             {
