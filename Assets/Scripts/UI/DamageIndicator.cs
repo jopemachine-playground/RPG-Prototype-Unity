@@ -24,7 +24,7 @@ namespace UnityChanRPG
 
         public List<GameObject> floatingTextsObj;
 
-        private void Awake()
+        private void Start()
         {
             defaultTextValue = 10;
 
@@ -39,10 +39,7 @@ namespace UnityChanRPG
                 DontDestroyOnLoad(this.gameObject);
                 mInstance = this;
             }
-        }
 
-        private void Start()
-        {
             floatingTextsObj = new List<GameObject>(defaultTextValue);
             floatingTextUpdate();
         }

@@ -11,7 +11,7 @@ using System.IO;
 
 namespace UnityChanRPG
 {
-    class MonsterParser : MonoBehaviour
+    public class MonsterParser : MonoBehaviour
     {
         public static MonsterParser mInstance;
 

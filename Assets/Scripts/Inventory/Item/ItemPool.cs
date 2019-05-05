@@ -52,7 +52,7 @@ namespace UnityChanRPG
             DropItem(ID, spawnPosition, ItemNumber);
         }
 
-        private void Awake()
+        private void Start()
         {
             if (Instance != null)
             {

@@ -31,7 +31,6 @@ namespace UnityChanRPG
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("OnTriggerEnter 실행");
             // 어떤 경우에도, 한 공격 모션에 데미지가 한 번만 들어가게 한다.
             // 그렇게 하기 위해 Animator 파라미터로 'DamagedProcessed' 를 만들어 사용함
             // 하지만, 이렇게 하면 플레이어가 다수의 몬스터를 한 번에 공격할 수 없으므로 수정이 필요함

@@ -515,6 +515,10 @@ namespace UnityChanRPG
 
         }
 
+        private int DecideRandomSpawnItem() {
+            return 0;
+        }
+
         // Wait 모션이 시작될 때 호출되어 기다릴, 시간을 결정
         private void DecideRandomWaitTIme()
         {

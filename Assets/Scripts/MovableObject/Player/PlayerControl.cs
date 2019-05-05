@@ -94,7 +94,7 @@ namespace UnityChanRPG
 
         #endregion
 
-        private void Start()
+        private void Awake()
         {
             NoInputMode = false;
             player = GetComponent<Player>();

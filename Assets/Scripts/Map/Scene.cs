@@ -16,7 +16,7 @@ namespace UnityChanRPG
         public GameObject player;
         [NonSerialized]
         public PlayerControl playerControl;
-        protected Vector3 CHARTER_DEFAULT_SCALE = new Vector3(1f, 1f, 1f);
+        protected Vector3 CHARACTER_DEFAULT_SCALE = new Vector3(1f, 1f, 1f);
 
         // 유니티 에디터에서 셋팅해 줘야함
         public GameObject AboveUIParent;
@@ -40,6 +40,8 @@ namespace UnityChanRPG
         {
             player = GameObject.FindGameObjectWithTag("Player");
             playerControl = player.GetComponent<PlayerControl>();
+            Debug.Assert(player != null);
+            Debug.Assert(playerControl != null);
         }
 
         protected void ScreenCoverInit()
@@ -134,15 +136,18 @@ namespace UnityChanRPG
 
         protected void Goto(Vector3 dest)
         {
+            Debug.Log(playerControl);
             playerControl.controller.enabled = false;
             player.transform.position = dest;
             playerControl.controller.enabled = true;
+            Debug.Log("Goto 정상 실행");
 
             if (AboveUIParent != null)
             {
                 AboveUIParent.BroadcastMessage("OffUI");
             }
         }
+
         protected void Goto(Vector3 dest, Vector3 lookAt)
         {
             playerControl.controller.enabled = false;

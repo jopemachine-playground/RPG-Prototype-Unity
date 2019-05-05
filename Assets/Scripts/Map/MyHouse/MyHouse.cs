@@ -25,7 +25,7 @@ namespace UnityChanRPG
             FadeIn();
             playerControl.NoInputMode = false;
 
-            ControlChange(CHARTER_DEFAULT_SCALE, livingRoomCam.transform, 0, 5);
+            ControlChange(CHARACTER_DEFAULT_SCALE, livingRoomCam.transform, 0, 5);
             MoveCharacter();
             MapNameIndicator.Instance.IndicateMapName(placeName);
         }

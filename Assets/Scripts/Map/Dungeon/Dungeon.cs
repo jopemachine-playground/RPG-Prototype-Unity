@@ -16,6 +16,9 @@ namespace UnityChanRPG
     {
         public static Scene thisScene;
 
+        // 던젼 씬에서 시작할 때 시작할 기본 위치
+        public GameObject defaultPosition;
+
         public Camera cam;
 
         [SerializeField]
@@ -26,12 +29,19 @@ namespace UnityChanRPG
 
         public override void MoveCharacter()
         {
+            // 디버깅, 단위 테스트 등의 이유로 던전에서 시작하면 previousScene이 null이므로 Goto를 defaultPosition에 적용해야 한다
+            if (previousScene == null) 
+            {
+                Goto(defaultPosition.transform.position);
+                return;
+            }
+
+            // previousScene에 해당하는 Entrance 포인트를 찾아, Goto로 캐릭터를 이동시킴
             for (int i = 0; i < adjacentMap.Count; i++)
             {
                 // 엔트리 포인트의 이름을 전환할 씬의 이름과 같게할 것
                 if (adjacentMap[i].nodeName == Scene.previousScene)
                 {
-                    Debug.Log("Goto 실행");
                     Goto(adjacentMap[i].entrance.transform.position);
                     return;
                 }
@@ -51,9 +61,10 @@ namespace UnityChanRPG
 
             cam = GameObject.FindGameObjectWithTag("MainCamera").gameObject.GetComponent<Camera>();
 
-            ControlChange(CHARTER_DEFAULT_SCALE, cam.transform);
+            ControlChange(CHARACTER_DEFAULT_SCALE, cam.transform);
 
             MoveCharacter();
+            
             MapNameIndicator.Instance.IndicateMapName(placeName);
         }
     }

@@ -31,7 +31,7 @@ namespace UnityChanRPG
 
         private InitPool init;
 
-        private void Awake()
+        private void Start()
         {
             PARTICLE_LAYER = LayerMask.NameToLayer("Particle");
 

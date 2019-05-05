@@ -42,7 +42,7 @@ namespace UnityChanRPG
         public SpawnPoint[] SpawnPoint;
         public float WaitingTime;
 
-        private void Awake()
+        private void Start()
         {
             waitingTime = new WaitForSeconds(WaitingTime);
             SpawnPoint = GetComponentsInChildren<SpawnPoint>();
@@ -76,10 +76,6 @@ namespace UnityChanRPG
                 }
             }
 
-        }
-
-        private void Start()
-        {
             for (int i = 0; i < SpawnPoint.Length; i++)
             {
                 for (int j = 1; j < SpawnPoint[i].SpawnObjects.Count + 1; j++)
@@ -91,6 +87,7 @@ namespace UnityChanRPG
                     SpawnPoint[i].SpawnProbAccum[j] += SpawnPoint[i].SpawnProbAccum[j - 1];
                 }
             }
+
             StartCoroutine(this.SpawnOnField(type));
         }
 
@@ -158,13 +155,8 @@ namespace UnityChanRPG
                     {
                         yield return null;
                     }
-
-                    GameObject spawnObj = SearchObject(ID);
-
-                    if (spawnObj != null)
-                    {
-                        spawnObj.transform.position = SpawnPoint[placeIndex].transform.position;
-                        spawnObj.SetActive(true);
+                    else {
+                        Spawn(placeIndex, ID);
                     }
 
                 }
@@ -175,6 +167,23 @@ namespace UnityChanRPG
             }
         }
 
+        public GameObject Spawn(int placeIndex, int ID)
+        {
+            GameObject spawnObj = SearchObject(ID);
+
+            if (spawnObj != null)
+            {
+                spawnObj.transform.position = SpawnPoint[placeIndex].transform.position;
+                spawnObj.SetActive(true);
+                return spawnObj;
+            }
+
+            Debug.Assert(false, "Wrong Spawner ID, this ID: " + ID);
+            return null;
+
+        }
+
+        // 이 ReturnID와 MonsterControl.cs의 DropItem.cs는 다음에라도 반드시 리팩토링 하자
         private int ReturnID(float _prob, int _placeIndex, float _minProbUnit)
         {
 
