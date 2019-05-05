@@ -449,6 +449,12 @@ namespace UnityChanRPG
 
         #endregion
 
+        // Wait 모션이 시작될 때 호출되어 기다릴, 시간을 결정
+        private void DecideRandomWaitTIme()
+        {
+            randomWaitingTime = UnityEngine.Random.Range(2f, 5f);
+        }
+
         private void CheckGroundStatus()
         {
             RaycastHit hitInfo;
@@ -469,20 +475,64 @@ namespace UnityChanRPG
         // 1개 이상 드롭되는 아이템의 경우 드롭될 갯수 역시 확률로 결정
         private void ItemDrop()
         {
-            float probability = ((float)UnityEngine.Random.Range(0, 10000)) / 10000f;
+            float itemProb = decideRandomSpawnItem();
 
-            float[] minProb = new float[monsterAdpt.monster.monsterDropItems.Count];
+            float[] minProb = calcDiffWithItemProb(monsterAdpt.monster, itemProb);
 
-            for (int i = 1; i < monsterAdpt.monster.dropItemProbAccum.Length; i++)
+            int Index = decideDropItemProbablityInterval(minProb);
+
+            if (isNotSpawn(itemProb, minProb))
             {
-                minProb[i - 1] =
-
-                    Math.Abs(monsterAdpt.monster.dropItemProbAccum[i] - probability - 0.0001f) < Math.Abs(monsterAdpt.monster.dropItemProbAccum[i - 1] - probability) ?
-
-                    Math.Abs(monsterAdpt.monster.dropItemProbAccum[i] - probability - 0.0001f) : Math.Abs(monsterAdpt.monster.dropItemProbAccum[i - 1] - probability);
+                return;
             }
 
-            int Index = 0;
+            if (isSingleItem(Index))
+            {
+                ItemPool.Instance.DropItem(
+                    ID: monsterAdpt.monster.monsterDropItems[Index].ItemID, 
+                    spawnPosition: transform.position + controller.center);
+            }
+
+            else
+            {
+                ItemPool.Instance.DropItem(
+                    ID: monsterAdpt.monster.monsterDropItems[Index].ItemID,
+                    spawnPosition: transform.position + controller.center,
+                    generateValues: decideRandomItemValues(Index));
+            }
+
+        }
+
+        private float[] calcDiffWithItemProb(Monster monster, float itemProb)
+        {
+
+            float[] diffWithItemProb = new float[monster.monsterDropItems.Count];
+
+            for (int i = 1; i < monster.dropItemProbAccum.Length; i++)
+            {
+                diffWithItemProb[i - 1] =
+
+                    Math.Abs(monster.dropItemProbAccum[i] - itemProb - 0.0001f) < Math.Abs(monster.dropItemProbAccum[i - 1] - itemProb) ?
+
+                    Math.Abs(monster.dropItemProbAccum[i] - itemProb - 0.0001f) : Math.Abs(monster.dropItemProbAccum[i - 1] - itemProb);
+            }
+
+            return diffWithItemProb;
+        }
+
+        // itemProb이 dropItemProbAccum의 마지막 원소보다 큰 값이 나온다면 드롭되지 않는다. minProb.Length
+        private bool isNotSpawn(float itemProb, float[] minProb) {
+            return itemProb > monsterAdpt.monster.dropItemProbAccum[minProb.Length];
+        }
+
+        private bool isSingleItem(int index)
+        {
+            return monsterAdpt.monster.monsterDropItems[index].DropMaxNumber == 1;
+        }
+
+        private int decideDropItemProbablityInterval(float[] minProb)
+        {
+            int index = -1;
             float result = 1.0f;
 
             for (int i = 0; i < minProb.Length; i++)
@@ -490,40 +540,22 @@ namespace UnityChanRPG
                 if (result > minProb[i])
                 {
                     result = minProb[i];
-                    Index = i;
+                    index = i;
                 }
             }
-
-            if (probability > monsterAdpt.monster.dropItemProbAccum[minProb.Length])
-            {
-                return;
-            }
-
-            if (monsterAdpt.monster.monsterDropItems[Index].DropMaxNumber == 1)
-            {
-                ItemPool.Instance.DropItem(monsterAdpt.monster.monsterDropItems[Index].ItemID, transform.position + controller.center);
-            }
-
-            else
-            {
-                ItemPool.Instance.DropItem(
-                    monsterAdpt.monster.monsterDropItems[Index].ItemID,
-                    transform.position + controller.center,
-                    UnityEngine.Random.Range(monsterAdpt.monster.monsterDropItems[Index].DropMinNumber, monsterAdpt.monster.monsterDropItems[Index].DropMaxNumber + 1));
-            }
-
-
+            return index;
         }
 
-        private int DecideRandomSpawnItem() {
-            return 0;
-        }
-
-        // Wait 모션이 시작될 때 호출되어 기다릴, 시간을 결정
-        private void DecideRandomWaitTIme()
+        private int decideRandomItemValues(int index)
         {
-            randomWaitingTime = UnityEngine.Random.Range(2f, 5f);
+            return UnityEngine.Random.Range(monsterAdpt.monster.monsterDropItems[index].DropMinNumber, monsterAdpt.monster.monsterDropItems[index].DropMaxNumber + 1);
         }
+
+        private float decideRandomSpawnItem()
+        {
+            return ((float)UnityEngine.Random.Range(0, 10000)) / 10000f;
+        }
+
 
     }
 }

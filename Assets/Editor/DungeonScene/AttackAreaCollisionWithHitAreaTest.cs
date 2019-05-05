@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEditor;
 using NUnit.Framework;
 
-using UnityChanRPG;
 
 /// <summary>
 /// 플레이어 객체와 몬스터와의 충돌을 가상으로 만들어 테스트하는 테스트 코드. 아래와 같은 메서드들을 테스트한다.
@@ -15,45 +14,47 @@ using UnityChanRPG;
 /// 1 - Dungeon Scene : (FieldOnMonster 타입의 SpawnManager 컴포넌트가 존재하는 Scene)
 /// </summary>
 
-[TestFixture]
-public class AttackAreaCollisionWithHitAreaTest : MonoBehaviour
+namespace UnityRPG_UnitTest
 {
-    GameObject player;
-    GameObject monster;
-    HitArea playerHitArea;
-    AttackArea[] playerAtkArea;
-    Collider monsterCollider;
-
-    [SetUp]
-    public void test_Env_SetUp()
+    [TestFixture]
+    public class AttackAreaCollisionWithHitAreaTest : MonoBehaviour
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerHitArea = player.GetComponent<HitArea>();
-        playerAtkArea = player.GetComponentsInChildren<AttackArea>();
+        GameObject player;
+        GameObject monster;
+        HitArea playerHitArea;
+        HitArea monsterHitArea;
 
-        monster = GameObject.FindGameObjectWithTag("TestObject");
-        monsterCollider = monster.GetComponent<Collider>();
+        AttackArea playerAtkArea;
+        AttackArea monsterAtkArea;
 
-    }
 
-    [Test]
-    public void test_PlayerAttackArea_CollisionWith_MonsterHitArea()
-    {
-        playerAtkArea[0].OnAttack();
-        playerAtkArea[0].SendMessage("OnTriggerEnter", monsterCollider);
+        [SetUp]
+        public void test_Env_SetUp()
+        {
+            playerAtkArea = new AttackArea();
+            monsterHitArea = new HitArea();
+        }
 
-    }
+        [Test]
+        public void test_PlayerAttackArea_CollisionWith_MonsterHitArea()
+        {
+            playerAtkArea.OnTriggerEnter(monsterHitArea);
 
-    [Test]
-    public void test_MonsterAttackArea_CollisionWith_PlayerHitArea()
-    {
+            Assert.That(monsterHitArea.GetHP() == 95);
 
-        // playerAtkArea.SendMessage("OnTriggerEnter", );
-    }
+        }
 
-    [TearDown]
-    public void afterTest()
-    {
-        Debug.Log("after");
+        [Test]
+        public void test_MonsterAttackArea_CollisionWith_PlayerHitArea()
+        {
+
+ 
+        }
+
+        [TearDown]
+        public void afterTest()
+        {
+            Debug.Log("after");
+        }
     }
 }

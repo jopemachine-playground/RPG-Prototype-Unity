@@ -31,7 +31,7 @@ namespace UnityChanRPG
         }
 
         // 아이템 풀에서 비활성화된 오브젝트를 찾아 활성화함. 없는 경우 Pool을 확장하고 활성화함.
-        public void DropItem(int ID, Vector3 spawnPosition, int ItemNumber = 1)
+        public void DropItem(int ID, Vector3 spawnPosition, int generateValues = 1)
         {
             Transform tag = transform.Find(ID + " (Tag)");
 
@@ -42,14 +42,14 @@ namespace UnityChanRPG
                 if (item.activeSelf == false)
                 {
                     item.transform.position = spawnPosition;
-                    item.GetComponent<PickUpItem>().item.ItemValue = ItemNumber;
+                    item.GetComponent<PickUpItem>().item.ItemValue = generateValues;
                     item.SetActive(true);
                 }
                 return;
             }
 
             ExtendPool(ID, tag, defaultPoolingNumber);
-            DropItem(ID, spawnPosition, ItemNumber);
+            DropItem(ID, spawnPosition, generateValues);
         }
 
         private void Start()
