@@ -25,3 +25,5 @@
 인벤토리 시스템의 스크립트 일부는 'Inventory Master-uGUI' 에서 제공되던 cs 스크립트를 수정해 작성했고, 
 
 아이템의 FBX 모델은 'Low Poly RPG Item Pack', 오크 몬스터 애니메이션 및 FBX 모델은 'Orc Sword'을 사용했다.
+
+# Screen Shots
