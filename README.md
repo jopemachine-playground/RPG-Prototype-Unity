@@ -1,8 +1,15 @@
-# Unity-Chan RPG
+# Ouitline
 
-미로 형식의 던전을 돌아다니며, 출구를 찾는 PRG 게임 
+미로 형식의 던전을 돌아다니며, 출구를 찾는 PRG 게임.
+
+4개의 애니메이션으로 이어지는 일반 공격과 폭탄을 던지는 공격을 구현했다. 
 
 # Game Manual
+
+조작 : 일반 방향키
+카메라 조작 : W, A, S, D
+근접 공격 : Z
+폭탄 공격 : X
 
 # Development Environment
 
