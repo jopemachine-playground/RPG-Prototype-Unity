@@ -19,6 +19,10 @@ namespace UnityChanRPG
             base.PlayerInit();
             base.ScreenCoverInit();
 
+            // Village, My House 에선 고정된 각도의 카메라를 사용할 것이므로
+            // Cinemachine Cam은 꺼 둔다
+            base.CinemachineCamOff();
+
             FadeIn();
             playerControl.NoInputMode = false;
 

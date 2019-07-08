@@ -5,11 +5,6 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// 던전 씬에서 시작하면 플레이어의 위치가 어떤 entry Point로 갱신되어야 할 지 모르기 때문에 버그가 발생함에 주의.
-/// Playing 씬을 Active Scene으로 해 놓고, 다른 씬으로 이동해도 마찬가지로 버그가 발생한다.
-/// </summary>
-
 namespace UnityChanRPG
 {
     public class Dungeon : Scene
@@ -54,6 +49,10 @@ namespace UnityChanRPG
             // Scene의 Init 를 호출해, 먼저 부모의 변수부터 초기화 시키고 진행
             base.PlayerInit();
             base.ScreenCoverInit();
+            base.CinemachineCamOn();
+
+            // 비를 활성화 한다
+            GameObject.FindGameObjectWithTag("DungeonMap").transform.Find("Rain").gameObject.SetActive(true);
 
             FadeIn();
             MusicManager.mInstance.Play(backGroundMusic[0]);

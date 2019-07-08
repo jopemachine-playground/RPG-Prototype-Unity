@@ -35,10 +35,13 @@ namespace UnityChanRPG
         protected static string previousScene;
         protected static string destinationScene;
 
+        protected GameObject cineCam;
+
         // Player에 대한 조작이 필요한 경우, Start들에서 호출해 사용
         protected void PlayerInit()
         {
             player = GameObject.FindGameObjectWithTag("Player");
+            cineCam = GameObject.FindGameObjectWithTag("Cinemachine Cam");
             playerControl = player.GetComponent<PlayerControl>();
             Debug.Assert(player != null);
             Debug.Assert(playerControl != null);
@@ -132,15 +135,32 @@ namespace UnityChanRPG
             }
         }
 
+        protected void CinemachineCamOn() {
+
+            var obj = cineCam.transform.Find("Cinemachine Cam").gameObject;
+
+            if (obj.activeSelf == false)
+            {
+                obj.SetActive(true);
+            }
+        }
+        protected void CinemachineCamOff()
+        {
+            var obj = cineCam.transform.Find("Cinemachine Cam").gameObject;
+
+            if (obj.activeSelf == true)
+            {
+                obj.SetActive(false);
+            }
+        }
+
         #region Move In Current Scene
 
         protected void Goto(Vector3 dest)
         {
-            Debug.Log(playerControl);
             playerControl.controller.enabled = false;
             player.transform.position = dest;
             playerControl.controller.enabled = true;
-            Debug.Log("Goto 정상 실행");
 
             if (AboveUIParent != null)
             {
@@ -152,6 +172,7 @@ namespace UnityChanRPG
         {
             playerControl.controller.enabled = false;
             player.transform.position = dest;
+
             playerControl.controller.enabled = true;
             playerControl.LookAtAndInitAngle(lookAt);
 
