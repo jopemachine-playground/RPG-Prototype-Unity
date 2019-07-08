@@ -87,7 +87,7 @@ namespace UnityChanRPG
         // UI에 입힌 데미지를 표시하며, 공격 이펙트를 불러와 재생한다 
         public void CalculateDamage(Damage damage)
         {
-            float resultDamageFloat = damage.value * (damage.skillCoefficient / 100);
+            float resultDamageFloat = damage.value * (damage.skillCoefficient / 100.0f);
 
             if (DefenceValue >= resultDamageFloat)
             {
@@ -121,13 +121,13 @@ namespace UnityChanRPG
             bool isFatalBlow;
 
             float minDamageValue = AttackValue;
-            float maxDamageValue = 1.5f * AttackValue;
+            float maxDamageValue = 1.25f * AttackValue;
 
             float damageValue = UnityEngine.Random.Range(minDamageValue, maxDamageValue);
 
             if (isFatalBlow = DecideFatalBlow())
             {
-                damageValue *= (FatalBlowValue / 100);
+                damageValue *= (FatalBlowValue / 100.0f);
             }
 
             return new Damage((int)(Mathf.Floor(damageValue)), isFatalBlow, attacker, attackee);
