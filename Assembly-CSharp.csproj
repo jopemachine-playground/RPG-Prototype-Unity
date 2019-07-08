@@ -305,6 +305,8 @@
     <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerKickAttack2.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerKickAttack3.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Behavior\PlayerPunchAttack4.cs" />
+    <Compile Include="Assets\Scripts\MovableObject\Player\Bomb\Bomb.cs" />
+    <Compile Include="Assets\Scripts\MovableObject\Player\Bomb\BombPool.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Camera\MiniMapCamera.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Camera\PlayerCamera.cs" />
     <Compile Include="Assets\Scripts\MovableObject\Player\Camera\PlayerCamera2.cs" />
@@ -360,11 +362,13 @@
     <None Include="Assets\Download Asset\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\GlobalFog.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\VortexEffect.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\legacy\DissolveSoft_Alpha_Additive_softrim.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrain.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\Projectors\Shaders\ProjectorLight.shader" />
     <None Include="Assets\Download Asset\MedievalTownExteriors\Readme.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\Projectors\Shaders\ProjectorMultiply.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\DLAA.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\legacy\Dissolve_Alpha_Additive_softrim.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\frag_ao.cginc" />
     <None Include="Assets\Download Asset\Particlecollection_Free samples\READ ME.txt" />
     <None Include="Assets\Download Asset\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleBlendEffect.shader" />
@@ -375,6 +379,7 @@
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionCurves.shader" />
     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\CharaOutline.cginc" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\Projectors\Guidelines.txt" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\legacy\DissolveSoft_Alpha_Unlit.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\MultiPassHollywoodFlares.shader" />
     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hair_ds.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\SSAOShader.shader" />
@@ -394,16 +399,19 @@
     <None Include="Assets\Download Asset\Standard Assets\Effects\ToonShading\Shaders\ToonLitOutline.shader" />
     <None Include="Assets\Download Asset\Standard Assets\SampleScenes\Shaders\Skybox-Procedural.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Adaptation.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\unity5\Particle_Softrim_Dissolve_alpha.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\LensFlareCreate.shader" />
     <None Include="Assets\Download Asset\Particlecollection_Free samples\Plugins\Effect\Shader\effect_distortion_mask.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\CameraMotionBlur.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\ScreenSpaceAmbientObscurance.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\CreaseApply.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA3Console.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\legacy\Dissolve_Alpha_Unlit_Opacity_softrim.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Vehicles\Car\CarGuidelines.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrectionSelective.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\RadialBlur.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Vehicles\Aircraft\AircraftGuidelines.txt" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\softrim\Particle_softrim_add.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\VignetteShader.shader" />
     <None Include="Assets\Download Asset\Necromancer GUI\Kingthings.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\MotionBlurClear.shader" />
@@ -414,10 +422,13 @@
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\SepiaToneEffect.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\ColorCorrection3DLut.shader" />
     <None Include="Assets\miniMap-TurzoStudio\Shader,Texture,Mask\MaskShader.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\legacy\DissolveSoft_Alpha_Additive_Opacity_softrim.shader" />
     <None Include="Assets\Download Asset\RainMaker\Readme.txt" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\softrim\Particle_softrim_add_stretch.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\SimpleClear.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\ContrastComposite.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Vehicles\Car\Shaders\ReflectiveDiffuseSpecTransp.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\legacy\DissolveSoft_Alpha_Additive.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Environment\Water\Water4\Shaders\FXWater4Advanced.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\MinMaxReduction.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\BlurEffectConeTaps.shader" />
@@ -437,9 +448,13 @@
     <None Include="Assets\Download Asset\Standard Assets\Effects\ToonShading\Shaders\ToonBasic.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\DepthOfFieldDX11.shader" />
     <None Include="Assets\Custom\Fabs\Map\UrbanNightSky\Readme.txt" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\legacy\DissolveSoft_Alpha_Unlit_Opacity.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\legacy\Dissolve_Alpha_Additive.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\legacy\Dissolve_Alpha_Unlit_softrim.shader" />
     <None Include="Assets\Download Asset\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
     <None Include="Assets\UnityChan\license.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularSmooth.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\legacy\DissolveSoft_Alpha_Unlit_Opacity_softrim.shader" />
     <None Include="Assets\Download Asset\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\CharaMain.cginc" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\SeparableBlurPlus.shader" />
@@ -458,17 +473,21 @@
     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\readme.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\ShowAlphaChannel.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\GrayscaleEffect.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\softrim\Particle_softrim_alpha.shader" />
     <None Include="Assets\FullTiltBoogie\Helpers\readme.txt" />
     <None Include="Assets\Download Asset\RainMaker\Prefab\RainShader.shader" />
     <None Include="Assets\Download Asset\Orc Monster\FantasyMonster2\Orc Sword\readMe.txt" />
     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\CharaSkin.cginc" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\ChromaticAberrationShader.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\ReadMe.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\NoiseAndGrainDX11.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\legacy\DissolveSoft_Alpha_Unlit_softrim.shader" />
     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_DepthOfField\SeparableWeightedBlurDof34.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Readme.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Characters\RollerBall\RollerBallGuidelines.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Environment\Water\Water\Shaders\FXWaterPro.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\legacy\Dissolve_Alpha_Unlit_Opacity.shader" />
     <None Include="Assets\Download Asset\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ToonShading\Shaders\ToonBasicOutline.shader" />
@@ -479,22 +498,28 @@
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\EdgeDetectNormals.shader" />
     <None Include="Assets\Download Asset\SlimUI\Modern Menu 1\READ ME.txt" />
     <None Include="Assets\miniMap-TurzoStudio\Read Me First.txt" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\legacy\DissolveSoft_Alpha_Additive_Opacity.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
     <None Include="Assets\UnityChan\Stage\Shader\AlphaMask.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Environment\Water (Basic)\Shaders\FXWaterBasic.shader" />
     <None Include="Assets\Mega Fantasy Props Pack\README.txt" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAA2.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\legacy\Dissolve_Alpha_Additive_Opacity_softrim.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderYUV.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\legacy\Dissolve_Alpha_Unlit.shader" />
     <None Include="Assets\Download Asset\Fantasy Lands\Materials and Textures\Materials\Scrolling Layer2.shader" />
     <None Include="Assets\Download Asset\EffectExamples\Shared\Shaders\SurfaceShader_VC.shader" />
     <None Include="Assets\Download Asset\Particlecollection_Free samples\Plugins\Effect\Shader\ParticleAddSoftEffect.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\unity5\Particle_Softrim_Dissolve_additive.shader" />
     <None Include="Assets\Download Asset\Realistic Hail Set\README.txt" />
     <None Include="Assets\Download Asset\Fantasy Lands\Materials and Textures\Materials\Scrolling Layer.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\Contrast Stretch\Luminance.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\NFAA.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Vehicles\Car\Shaders\DiffuseReflectiveShader.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\softrim\Particle_softrim_alpha_stretch.shader" />
     <None Include="Assets\UnityChan\Models\UnityChanShader\Shader\Unitychan_chara_hair.shader" />
+    <None Include="Assets\Download Asset\Particle Dissolve Shader by Moonflower Carnivore\Shaders\legacy\Dissolve_Alpha_Additive_Opacity.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Effects\ImageEffects\Shaders\_Antialiasing\FXAAPreset2.shader" />
     <None Include="Assets\Download Asset\Particlecollection_Free samples\Plugins\Effect\Shader\ParticlePremultiplyBlend.shader" />
     <None Include="Assets\Download Asset\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
@@ -506,6 +531,9 @@
     <None Include="Assets\Download Asset\Particlecollection_Free samples\Plugins\Effect\Shader\Toon Additive.shader" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/UnityChan/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Cinemachine">
+      <HintPath>C:/UnityChan/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
     </Reference>
     <Reference Include="com.unity.multiplayer-hlapi.Editor">
       <HintPath>C:/UnityChan/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Editor.dll</HintPath>
@@ -543,6 +571,9 @@
     <Reference Include="UnityEditor.SpatialTracking">
       <HintPath>C:/UnityChan/Library/ScriptAssemblies/UnityEditor.SpatialTracking.dll</HintPath>
     </Reference>
+    <Reference Include="com.unity.cinemachine.editor">
+      <HintPath>C:/UnityChan/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:/UnityChan/Library/ScriptAssemblies/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
@@ -563,12 +594,6 @@
     </Reference>
     <Reference Include="com.unity.multiplayer-hlapi.Runtime">
       <HintPath>C:/UnityChan/Library/ScriptAssemblies/com.unity.multiplayer-hlapi.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Cinemachine">
-      <HintPath>C:/UnityChan/Library/ScriptAssemblies/Cinemachine.dll</HintPath>
-    </Reference>
-    <Reference Include="com.unity.cinemachine.editor">
-      <HintPath>C:/UnityChan/Library/ScriptAssemblies/com.unity.cinemachine.editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.0a5/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

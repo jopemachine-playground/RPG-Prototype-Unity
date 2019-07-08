@@ -43,6 +43,7 @@ namespace UnityChanRPG
         private bool IsAirAttacking;
         private bool IsDashAttack;
         private bool IsFalling;
+        private bool IsBoomballAttack;
 
         private Animator Animator;
         private AudioManager voiceAudioManager;
@@ -50,6 +51,8 @@ namespace UnityChanRPG
         private Transform playerTr;
         private Transform cam;
         private new Rigidbody rigidbody;
+
+        private Bomb bomb;
 
         // 피격 당한 경우 잠시의 무적 시간
         public const float gracePeriod = 0.5f;
@@ -197,11 +200,15 @@ namespace UnityChanRPG
                     IsKickAttacking = true;
                     BreakRestTime();
                 }
+                else if (ControlKeyStates.BoomballAttackButtonClicked()) {
+                    IsBoomballAttack = true;
+                    BreakRestTime();
+                }
             }
 
             HandleDeathEvent();
 
-            if (!ControlKeyStates.ArrowButtonClicked())
+            if (ControlKeyStates.ArrowButtonClicked())
             {
                 BreakRestTime();
             }
@@ -259,6 +266,7 @@ namespace UnityChanRPG
             IsAirAttacking = false;
             IsDashAttack = false;
             IsJump = false;
+            IsBoomballAttack = false;
         }
 
         void UpdateAnimator()
@@ -269,6 +277,7 @@ namespace UnityChanRPG
             Animator.SetBool("OnGround", IsOnGrounded);
             Animator.SetBool("IsAirAttack", IsAirAttacking);
             Animator.SetBool("IsJump", IsJump);
+            Animator.SetBool("BoomballAttackState", IsBoomballAttack);
             Animator.SetBool("IsFalling", IsFalling);
 
             // 지상에서 대쉬상태에서 공격버튼이 눌러지면 대쉬어택
@@ -281,10 +290,14 @@ namespace UnityChanRPG
             if (IsOnGrounded &&
                 IsDashAttack == false)
             {
-                if (IsKickAttacking == true)
+                if (IsKickAttacking)
                 {
                     currentVelocity = Vector3.zero;
                     Animator.SetInteger("AttackState", 1);
+                }
+                else if (IsBoomballAttack) {
+                    currentVelocity = Vector3.zero;
+                    Animator.SetBool("BoomballAttackState", true);
                 }
             }
 
@@ -446,10 +459,7 @@ namespace UnityChanRPG
         {
             if (status.CurrentHP <= 0)
             {
-                // 플레이어 사망에 관한 이벤트 처리는 여기서.
-                // 지금은 원활한 디버깅을 위해 주석 처리
-
-                // Animator.Play("Death");
+                Animator.Play("Death");
             }
         }
 

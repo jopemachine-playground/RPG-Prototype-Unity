@@ -20,6 +20,11 @@ namespace UnityChanRPG
             return Input.GetButtonDown("KickAttack");
         }
 
+        static public bool BoomballAttackButtonClicked()
+        {
+            return Input.GetButtonDown("BoomballAttack");
+        }
+
         static public bool DashAttackButtonClicked()
         {
             return 
