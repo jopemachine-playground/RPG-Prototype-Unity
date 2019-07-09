@@ -54,6 +54,15 @@ namespace UnityChanRPG
             // 비를 활성화 한다
             GameObject.FindGameObjectWithTag("DungeonMap").transform.Find("Rain").gameObject.SetActive(true);
 
+            IsCleared = FlagManager.dungeonCleared.GetFlag(placeName);
+
+            Debug.Log(IsCleared);
+
+            // 클리어 된 던전이라면 Directional Light를 활성화 해 준다. (디폴트 값은 비활성화)
+            if (IsCleared) {
+                transform.Find("Dungeon Directional Light").gameObject.SetActive(true);
+            }
+
             FadeIn();
             MusicManager.mInstance.Play(backGroundMusic[0]);
             playerControl.NoInputMode = false;

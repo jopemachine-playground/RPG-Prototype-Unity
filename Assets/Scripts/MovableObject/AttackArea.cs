@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using UnityEngine;
 
 // 아래 스크립트의 작성은 http://www.yes24.com/24/goods/27894042 도서를 참고함
 
 /// <summary>
-/// 공격이 상대에게 닿는 영역에 스크립틀를 붙여 사용.
+/// 공격이 상대에게 닿는 영역에 스크립트를 붙여 사용.
 /// </summary>
 
 namespace UnityChanRPG
