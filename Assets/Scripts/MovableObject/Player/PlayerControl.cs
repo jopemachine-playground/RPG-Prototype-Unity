@@ -52,8 +52,6 @@ namespace UnityChanRPG
         private Transform cam;
         private new Rigidbody rigidbody;
 
-        private Bomb bomb;
-
         // 피격 당한 경우 잠시의 무적 시간
         public const float gracePeriod = 0.5f;
         public bool IsGracePeriod;
@@ -297,6 +295,7 @@ namespace UnityChanRPG
                 }
                 else if (IsBoomballAttack) {
                     currentVelocity = Vector3.zero;
+                    BombPool.mInstance.CastBomb(playerTr.position + new Vector3(0, 1.7f, 0), this.transform.forward * 300f + Vector3.up * 120f);
                     Animator.SetBool("BoomballAttackState", true);
                 }
             }

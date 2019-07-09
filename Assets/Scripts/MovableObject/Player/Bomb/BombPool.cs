@@ -2,7 +2,7 @@
 
 namespace UnityChanRPG
 {
-    class BombPool: MonoBehaviour
+    class BombPool : MonoBehaviour
     {
         // 기본적으로 생성해놓을 폭탄 갯수
 
@@ -10,7 +10,43 @@ namespace UnityChanRPG
 
         public int currentBombValue;
 
-        private void Start() {
+        public static BombPool mInstance;
+
+        private void Awake()
+        {
+            if (mInstance != null)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                DontDestroyOnLoad(this.gameObject);
+                mInstance = this;
+            }
+        }
+
+        public void CastBomb(Vector3 emitPosition, Vector3 castingForce)
+        {
+
+            for (int i = 1; i < transform.childCount; i++)
+            {
+                var childObj = transform.GetChild(i).GetComponent<Bomb>();
+
+                if (childObj.gameObject.activeSelf == false)
+                {
+                    childObj.gameObject.SetActive(true);
+                    childObj.transform.position = emitPosition;
+                    childObj.rigidbody.AddForce(castingForce);
+                    return;
+                }
+            }
+
+            ExtendPool(currentBombValue);
+            CastBomb(emitPosition, castingForce);
+        }
+
+        private void Start()
+        {
             InitBombPool();
         }
         private void InitBombPool()
@@ -26,7 +62,8 @@ namespace UnityChanRPG
             }
         }
 
-        private void ExtendPool(int extendSize) {
+        private void ExtendPool(int extendSize)
+        {
 
             for (int i = currentBombValue; i < currentBombValue + extendSize; i++)
             {
