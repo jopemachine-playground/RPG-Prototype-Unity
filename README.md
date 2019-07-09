@@ -1,4 +1,4 @@
-# Ouitline
+# Outline
 
 미로 형식의 던전을 돌아다니며, 출구를 찾는 PRG 게임.
 
