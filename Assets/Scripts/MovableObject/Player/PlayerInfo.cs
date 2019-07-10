@@ -65,11 +65,6 @@ namespace UnityChanRPG
         #endregion
 
 
-        #region Data Load and Save
-        public void LoadData()
-        {
-
-        }
 
         public void SaveData()
         {
@@ -84,7 +79,6 @@ namespace UnityChanRPG
             File.WriteAllText(Application.dataPath + "/Custom/Resources/PlayerInfoData.json", "[" + playerInfo.ToJson() + "]");
             FlagManager.dungeonCleared.saveFlagData("/Custom/Resources/DungeonClearedFlagData.json");
         }
-        #endregion
 
 
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using LitJson;
+using System.IO;
 
 namespace UnityChanRPG
 {
@@ -29,13 +31,16 @@ namespace UnityChanRPG
                 {
                     // 새로 시작
                     case 0:
+                        DeleteObsoleteData();
                         SceneManager.LoadSceneAsync("Playing", LoadSceneMode.Additive);
-                        MoveScene("MyHouse");
+                        SceneManager.LoadScene("Village", LoadSceneMode.Single);
                         break;
 
-                    // 이어 하기
+                    // 이어 하기 (DataLoad Scene을 사용하려 했으나, 우선 이어하기 데이터를 한 개로 고정하기로 하고,
+                    // 아래 같이 구현했다.)
                     case 1:
-                        Debug.Log("옵션");
+                        SceneManager.LoadSceneAsync("Playing", LoadSceneMode.Additive);
+                        SceneManager.LoadScene("Village", LoadSceneMode.Single);
                         break;
 
                     // 옵션
@@ -99,5 +104,52 @@ namespace UnityChanRPG
         {
 
         }
+
+        // 새로 게임을 시작할 때 호출해, 기존 데이터를 지움
+        public void DeleteObsoleteData()
+        {
+            JsonData playerInfo = new JsonData();
+            playerInfo["Name"] = "UnityChan";
+            playerInfo["Money"] = 0;
+            playerInfo["currentHP"] = 40;
+            playerInfo["currentMP"] = 25;
+            playerInfo["Level"] = 1;
+            playerInfo["Experience"] = 0;
+
+            File.WriteAllText(Application.dataPath + "/Custom/Resources/PlayerInfoData.json", "[" + playerInfo.ToJson() + "]");
+            clearFlagData();
+        }
+
+        public void clearFlagData() {
+            // Dungeon Cleared Flag를 초기화 (TRUE를 모두 false로 바꿈)
+            string flagJsonString = File.ReadAllText(Application.dataPath + "/Custom/Resources/DungeonClearedFlagData.json");
+            JsonData flagData = JsonMapper.ToObject(flagJsonString);
+
+            for (int i = 0; i < flagData.Count; i++) {
+                if (string.Equals(flagData[i]["FlagData"].ToString(), "TRUE")) {
+                    flagData[i]["FlagData"] = "FALSE";
+                }
+            }
+
+            string flagDataStr = "";
+
+            for (int j = 0; j < flagData.Count; j++)
+            {
+                flagDataStr += "{\"FlagName\":";
+                flagDataStr += "\"" + flagData[j]["FlagName"] + "\",";
+                flagDataStr += "\"FlagData\":\"" + flagData[j]["FlagData"] + "\"";
+                flagDataStr += "}";
+
+                if (j != flagData.Count - 1)
+                {
+                    flagDataStr += ",";
+                }
+
+            }
+
+            File.WriteAllText(Application.dataPath + "/Custom/Resources/DungeonClearedFlagData.json", "[" + flagDataStr + "]");
+
+        }
+
     }
 }
