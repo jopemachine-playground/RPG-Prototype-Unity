@@ -14,7 +14,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.cds.internal.unity3d.com:unity/com.unity.xr.legacyinputhelpers.git",
+    "url": "https://gitlab.cds.internal.unity3d.com/upm-packages/XR/LegacyInputHelpers.git",
     "revision": "da677d22053a28bc78bc3e1ff41c18f4df7ee3b6"
   }
 }

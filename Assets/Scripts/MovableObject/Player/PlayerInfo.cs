@@ -82,6 +82,7 @@ namespace UnityChanRPG
             playerInfo["Experience"] = player.ExperienceValue;
 
             File.WriteAllText(Application.dataPath + "/Custom/Resources/PlayerInfoData.json", "[" + playerInfo.ToJson() + "]");
+            FlagManager.dungeonCleared.saveFlagData("/Custom/Resources/DungeonClearedFlagData.json");
         }
         #endregion
 

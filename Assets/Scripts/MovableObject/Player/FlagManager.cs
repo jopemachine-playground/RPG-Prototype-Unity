@@ -88,16 +88,41 @@ namespace UnityChanRPG
                     break;
             }
 
-            Invoke("Debugging", 2);
         }
 
         public bool GetFlag(string key) {
             return string.Equals(flagList[key], "TRUE") ? true : false; 
         }
 
-        public void Debugging()
+        public void ToggleFlag(string key)
         {
-            Debug.Log(flagList["Dungeon1"]);
+            if (string.Equals(flagList[key], "TRUE")) {
+                flagList[key] = "FALSE";
+            }
+            else {
+                flagList[key] = "TRUE";
+            }
+        }
+
+        // LitJson에 적절한 기능이 없는 것 같아 만들어 사용했다
+        public void saveFlagData(string savePath) {
+
+            string flagData = "";
+            int i = 0;
+            foreach (string key in flagList.Keys) {
+                flagData += "{\"FlagName\":";
+                flagData += "\"" + key + "\",";
+                flagData += "\"FlagData\":\"" + flagList[key] + "\"";
+                flagData += "}";
+
+                i++;
+                if(i != flagList.Count)
+                {
+                    flagData += ",";
+                }
+            }
+
+            File.WriteAllText(Application.dataPath + savePath, "[" + flagData + "]");
         }
     }
 }
