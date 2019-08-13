@@ -1,10 +1,15 @@
-﻿using System;
+// ==============================+===============================================================
+// @ Author : jopemachine
+// @ Ref URLs : 
+// @     1. http://www.yes24.com/24/goods/27894042
+// ==============================+===============================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
-// 아래 스크립트의 작성은 http://www.yes24.com/24/goods/27894042 도서를 참고함
 namespace UnityChanRPG
 {
     [RequireComponent(typeof(Status))]

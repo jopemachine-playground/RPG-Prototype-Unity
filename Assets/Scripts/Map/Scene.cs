@@ -1,4 +1,10 @@
-﻿using System;
+// ==============================+===============================================================
+// @ Author : jopemachine
+// @ Desc : 
+// @     Scene은 맵들의 스크립트들에서 사용할 abstract class.
+// ==============================+===============================================================
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

@@ -1,12 +1,14 @@
-﻿using UnityEngine;
+// ==============================+===============================================================
+// @ Author : jopemachine
+// @ Desc : 
+// @     SpawnPoint는 몬스터와 아이템을 랜덤으로 생성할 장소 역할을 함. Monster를 생성하는 경우에만 patrolArea를 가져와 사용한다.
+// @     SpawnPoint를 추가한 게임오브젝트에 MonsterPatrolArea 이외의 자식컴포넌트를 추가하지 말 것
+// ==============================+===============================================================
+
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
-/// <summary>
-/// SpawnPoint는 몬스터와 아이템을 랜덤으로 생성할 장소 역할을 함. Monster를 생성하는 경우에만 patrolArea를 가져와 사용한다.
-/// SpawnPoint를 추가한 게임오브젝트에 MonsterPatrolArea 이외의 자식컴포넌트를 추가하지 말 것
-/// </summary>
 
 namespace UnityChanRPG
 {

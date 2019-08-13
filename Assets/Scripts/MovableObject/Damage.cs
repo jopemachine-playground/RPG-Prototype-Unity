@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+// ==============================+===============================================================
+// @ Author : jopemachine
+// @ Desc : 
+// @     데미지를 담는 자료구조. 공격이 들어갔는지의 판단을 Animator의 상태로 판단하기 때문에,
+// @     attacker와 attackee의 Animator가 있어야 생성 가능.
+// ==============================+===============================================================
 
-/// <summary>
-/// 데미지를 담는 자료구조. 공격이 들어갔는지의 판단을 Animator의 상태로 판단하기 때문에,
-/// attacker와 attackee의 Animator가 있어야 생성 가능.
-/// </summary>
+using UnityEngine;
 
 namespace UnityChanRPG
 {

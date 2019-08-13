@@ -1,4 +1,10 @@
-﻿using System;
+// ==============================+===============================================================
+// @ Author : jopemachine
+// @ Issue : 
+// @     현재 House 씬과 Village 씬을 오갈 때 버그 있음
+// ==============================+===============================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

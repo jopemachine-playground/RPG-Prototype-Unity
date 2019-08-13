@@ -1,17 +1,20 @@
-﻿using System;
+// ==============================+===============================================================
+// @ Author : jopemachine
+// @ Desc : 
+// @     ItemSlot은 인벤토리 창에서 하나 하나의 슬롯에 대응함. 슬롯을 더블클릭하거나, 우클릭 했을 때의 이벤트 처리 역시 ItemSlot에서 함.
+// @ Issue : 
+// @     나중에 페이지 방식으로 구현해 아이템을 슬롯 갯수 (25개) 초과해
+// @     획득한 경우 슬롯 내용을 바꾸는 형식으로 확장할 생각임.
+// @ Ref URLs : 
+// @     1. https://www.youtube.com/watch?v=-ow-Dp17mYY
+// ==============================+===============================================================
+
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
-
-// 나중에 페이지 방식으로 구현해 아이템을 슬롯 갯수 (25개) 초과해
-// 획득한 경우 슬롯 내용을 바꾸는 형식으로 확장할 생각임.
-
-/// <summary>
-/// ItemSlot은 인벤토리 창에서 하나 하나의 슬롯에 대응함. 슬롯을 더블클릭하거나, 우클릭 했을 때의 이벤트 처리 역시 ItemSlot에서 함.
-/// https://www.youtube.com/watch?v=-ow-Dp17mYY 참고
-/// </summary>
 
 namespace UnityChanRPG
 {

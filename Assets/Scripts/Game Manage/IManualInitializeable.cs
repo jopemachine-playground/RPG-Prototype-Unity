@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+// ==============================+===============================================================
+// @ Author : jopemachine
+// ==============================+===============================================================
+
+using UnityEngine;
 
 namespace UnityChanRPG{
     public interface IManualInitializeable

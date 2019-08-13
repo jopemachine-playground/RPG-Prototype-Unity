@@ -1,11 +1,17 @@
-﻿using System;
+// ==============================+===============================================================
+// @ Author : jopemachine
+// @ Issue : 
+// @     벡터의 내적을 이용해 시야에 있는지를 판단함
+// @ Ref URLs : 
+// @     1. https://tenlie10.tistory.com/137
+// ==============================+===============================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 
-// 벡터의 내적을 이용해 시야에 있는지를 판단함
-// https://tenlie10.tistory.com/137 를 참고
 
 namespace UnityChanRPG
 {
