@@ -1,9 +1,11 @@
 <h2>Outline</h2>
+
 유니티와 RPG 게임에 대해 학습하기 위해 개인적으로 진행한 토이 프로젝트이다.
 
 
 
 <h2>Details</h2>
+
 게임은 미로 형식의 던전을 돌아다니며, 출구를 찾는 식으로 진행되는 RPG 게임이다.
 
 기본적으로 던전 맵들은 모두 어둡게 되어 있지만, 출구를 찾은 맵은 쉽게 돌아다닐 수 있도록 환하게 변한다. 
@@ -25,6 +27,7 @@ C#으로 작성된 모든 스크립트 파일은 `Assets > Scripts` 에 저장�
 
 
 <h2> Game Manual</h2>
+
 게임 내 캐릭터 조작 방법은 아래와 같다.<br>
 
 ```
@@ -39,36 +42,70 @@ C#으로 작성된 모든 스크립트 파일은 `Assets > Scripts` 에 저장�
 
 
 <h2> Development Environment</h2>
-스크립트는 모두 C#으로 작성했다. 
 
-사용한 유니티 버전은 아래와 같다.
+개발에 사용된 유니티 버전은 아래와 같다.
 
->Unity 2018.3.0f2 Personal, Unity 2019.3.0a5 Personal
+> Unity 2018.3.0f2 Personal
+>
+> Unity 2019.3.0a5 Personal
 
 
 
 <h2> Asset Sources</h2>
-캐릭터의 FBX 모델은 에셋 스토어의 'Unity Chan! Model'이고,
 
-미로 맵에 사용한 에셋은 'Free basic Dungeon', 'LowPoly Dungeon Modules' 이다.
+> Unity Chan! Model
+>
+> Free basic Dungeon, LowPoly Dungeon Modules
+>
+> Animation Kick, Mixed Motion
+>
+> Free Music Bundle by neocrey, 8-Bit Sfx
+>
+> Low Poly RPG Item Pack, Orc Sword
+>
+> HS Summer.ttf
+>
+> Cinemachine
 
-(미로 맵은 맵을 생성하는 스크립트로 생성된 것이다.)
 
-애니메이션의 일부는 'Animation Kick', 'Mixed Motion'을 사용했다.
+그 외 미로 맵은 맵을 생성하는 스크립트로 생성된 것이며, 
 
-사운드는 'Free Music Bundle by neocrey', '8-Bit Sfx'를 사용했다.
-
-폰트는 무료폰트 'HS Summer.ttf'를 썼고, 몇몇 raw image는 인터넷 검색으로 구한 것을 포토샵으로 작업 해 넣었다.
+몇몇 raw image는 인터넷 검색으로 구한 것을 포토샵으로 작업 해 넣었다.
 
 애니메이션 스크립트와 Animator는 'Stardard Asset'의 'ThirdPersonControl.cs'를 수정해 사용했다.
 
-인벤토리 시스템의 스크립트 일부는 'Inventory Master-uGUI' 에서 제공되던 cs 스크립트를 수정해 작성했고, 
-
-아이템의 FBX 모델은 'Low Poly RPG Item Pack', 오크 몬스터 애니메이션 및 FBX 모델은 'Orc Sword'을 사용했다.
-
-캐릭터의 카메라 처리는 유니티의 Package Manager에서 Cinemachine을 사용해 처리했다.
+인벤토리 시스템의 스크립트 일부는 'Inventory Master-uGUI' 에서 제공되던 cs 스크립트를 수정해 작성했다.
 
 
 
 
 <h2> Screen Shots</h2>
+
+* **공격 모션**
+<img src="screenshot/attack.png">
+<br>
+
+* **폭탄 공격 동작**
+<img src="screenshot/bomb.png">
+<br>
+
+* **피격  동작**
+<img src="screenshot/damaged.png">
+<br>
+
+* **HP == 0**
+<img src="screenshot/die.png">
+<br>
+
+* **인벤토리 및 대기 모션**
+<img src="screenshot/inv.png">
+<br>
+
+* **아이템 획득**
+<img src="screenshot/itemget.png">
+
+
+
+
+
+
