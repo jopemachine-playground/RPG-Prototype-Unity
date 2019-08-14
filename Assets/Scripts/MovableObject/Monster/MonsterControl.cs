@@ -1,5 +1,9 @@
 // ==============================+===============================================================
 // @ Author : jopemachine
+// @ Created : 2019-02-21, 11:02:28
+// @ Ref URLs : 
+// @     1. Character Controller와 NavMeshAgent를 함께 사용하는 법은 아래 링크를 참조함
+// @     2. https://forum.unity.com/threads/using-a-navmeshagent-with-a-charactercontroller.466902/ 
 // ==============================+===============================================================
 
 using System;
@@ -7,11 +11,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-
-/// <summary>
-/// Character Controller와 NavMeshAgent를 함께 사용하는 법에 대해선, 아래 링크를 참고했다.
-/// https://forum.unity.com/threads/using-a-navmeshagent-with-a-charactercontroller.466902/ 
-/// </summary>
 
 namespace UnityChanRPG
 {

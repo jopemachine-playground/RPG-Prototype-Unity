@@ -1,16 +1,15 @@
 // ==============================+===============================================================
 // @ Author : jopemachine
+// @ Created : 2019-02-21, 11:02:28
+// @ Desc : 
+// @     1. monster와 Item 클래스 중 어떤 것이 먼저 초기화 (파싱)될 지 알 수 없고,
+// @     2. DropItem을 알기 위해선 Item 클래스의 ID만 있으면 된다. 그래서 Item 객체가 아닌 Item의 ID만을 속성으로 넣어 MonsterDropItem 클래스를 만들었다.
 // ==============================+===============================================================
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-/// <summary>
-/// monster와 Item 클래스 중 어떤 것이 먼저 초기화 (파싱)될 지 알 수 없고,
-/// DropItem을 알기 위해선 Item 클래스의 ID만 있으면 된다. 그래서 Item 객체가 아닌 Item의 ID만을 속성으로 넣어 MonsterDropItem 클래스를 만들었다.
-/// </summary>
 
 namespace UnityChanRPG
 {

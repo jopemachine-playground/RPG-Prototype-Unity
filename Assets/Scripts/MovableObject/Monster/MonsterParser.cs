@@ -1,5 +1,9 @@
 // ==============================+===============================================================
 // @ Author : jopemachine
+// @ Created : 2019-02-21, 11:02:28
+// @ Desc : 
+// @     1. 몬스터에 대한 정보를 json 파일에서 가져옴. 
+// @     2. ItemParser와 마찬가지로, 필드 위 몬스터들을 오브젝트 풀링으로 생성하기 위해, 이 클래스를 거침
 // ==============================+===============================================================
 
 using System.Collections;
@@ -7,11 +11,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using LitJson;
 using System.IO;
-
-/// <summary>
-/// 몬스터에 대한 정보를 json 파일에서 가져옴. 
-/// ItemParser와 마찬가지로, 필드 위 몬스터들을 오브젝트 풀링으로 생성하기 위해, 이 클래스를 거침
-/// </summary>
 
 namespace UnityChanRPG
 {
