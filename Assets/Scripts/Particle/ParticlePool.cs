@@ -1,19 +1,15 @@
 // ==============================+===============================================================
 // @ Author : jopemachine
 // @ Created : 2019-02-21, 11:02:28
+// @ Desc : 
+// @     enum으로 타입을 분류해, 관리하는 파티클 풀을 다르게 할 수 있다. attackPool과 getItemPool를 이용해 싱글톤처럼 쓰지만, 싱글톤이 아님에 주의.
+// @     하지만, 각 파티클 풀은 1개만 있어야 한다. 파티클을 미리 생성하고 활성화 해 놓기 때문에, 모든 파티클은 PlayOnAwake가 false여야 한다.
 // ==============================+===============================================================
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-
-/// <summary>
-/// enum으로 타입을 분류해, 관리하는 파티클 풀을 다르게 할 수 있다. attackPool과 getItemPool를 이용해 싱글톤처럼 쓰지만, 싱글톤이 아님에 주의.
-/// 하지만, 각 파티클 풀은 1개만 있어야 한다. 파티클을 미리 생성하고 활성화 해 놓기 때문에, 모든 파티클은 PlayOnAwake가 false여야 한다.
-/// 던전 씬에서 바로 시작하면 FindObjectsOfType가 이 시점에 particleLists를 찾지 못해 파티클 풀이 생성되지 않는 버그가 있다.
-/// 마을 등의 다른 씬에서 시작하면 이 버그는 발생하지 않는다.
-/// </summary>
 
 namespace UnityChanRPG
 {

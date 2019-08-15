@@ -2,8 +2,8 @@
 // @ Author : jopemachine
 // @ Created : 2019-02-21, 11:02:28
 // @ Desc : 
-// @     1. SpawnPoint는 몬스터와 아이템을 랜덤으로 생성할 장소 역할을 함. Monster를 생성하는 경우에만 patrolArea를 가져와 사용한다.
-// @     2. SpawnPoint를 추가한 게임오브젝트에 MonsterPatrolArea 이외의 자식컴포넌트를 추가하지 말 것
+// @     SpawnPoint는 몬스터와 아이템을 랜덤으로 생성할 장소 역할을 함. Monster를 생성하는 경우에만 patrolArea를 가져와 사용한다.
+// @     SpawnPoint를 추가한 게임오브젝트에 MonsterPatrolArea 이외의 자식컴포넌트를 추가하지 말 것
 // ==============================+===============================================================
 
 using UnityEngine;

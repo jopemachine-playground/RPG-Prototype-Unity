@@ -4,6 +4,11 @@
 #
 #--------------------------------------------------------
 
+# Setting
+setting.descNumbering        =   0
+setting.issueNumbering       =   0
+setting.recursiveTraversal   =   1
+
 # Flags
 flag.Author   =   1
 flag.Last_Edited   =   0
@@ -37,12 +42,32 @@ AttackArea.cs::desc       +=       공격이 상대에게 닿는 영역에 스크립트를 붙여 �
 AudioManager.cs::desc       +=       플레이어, 몬스터, 총알 등 소리를 내는 컴포넌트의 자식에 부착해 사용
 Damage.cs::desc       +=       데미지를 담는 자료구조. 공격이 들어갔는지의 판단을 Animator의 상태로 판단하기 때문에,
 Damage.cs::desc       +=       attacker와 attackee의 Animator가 있어야 생성 가능.
+DamageIndicator.cs::desc       +=       성능을 위해 데미지 플로팅 텍스트들을 오브젝트 풀링으로 관리
+DamageIndicator.cs::desc       +=       디폴트 갯수로 만들어 놓았던 플로팅 텍스트 갯수를 넘으면 두 배의 갯수로 만들어 놓는다.
+DraggingItem.cs::desc       +=       슬롯에서 드래그 이벤트가 일어나면 DraggingItem으로 아이템의 정보를 복사함. 
+DraggingItem.cs::desc       +=       드래그가 끝난 후의 이벤트 처리 역시 DraggingItem에서 처리함에 주의할 것
+FadeInOutObject.cs::desc       +=       Mesh Renderer에서 Material들을 모두 가져와 투명하게 만들어 페이드 아웃 시킨다.
+FadeInOutObject.cs::desc       +=       플레이어 캐릭터, 몬스터, 아이템을 페이드 인, 아웃 시킬 때 이용. Screen Cover의 페이드 인, 아웃은 FadeInOutObject가 아닌
+FadeInOutObject.cs::desc       +=       Scene에서 구현되어 있음에 주의 (작동 방식이 다름)
+FadeInOutObject.cs::desc       +=        
+FadeInOutObject.cs::desc       +=       코드는 작성했는데, Stardard Shader의 Transparent 렌더링 모드에서, 에셋이 깨진다는 걸 확인.
+FadeInOutObject.cs::desc       +=       이것도 Shader에서 하는거라, 아마도 Material을 투명하게 만드는 Shader 코드를 작성해야 되는 것 같다..?
+FadeInOutObject.cs::desc       +=       셰이더 쪽은 아직 배우지 못해 일단 미뤄두기로 했다.
+FloatingTextTweener.cs::desc       +=       데미지 값을 나타내는 플로팅 텍스트 컴포넌트를 컨트롤. 
 InitDelegator.cs::desc       +=       비활성화된 상태로 시작하거나 초기화 순서에 민감해, 따로 수동으로 초기화 해야 하는 클래스들을 관리함
+InventorySystem.cs::desc       +=       인벤토리 창의 전반적인 UI를 담당하는 클래스. 단, 각각의 슬롯에 대한 정보와 이벤트 처리는 ItemSlot에서 함
+InventorySystem.cs::desc       +=       아이템들의 아이콘들을 정보에 맞게 업데이트 하는 함수는 InventorySystem에 있다 (ItemIconUpdate)
 Item.cs::desc       +=       Item 클래스는 Item에 대한 정보를 모두 담당. 실제로 필드 위에 표시되는 아이템은 더 많은 정보를 포함하는 PickUpItem 스크립트를
 Item.cs::desc       +=       사용하고, Item 클래스엔 json 파일에서 값을 파싱해 담아야 하기 때문에, MonoBehavior를 상속하지 않음. (monster 클래스도 마찬가지)
+ItemAttribute.cs::desc       +=       아이템이 갖고 있는 hp, mp 회복량, 스탯 변동, 특수 효과등을 attribute로 관리함
+ItemAttribute.cs::desc       +=       ItemParser가 게임 시작시에 Handle Item Effect의 각 함수들을 Item 클래스의 delegate에 등록해 ItemSlot이나 Hotbar 클래스에서
+ItemAttribute.cs::desc       +=       사용 요청이 들어오면 해당 아이템이 갖고 있는 Attribute에 맞게 사용한다. 
 ItemParser.cs::desc       +=       아이템과 그 속성들을 파싱해 갖고 있음. Json 파싱엔 LitJson을 이용
 ItemParser.cs::desc       +=       아이템을 파싱하는 것만 하는 건 아니고, 자식오브젝트로 갖고 있다가 필요할 때 오브젝트 풀링으로 생성할 때 거쳐가는 역할도 함 (GeneratePickUpItem)
+ItemPool.cs::desc       +=       몬스터 Pool을 뒤져, 몬스터들이 드롭할 수 있는 아이템들을 미리 생성해놓는다.
+ItemPool.cs::desc       +=       필드 위에 자동으로 스폰되는 아이템들은 ItemPool에서 풀링하지 않음 (SpawnManager에서 한다)
 ItemSlot.cs::desc       +=       ItemSlot은 인벤토리 창에서 하나 하나의 슬롯에 대응함. 슬롯을 더블클릭하거나, 우클릭 했을 때의 이벤트 처리 역시 ItemSlot에서 함.
+ItemType.cs::desc       +=       아이템들의 타입을 나타내는 Enum. 후에 종류를 추가해 볼 생각.
 MonsterAdapter.cs::desc       +=       Monster가 Monobehavior를 상속할 수 없으므로 Adapter 클래스를 만들었다. 
 MonsterAdapter.cs::desc       +=       몬스터 컴포넌트에 Monster.cs를 추가하기 위해 만든 클래스 일 뿐이지만, Status의 경우 플레이어, 몬스터 등에 모두 들어갈 수 있기 때문에
 MonsterAdapter.cs::desc       +=       스스로를 초기화하지 않으므로, MonsterAdapter가 초기화한다.
@@ -55,6 +80,13 @@ MonsterPatrolArea.cs::desc       +=       MonsterPatrolArea를 추가하도록 했음. �
 MonsterPatrolArea.cs::desc       +=       MonsterPatrolArea는 SpawnPoint의 자식으로 들어가, 종속된다. (SpawnPoint가 MonsterPatrolArea를 결정하도록 함)
 MusicManager.cs::desc       +=       싱글톤으로 전역에서 접근 가능하며, 장소에 따라 배경음악을 바꿈
 MusicManager.cs::desc       +=       음악 파일에 해당하는 AudioClip은 장소에 해당하는 컴포넌트들에서 갖고 있음
+ParticlePool.cs::desc       +=       enum으로 타입을 분류해, 관리하는 파티클 풀을 다르게 할 수 있다. attackPool과 getItemPool를 이용해 싱글톤처럼 쓰지만, 싱글톤이 아님에 주의.
+ParticlePool.cs::desc       +=       하지만, 각 파티클 풀은 1개만 있어야 한다. 파티클을 미리 생성하고 활성화 해 놓기 때문에, 모든 파티클은 PlayOnAwake가 false여야 한다.
+PickUpItem.cs::desc       +=       필드 위에 표시되는 아이템들을 다루는 클래스. 아이템 말고도, 필드 위에 표시되는 일시적인 회복 아이템이나, 
+PickUpItem.cs::desc       +=       돈 (코인) 역시 PickUpItem에서 처리할 목적으로 만들었다.
+PlayerInfoSystem.cs::desc       +=       플레이어의 현재 HP, 경험치 등의 정보를 실제로 UI에 표시하고 관리하는 싱글톤 클래스.
+PlayerInfoSystem.cs::desc       +=       Update에서 계속해서, 창을 관리하는 것은 낭비가 커보여, Status 프로퍼티의 값이 변경될 때 마다, PlayerInfoSystem 클래스의
+PlayerInfoSystem.cs::desc       +=       업데이트 함수를 호출하게 했다.
 Scene.cs::desc       +=       Scene은 맵들의 스크립트들에서 사용할 abstract class.
 SpawnManager.cs::desc       +=       랜덤으로 스폰 위치와 아이템이나 몬스터의 종류를 결정해 스폰함. (또는 일정 확률로 스폰하지 않음.)
 SpawnManager.cs::desc       +=       스폰 위치와, 스폰되는 아이템(이나 몬스터) 들은 유니티 에디터에서 넣을 것
@@ -78,6 +110,7 @@ Status.cs::issue       +=       Status는 스스로를 초기화하지 않으므로, 다른 스크
 # Reference URLs
 AttackArea.cs::refURLs       +=       http://www.yes24.com/24/goods/27894042
 HitArea.cs::refURLs       +=       http://www.yes24.com/24/goods/27894042
+ItemAttribute.cs::refURLs       +=       https://assetstore.unity.com/packages/tools/gui/inventory-master-ugui-26310
 ItemSlot.cs::refURLs       +=       https://www.youtube.com/watch?v=-ow-Dp17mYY
 MonsterControl.cs::refURLs       +=       Character Controller와 NavMeshAgent를 함께 사용하는 법은 아래 링크를 참조함
 MonsterControl.cs::refURLs       +=       https://forum.unity.com/threads/using-a-navmeshagent-with-a-charactercontroller.466902/ 
@@ -85,27 +118,3 @@ SightArea.cs::refURLs       +=       https://tenlie10.tistory.com/137
 
 # Excluded files
 DraggingEventHandler.cs::exclude
-File Name::exclude
-File Name::exclude
-File Name::exclude
-File Name::exclude
-DraggingEventHandler.cs::exclude
-File Name::exclude
-File Name::exclude
-File Name::exclude
-File Name::exclude
-DraggingEventHandler.cs::exclude
-File Name::exclude
-File Name::exclude
-File Name::exclude
-File Name::exclude
-DraggingEventHandler.cs::exclude
-File Name::exclude
-File Name::exclude
-File Name::exclude
-File Name::exclude
-DraggingEventHandler.cs::exclude
-File Name::exclude
-File Name::exclude
-File Name::exclude
-File Name::exclude

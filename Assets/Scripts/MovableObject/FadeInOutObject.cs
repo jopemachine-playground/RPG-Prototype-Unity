@@ -1,22 +1,20 @@
 // ==============================+===============================================================
 // @ Author : jopemachine
 // @ Created : 2019-02-21, 11:26:03
+// @ Desc : 
+// @     Mesh Renderer에서 Material들을 모두 가져와 투명하게 만들어 페이드 아웃 시킨다.
+// @     플레이어 캐릭터, 몬스터, 아이템을 페이드 인, 아웃 시킬 때 이용. Screen Cover의 페이드 인, 아웃은 FadeInOutObject가 아닌
+// @     Scene에서 구현되어 있음에 주의 (작동 방식이 다름)
+// @      
+// @     코드는 작성했는데, Stardard Shader의 Transparent 렌더링 모드에서, 에셋이 깨진다는 걸 확인.
+// @     이것도 Shader에서 하는거라, 아마도 Material을 투명하게 만드는 Shader 코드를 작성해야 되는 것 같다..?
+// @     셰이더 쪽은 아직 배우지 못해 일단 미뤄두기로 했다.
 // ==============================+===============================================================
 
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-/// <summary>
-/// Mesh Renderer에서 Material들을 모두 가져와 투명하게 만들어 페이드 아웃 시킨다.
-/// 플레이어 캐릭터, 몬스터, 아이템을 페이드 인, 아웃 시킬 때 이용. Screen Cover의 페이드 인, 아웃은 FadeInOutObject가 아닌
-/// Scene에서 구현되어 있음에 주의 (작동 방식이 다름)
-
-/// 코드는 작성했는데, Stardard Shader의 Transparent 렌더링 모드에서, 에셋이 깨진다는 걸 확인.
-/// 이것도 Shader에서 하는거라, 아마도 Material을 투명하게 만드는 Shader 코드를 작성해야 되는 것 같다..?
-/// 셰이더 쪽은 아직 배우지 못해 일단 미뤄두기로 했다.
-/// </summary>
 
 namespace UnityChanRPG
 {

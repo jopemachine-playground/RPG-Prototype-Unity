@@ -1,6 +1,9 @@
 // ==============================+===============================================================
 // @ Author : jopemachine
 // @ Created : 2019-02-21, 11:02:28
+// @ Desc : 
+// @     인벤토리 창의 전반적인 UI를 담당하는 클래스. 단, 각각의 슬롯에 대한 정보와 이벤트 처리는 ItemSlot에서 함
+// @     아이템들의 아이콘들을 정보에 맞게 업데이트 하는 함수는 InventorySystem에 있다 (ItemIconUpdate)
 // ==============================+===============================================================
 
 using System;
@@ -10,10 +13,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// 인벤토리 창의 전반적인 UI를 담당하는 클래스. 단, 각각의 슬롯에 대한 정보와 이벤트 처리는 ItemSlot에서 함
-/// 아이템들의 아이콘들을 정보에 맞게 업데이트 하는 함수는 InventorySystem에 있다 (ItemIconUpdate)
-/// </summary>
 
 namespace UnityChanRPG
 {

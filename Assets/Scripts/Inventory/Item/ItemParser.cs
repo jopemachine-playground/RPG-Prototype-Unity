@@ -2,8 +2,8 @@
 // @ Author : jopemachine
 // @ Created : 2019-02-21, 11:02:28
 // @ Desc : 
-// @     1. 아이템과 그 속성들을 파싱해 갖고 있음. Json 파싱엔 LitJson을 이용
-// @     2. 아이템을 파싱하는 것만 하는 건 아니고, 자식오브젝트로 갖고 있다가 필요할 때 오브젝트 풀링으로 생성할 때 거쳐가는 역할도 함 (GeneratePickUpItem)
+// @     아이템과 그 속성들을 파싱해 갖고 있음. Json 파싱엔 LitJson을 이용
+// @     아이템을 파싱하는 것만 하는 건 아니고, 자식오브젝트로 갖고 있다가 필요할 때 오브젝트 풀링으로 생성할 때 거쳐가는 역할도 함 (GeneratePickUpItem)
 // ==============================+===============================================================
 
 using System.Collections;
@@ -11,11 +11,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using LitJson;
 using System.IO;
-
-/// <summary>
-/// 아이템과 그 속성들을 파싱해 갖고 있음. Json 파싱엔 LitJson을 이용
-/// 아이템을 파싱하는 것만 하는 건 아니고, 자식오브젝트로 갖고 있다가 필요할 때 오브젝트 풀링으로 생성할 때 거쳐가는 역할도 함 (GeneratePickUpItem)
-/// </summary>
 
 namespace UnityChanRPG
 {

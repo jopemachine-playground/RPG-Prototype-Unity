@@ -1,6 +1,9 @@
 // ==============================+===============================================================
 // @ Author : jopemachine
 // @ Created : 2019-02-21, 11:02:28
+// @ Desc : 
+// @     슬롯에서 드래그 이벤트가 일어나면 DraggingItem으로 아이템의 정보를 복사함. 
+// @     드래그가 끝난 후의 이벤트 처리 역시 DraggingItem에서 처리함에 주의할 것
 // ==============================+===============================================================
 
 using UnityEngine;
@@ -9,11 +12,6 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 // 인벤토리 관련 클래스들은 https://assetstore.unity.com/packages/tools/gui/inventory-master-ugui-26310 를 많이 참고해 작성함
-
-/// <summary>
-/// 슬롯에서 드래그 이벤트가 일어나면 DraggingItem으로 아이템의 정보를 복사함. 
-/// 드래그가 끝난 후의 이벤트 처리 역시 DraggingItem에서 처리함에 주의할 것
-/// </summary>
 
 namespace UnityChanRPG
 {

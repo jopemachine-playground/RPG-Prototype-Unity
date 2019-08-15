@@ -2,9 +2,9 @@
 // @ Author : jopemachine
 // @ Created : 2019-02-21, 11:02:28
 // @ Desc : 
-// @     1. patrol 할 영역을 유니티 에디터에서 미리 정해놓는다. 영역의 각 꼭지점이 되는 부분에 빈 오브젝트를 놓고, 부모 오브젝트에
-// @     2. MonsterPatrolArea를 추가하도록 했음. 몬스터가 이동할 수 없는 영역에 꼭지점 (자식오브젝트)을 두면 몬스터가 이동하지 않는 것처럼 보이는 버그가 생길 수 있다.
-// @     3. MonsterPatrolArea는 SpawnPoint의 자식으로 들어가, 종속된다. (SpawnPoint가 MonsterPatrolArea를 결정하도록 함)
+// @     patrol 할 영역을 유니티 에디터에서 미리 정해놓는다. 영역의 각 꼭지점이 되는 부분에 빈 오브젝트를 놓고, 부모 오브젝트에
+// @     MonsterPatrolArea를 추가하도록 했음. 몬스터가 이동할 수 없는 영역에 꼭지점 (자식오브젝트)을 두면 몬스터가 이동하지 않는 것처럼 보이는 버그가 생길 수 있다.
+// @     MonsterPatrolArea는 SpawnPoint의 자식으로 들어가, 종속된다. (SpawnPoint가 MonsterPatrolArea를 결정하도록 함)
 // ==============================+===============================================================
 
 using System;
