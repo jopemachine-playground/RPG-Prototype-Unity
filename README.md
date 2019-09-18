@@ -5,7 +5,6 @@
 
 <h2>Implementation Details</h2>
 
-
 4개의 애니메이션으로 이어지는 근접 공격과 폭탄을 던지는 공격, 대시 공격을 구현했고, 인벤토리 및 관련 UI 기능, 아이템 사용, 몬스터와의 상호작용, 랜덤 아이템 스폰, 플레이어 정보 및 게임 진행상황 (플래그 데이터로 관리) 의 세이브 및 로드 등이 구현되어 있다.
 
 몬스터, 아이템, 스킬, 세이브 데이터 등 게임에서 사용하는 모든 데이터는 json 파일 형식을 사용한다. 이 파일들은 모두 `Assets > Custom > Resources`에 저장되어 있다.
@@ -49,18 +48,57 @@ C#으로 작성된 모든 스크립트 파일은 `Assets > Scripts` 에 저장�
 
 > Unity Chan! Model
 >
-> Free basic Dungeon, LowPoly Dungeon Modules
+> https://assetstore.unity.com/packages/3d/characters/unity-chan-model-18705
+> 
+> Free basic Dungeon
 >
-> Animation Kick, Mixed Motion
+> https://assetstore.unity.com/packages/3d/environments/dungeons/free-basic-dungeon-133905
+>  
+> LowPoly Dungeon Modules
 >
-> Free Music Bundle by neocrey, 8-Bit Sfx
+> https://assetstore.unity.com/packages/3d/environments/dungeons/lowpoly-dungeon-modules-108997
+> 
+> Animation Kick
 >
-> Low Poly RPG Item Pack, Orc Sword
+> https://assetstore.unity.com/packages/3d/animations/animations-kick-67358
+> 
+> Mixed Motion
 >
-> HS Summer.ttf
+> https://assetstore.unity.com/packages/3d/animations/mixed-motion-25837
+>
+> Free Music Bundle by neocrey
+>
+> https://assetstore.unity.com/packages/audio/music/electronic/free-music-bundle-by-neocrey-92835
+> 
+> 8-Bit Sfx
+>
+> https://assetstore.unity.com/packages/audio/sound-fx/8-bit-sfx-32831
+> 
+> Low Poly RPG Item Pack
+>
+> https://assetstore.unity.com/packages/3d/props/low-poly-rpg-item-pack-76088
+> 
+> Orc Sword
+>
+> https://assetstore.unity.com/packages/3d/characters/humanoids/orc-sword-125815
+> 
+> Evolutive Dungeon Generator
+>
+> https://assetstore.unity.com/packages/tools/evolutive-dungeon-generator-lite-91270
+> 
+> MedievalTownExteriors
+>
+> https://assetstore.unity.com/packages/3d/environments/fantasy/medieval-town-exteriors-27026
+> 
+> Mushroom house
+>
+> https://assetstore.unity.com/packages/3d/environments/fantasy/mushroom-house-61027
+>
+> miniMap-TurzoStudio
 >
 > Cinemachine
-
+>
+> RainMaker
 
 그 외 미로 맵은 랜덤으로 맵을 생성하는 C# 스크립트로 생성된 것이며, 
 
@@ -75,8 +113,8 @@ http://unity-chan.com/
 
 ## Documentations
 
-| File Name | Desc | 
-|---|:---:|          
+| File Name | Desc |
+|---|:---:|
 | AttackArea.cs | 공격이 상대에게 닿는 영역에 스크립트를 붙여 사용.|
 | AudioManager.cs | 플레이어, 몬스터, 총알 등 소리를 내는 컴포넌트의 자식에 부착해 사용|
 | Damage.cs | 데미지를 담는 자료구조. 공격이 들어갔는지의 판단을 Animator의 상태로 판단하기 때문에, attacker와 attackee의 Animator가 있어야 생성 가능. |
@@ -105,8 +143,9 @@ http://unity-chan.com/
 | SpawnPoint.cs | SpawnPoint는 몬스터와 아이템을 랜덤으로 생성할 장소 역할을 함. Monster를 생성하는 경우에만 patrolArea를 가져와 사용한다. SpawnPoint를 추가한 게임오브젝트에 MonsterPatrolArea 이외의 자식컴포넌트를 추가하지 말 것 |
 
 ## Issue
-| File Name | Issue | 
-|---|:---:|          
+
+| File Name | Issue |
+|---|:---:|
 | ItemSlot.cs | 나중에 페이지 방식으로 구현해 아이템을 슬롯 갯수 (25개) 초과해 획득한 경우 슬롯 내용을 바꾸는 형식으로 확장할 생각임. |
 | Monster.cs | 이 클래스는 Monobehavior를 상속받지 않아야 함 그래서 Adapter 클래스를 따로 만들었다. |
 | MyHouse.cs | 현재 House 씬과 Village 씬을 오갈 때 버그 있음|
@@ -115,8 +154,9 @@ http://unity-chan.com/
 | Status.cs | 현재 플레이어, 몬스터에 붙여 사용하고 있는, Status 스크립트. 같은 스크립트를 공유하므로, 몬스터의 currentHP가 변해도 플레이어의 정보를 업데이트 하는 함수를 (필요 없는 경우에도) 호출한다는 단점이 있다. Status는 스스로를 초기화하지 않으므로, 다른 스크립트에서 초기화 해 사용해야 함 |
 
 ## Reference
-| File Name | Reference | 
-|---|:---:|          
+
+| File Name | Reference |
+|---|:---:|
 | AttackArea.cs | http://www.yes24.com/24/goods/27894042|
 | HitArea.cs | http://www.yes24.com/24/goods/27894042|
 | ItemAttribute.cs | https://assetstore.unity.com/packages/tools/gui/inventory-master-ugui-26310|
@@ -151,9 +191,4 @@ http://unity-chan.com/
 
 * **아이템 획득**
 <img src="screenshot/itemget.png">
-
-
-
-
-
 
